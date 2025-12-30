@@ -10,7 +10,7 @@ from pyrogram.errors import FloodWait
 API_ID = 29969433
 API_HASH = "884f9ffa4e8ece099cccccade82effac"
 PHONE_NUMBER = "+919214045762"
-TARGET_BOT = "@telebrecheddb_bot"
+TARGET_BOT = "@TgToNu_bot"
 
 # --- Client setup ---
 tg_client = Client(
